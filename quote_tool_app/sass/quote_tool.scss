@@ -27,6 +27,11 @@ h5{
 	margin: 0 auto !important;
 	text-align: center;
 }
+.btn.btn-orange-outline:active{
+	background-color: #fff;
+    border-color: #ff8b35;
+    color: #ff8b35;
+}
 .location-selector {
 	visibility: hidden;
 }
@@ -294,7 +299,7 @@ h5{
 			line-height: 1.5;
 			letter-spacing: 0.7px;
 			color: #666;
-			font-size: 14px;
+			font-size: 20px;
 			cursor: pointer;
 			padding: 7.5px 15px;
 			border-top: solid 1px #f3f3f3;

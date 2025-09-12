@@ -77,12 +77,12 @@
                             </button>                           
                               <ul class="dropdown-menu campus-drop--Australia" aria-labelledby="campus-select-Australia">
                                 <li class="disabled">Choose your Campus</li>
-                                <li class="campus-name" data-campus="Adelaide" data-campus-id="52464878082" data-campus-currency="AUD" translate="no">Adelaide</li>
-                                <li class="campus-name" data-campus="Brisbane" data-campus-id="52507131229" data-campus-currency="AUD" translate="no">Brisbane</li>
-                                <li class="campus-name" data-campus="Melbourne" data-campus-id="52464878083" data-campus-currency="AUD" translate="no">Melbourne</li>
-                                <li class="campus-name" data-campus="Sydney" data-campus-id="52507131230" data-campus-currency="AUD" translate="no">Sydney</li>
-                                <li class="campus-name" data-campus="Perth" data-campus-id="108963530326" data-campus-currency="AUD" translate="no">Perth</li>
-                              </ul>                          
+                                <li class="campus-name" data-campus="Adelaide" data-campus-id="52464878082" data-campus-currency="AUD" data-disable-residence-currency="1" translate="no" >Adelaide</li>
+                                <li class="campus-name" data-campus="Brisbane" data-campus-id="52507131229" data-campus-currency="AUD" data-disable-residence-currency="1" translate="no">Brisbane</li>
+                                <li class="campus-name" data-campus="Melbourne" data-campus-id="52464878083" data-campus-currency="AUD" data-disable-residence-currency="1" translate="no">Melbourne</li>
+                                <li class="campus-name" data-campus="Sydney" data-campus-id="52507131230" data-campus-currency="AUD" data-disable-residence-currency="1" translate="no">Sydney</li>
+                                <li class="campus-name" data-campus="Perth" data-campus-id="108963530326" data-campus-currency="AUD" data-disable-residence-currency="1" translate="no">Perth</li>
+                              </ul>
                         </div>
                         <div class="dropdown">
                           <button id="campus-select-Canada" class="dropdown-select campus-select  open" data-selected="false" data-selected-campus-currency="CAD" data-selected-campus="" data-selected-campus-id="" type="button" data-country="Canada" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,9 +91,9 @@
                           
                             <ul class="dropdown-menu campus-drop--Canada" aria-labelledby="campus-select-Canada" style="will-change: transform;">
                               <li class="disabled">Choose your Campus</li>
-                              <li class="campus-name" data-campus="Montreal" data-campus-id="52464878081" data-campus-currency="CAD" translate="no">Montreal</li>
-                              <li class="campus-name" data-campus="Toronto" data-campus-id="52464878009" data-campus-currency="CAD" translate="no">Toronto</li>
-                              <li class="campus-name" data-campus="Vancouver" data-campus-id="52464878080" data-campus-currency="CAD" translate="no">Vancouver</li>
+                              <li class="campus-name" data-campus="Montreal" data-campus-id="52464878081" data-campus-currency="CAD" data-disable-residence-currency="1" translate="no">Montreal</li>
+                              <li class="campus-name" data-campus="Toronto" data-campus-id="52464878009" data-campus-currency="CAD" data-disable-residence-currency="1" translate="no">Toronto</li>
+                              <li class="campus-name" data-campus="Vancouver" data-campus-id="52464878080" data-campus-currency="CAD" data-disable-residence-currency="1" translate="no">Vancouver</li>
                             </ul>
                            </div>
                            <div class="dropdown">
@@ -102,7 +102,7 @@
                             </button>
                             <ul class="dropdown-menu campus-drop--Ireland" aria-labelledby="campus-select-Ireland">
                                 <li class="disabled">Choose your Campus</li>
-                                <li class="campus-name" data-campus="Dublin" data-campus-id="192480637497" data-campus-currency="EUR" translate="no">Dublin</li>
+                                <li class="campus-name" data-campus="Dublin" data-campus-id="192480637497" data-campus-currency="EUR" data-disable-residence-currency="1" translate="no">Dublin</li>
                               </ul>
                             </div>
                            <div class="dropdown">
@@ -111,7 +111,7 @@
                             </button>
                             <ul class="dropdown-menu campus-drop--India" aria-labelledby="campus-select-India">
                                 <li class="disabled">Choose your Campus</li>
-                                <li class="campus-name" data-campus="New Delhi" data-campus-id="52464878084" data-campus-currency="USD" translate="no">New Delhi</li>
+                                <li class="campus-name" data-campus="New Delhi" data-campus-id="52464878084" data-campus-currency="USD" data-disable-residence-currency="1" translate="no">New Delhi</li>
                               </ul>
                             </div>
                             <div class="dropdown">
@@ -383,10 +383,11 @@
                          </div>
                          <div class="x-convert-container">
                            <div class="convert-container">
-                             <span class="bold">$</span><span> Country of Residence</span>
+                            <span class="bold">$</span><span> Destination Currency</span>
+                             <button class="btn btn-black-outline" data-destination-currency>$</button>
+                             <i class="fas fa-exchange-alt"></i>                          
                              <button class="btn btn-orange-outline btn-origin-currency active" data-origin-currency></button>
-                             <i class="fas fa-exchange-alt"></i>
-                             <button class="btn btn-black-outline" data-destination-currency>$</button><span class="bold">$</span><span> Destination Currency</span>
+                             <span class="bold">$</span><span> Country of Residence</span>                          
                            </div>
                          </div>
                           <div id="quote-selection-container" class="program-price-list row">

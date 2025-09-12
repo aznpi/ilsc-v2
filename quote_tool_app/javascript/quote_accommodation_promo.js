@@ -38,7 +38,7 @@ const redirectAccomodationStep = function () {
 }
 const redirectAccommodationNoAge = function () {
   let checkedVal = $('.accommodation-option-selection-container .accommodation-option-selection-container .option-select.program-option input[type=radio]:checked').val();
-
+  $('input[name=is_under_age]').val('0');
   if (checkedVal == 'yes-accomm-option') {
     $('input[name=accommodation_enable]').val('true');
     printAccomodationForm();
@@ -255,7 +255,7 @@ const printHomestayPriceList = function (priceArray) {
 
     noteArray.push(accommodationNote);
 
-    optionHtml = optionHtml + "<div class='program-option inline-option' style='position:relative;'><input type='radio' class='program-option accom-input' name='accommodation_price_selection' id='" + groupId + "' value='" + groupId + "' data-price-array='" + arrayPrice + "' data-program-name='Homestay - " + itemName + "' data-item-name='" + priceDescription + "' data-price-format='" + priceFormat + "' data-max-price='" + maxPriceConversion + "' data-min-price='" + minPriceConversion + "' data-additional-note='" + accommodationNote + "' tabindex='0' " + selectEdit + "><label for='" + groupId + "'><div>" + itemName + "</div><div class='text-right float-right'><span><button class='toggle-popover hs-toggle-popover btn btn-link' data-html='true' data-toggle='popover' data-placement='top' data-toggle='popover' data-placement='top' data-content='" + dataContent + "' title='" + itemName + "'>see details</button></span><span class='price-format'>" + priceFormat + " from</span><span class='price-text'>" + priceFormatted + "</span></div></label></div>";
+    optionHtml = optionHtml + "<div class='program-option inline-option' style='position:relative;'><input type='radio' class='program-option accom-input' name='accommodation_price_selection' id='" + groupId + "' value='" + groupId + "' data-price-array='" + arrayPrice + "' data-program-name='Homestay - " + itemName + "' data-item-name='" + priceDescription + "' data-price-format='" + priceFormat + "' data-max-price='" + maxPriceConversion + "' data-min-price='" + minPriceConversion + "' data-additional-note='" + accommodationNote + "' data-additional-note-plain='" + accommodationNote + "'tabindex='0' " + selectEdit + "><label for='" + groupId + "'><div>" + itemName + "</div><div class='text-right float-right'><span><button class='toggle-popover hs-toggle-popover btn btn-link' data-html='true' data-toggle='popover' data-placement='top' data-toggle='popover' data-placement='top' data-content='" + dataContent + "' title='" + itemName + "'>see details</button></span><span class='price-format'>" + priceFormat + " from</span><span class='price-text'>" + priceFormatted + "</span></div></label></div>";
   }
   uniqueNoteArray = [...new Set(noteArray)];
   homestayNoteHTML = "<div class='center disclaimer'>" + uniqueNoteArray.join(', '); + "</div>";

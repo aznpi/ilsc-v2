@@ -1641,14 +1641,17 @@ const updateLocalJson = function(dataStep,editNum){
                         
 
                         if(quoteObj.quote_array[i].promo.promo_auto_enabled){
+                          convertedPromoAutoValArray = [];
                           for(let x = 0; x < promoAutoValArray.length; x++){
 
                             promoAutoVal = convertPercentDollarVal(promoAutoValArray[x],promoAutoCategoryArray[x],promoAutoTypeArray[x],i);
                             promoAutoTotal = parseFloat(promoAutoVal) / conversionRate;
                             promoAutoTotalVal += parseFloat(promoAutoVal);
+                            convertedPromoAutoValArray.push(promoAutoTotal.toFixed(2));
 
                             $('.promo-auto-total-'+x,'.col-quote-'+quoteNum).html(currencyModFormatter(-promoAutoTotal,toCurrency));
                           }
+                          quoteObj.quote_array[i].promo.promo_auto_value = convertedPromoAutoValArray.join('|');
                           promoAutoTotalVal = promoAutoTotalVal / conversionRate;
                         }
 

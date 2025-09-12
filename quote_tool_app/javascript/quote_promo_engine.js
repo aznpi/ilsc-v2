@@ -4,13 +4,14 @@ const convertPercentDollarVal = function(promoVal,category,discountType,quoteNum
       priceProgramVal = parseFloat(quoteObj.quote_array[quoteNum].program.program_total_price),
       priceRegistrationVal = parseFloat(quoteObj.quote_array[quoteNum].program.registration_fee),
       priceAdditionalVal = parseFloat(quoteObj.quote_array[quoteNum].program.additional_fee),
+      priceExamVal = parseFloat(quoteObj.quote_array[quoteNum].program.exam_fee),
       priceMaterialVal = parseFloat(quoteObj.quote_array[quoteNum].program.material_fee),
       priceAccommodationVal = parseFloat(quoteObj.quote_array[quoteNum].accommodation.accommodation_total_price),
       priceAirportVal = parseFloat(quoteObj.quote_array[quoteNum].accommodation.airport_transfer_total_price),
       priceAccommodationPlacementFeeVal = parseFloat(quoteObj.quote_array[quoteNum].accommodation.placement_fee),
       prePriceQuoteTotalVal = priceProgramVal + priceRegistrationVal + priceAdditionalVal + priceMaterialVal + priceAccommodationVal + priceAirportVal + priceAccommodationPlacementFeeVal;
 
-      categoryTotal = category == 'Total Fee' ? prePriceQuoteTotalVal : category == 'Registration Fee' ? priceRegistrationVal : category == 'Material Fee' ? priceMaterialVal : category == 'Programs' ?  priceProgramVal : category == 'Facility Fee' ? priceAdditionalVal : prePriceQuoteTotalVal;
+      categoryTotal = category == 'Total Fee' ? prePriceQuoteTotalVal : category == 'Registration Fee' ? priceRegistrationVal : category == 'Material Fee' ? priceMaterialVal : category == 'Programs' ?  priceProgramVal : category == 'Facility Fee' ? priceAdditionalVal : category == 'Exam Fee' ? priceExamVal : prePriceQuoteTotalVal;
 
       promoValueInt = discountType == 'Dollar' ? parseFloat(promoVal) : discountType == 'Percent' ? categoryTotal*(parseFloat(promoVal)/100) : promoVal;
       

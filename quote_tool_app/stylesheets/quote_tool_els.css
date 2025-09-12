@@ -55,7 +55,7 @@
 }
 .section-quote-country .dob-selector-container .dob-select-container span div:after {
   content: "\f078";
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
   color: #000;
   position: absolute;
   right: -8px;
@@ -159,7 +159,9 @@
 }
 .section-quote-steps .program-option.disabled {
   background-color: #e7e7e7 !important;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .section-quote-steps .campus-selection-container .dropdown li {
   font-size: 20px;
@@ -185,4 +187,4 @@ button.btn-orange-outline, input.btn-orange-outline {
   background-color: #fff;
   border-color: #ff8b35;
   color: #ff8b35;
-}
+}/*# sourceMappingURL=quote_tool_els.css.map */

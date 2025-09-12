@@ -12,7 +12,7 @@
   }
 }
 .section .disclaimer p {
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 h5.center {
@@ -22,6 +22,12 @@ h5.center {
 .center {
   margin: 0 auto !important;
   text-align: center;
+}
+
+.btn.btn-orange-outline:active {
+  background-color: #fff;
+  border-color: #ff8b35;
+  color: #ff8b35;
 }
 
 .location-selector {
@@ -199,13 +205,13 @@ h5.center {
   background: linear-gradient(to right, #ff8b35 50%, transparent 0);
   background-size: 200% 100%;
   background-position: right;
-  animation: makeItfadeIn .1s -.1s both;
+  animation: makeItfadeIn 0.1s -0.1s both;
 }
 .step-breadcrumb-container .step-number > div.active ~ div {
   background: linear-gradient(to right, #ff8b35 50%, transparent 0);
   background-size: 200% 100%;
   background-position: right;
-  animation: makeItfadeIn .1s -.1s both;
+  animation: makeItfadeIn 0.1s -0.1s both;
 }
 .step-breadcrumb-container .step-number > div.step-3 {
   width: 30%;
@@ -263,14 +269,14 @@ h5.center {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   text-align: center;
-  background-color: #f3f3f3;
+  background-color: rgb(243, 243, 243);
   border: 0;
 }
 .campus-selection-container .dropdown-menu li {
   line-height: 1.5;
   letter-spacing: 0.7px;
   color: #666;
-  font-size: 14px;
+  font-size: 20px;
   cursor: pointer;
   padding: 7.5px 15px;
   border-top: solid 1px #f3f3f3;
@@ -373,7 +379,7 @@ h5.center {
 .step-container .radio-container .option-selection-container {
   display: flex;
 }
-.step-container .radio-container .option-select input[type="radio"]:checked + label {
+.step-container .radio-container .option-select input[type=radio]:checked + label {
   background-color: #ff8b35;
   color: #FFF;
 }
@@ -596,7 +602,7 @@ h5.center {
   color: #FFF;
 }
 #enroll-form-quote .btn-orange.loader:after, #enroll-payment .btn-orange.loader:after {
-  content: '';
+  content: "";
   border: 3px solid #fff;
   border-top: 3px solid #ccc;
   border-radius: 50%;
@@ -990,6 +996,9 @@ h5.center {
   width: 100%;
   cursor: pointer;
 }
+.accommodation-price-selection-container .date-selector-container input::-moz-placeholder {
+  color: #111 !important;
+}
 .accommodation-price-selection-container .date-selector-container input::placeholder {
   color: #111 !important;
 }
@@ -1168,6 +1177,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .popover {
+  max-width: -moz-fit-content !important;
   max-width: fit-content !important;
 }
 .popover .pop-content-container {
@@ -1246,7 +1256,6 @@ html .ui-button.ui-state-disabled:active {
   .section-quote-steps .step-container.program-container .date-select-container.program-price-list {
     overflow: visible;
   }
-
   .step-breadcrumb-container {
     margin-left: 0;
     margin-bottom: 50px;
@@ -1258,7 +1267,6 @@ html .ui-button.ui-state-disabled:active {
   .step-breadcrumb-container .step-title {
     width: 100%;
   }
-
   #quote-price-container #quote-selection-container .col {
     margin-bottom: 30px;
     overflow: inherit;
@@ -1266,11 +1274,9 @@ html .ui-button.ui-state-disabled:active {
   #quote-price-container #quote-selection-container .btn-container .btn:last-child {
     margin-left: 0;
   }
-
   .convert-container .fa-exchange-alt {
     display: block;
   }
-
   .accommodation-price-selection-container .date-selector-container {
     display: block;
   }
@@ -1283,7 +1289,6 @@ html .ui-button.ui-state-disabled:active {
   .accommodation-price-selection-container .airport-select-container .option-container {
     display: block;
   }
-
   .accommodation-price-selection-container.step-container .airport-select-container.radio-container .program-option:not(:last-child) {
     margin-bottom: 10px;
   }
@@ -1302,11 +1307,9 @@ html .ui-button.ui-state-disabled:active {
   .accommodation-price-selection-container.step-container .radio-container .program-option label {
     display: flex;
   }
-
   .start-date-selection-container.program-container .dropdown-menu {
     min-width: 5rem;
   }
-
   .step-container .program-price-list .program-option label {
     display: block;
     overflow: hidden;
@@ -1321,7 +1324,6 @@ html .ui-button.ui-state-disabled:active {
   .step-container .radio-container .program-option input[type=radio] + *::before {
     left: 0px;
   }
-
   .select-container .selectBox__value {
     margin: 0 auto;
   }
@@ -1356,4 +1358,4 @@ html .ui-button.ui-state-disabled:active {
 .bs-tooltip-end .tooltip-arrow::before,
 .bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before {
   border-right-color: #f58426 !important;
-}
+}/*# sourceMappingURL=quote_tool.css.map */
