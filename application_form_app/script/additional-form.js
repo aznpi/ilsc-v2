@@ -12,13 +12,15 @@ const printAdditionalForm = function(){
 };
 
 const printJuniorWaiver = function(){
-    let containerClassName = 'junior-waiver-container', 
+    let countrySelected = $('input[name=program_country]').val(),
+        containerClassName = 'junior-waiver-container', 
         jrWaiverClassName = 'additional-jr-waiver-container',
         confirmationInputName = 'jr-waiver-confirmation',
         jrWaiverListHtml = '',
         studentFirstName = $('input[name=student_first_name]').val() + ' ',
         studentMiddelName = $('input[name=student_middle_name]').val() != '' ? $('input[name=student_middle_name]').val() + ' ' : '' ,
-        studentLastName = $('input[name=student_last_name]').val();
+        studentLastName = $('input[name=student_last_name]').val(),
+        jrWaiverHtml = '';
 
     if($('#'+jrWaiverClassName).is(':empty')){
         for (let i = 0; i < jrWaiverCAArray.length; i++) {
@@ -33,11 +35,17 @@ const printJuniorWaiver = function(){
         parentLastNameInput = '<div class="form-group  study-show"><label for="parentLastName">Parent/Guardian Last Name &nbsp;&nbsp;<sup>*</sup></label><input type="text" class="form-control" id="parentLastName" name="parent_guardian_last_name" required="" data-category="Additional" value=""><div class="valid-feedback"></div></div>';
         parentInputHtml = '<h5>Enter Parent/Guardian Name:</h5>'+parentFirstNameInput+parentLastNameInput;
         jrWaiverConfirmInput = '<div class="checkbox-line"><input type="checkbox" value="" class="jr-confirmation" id="'+confirmationInputName +'" name="'+confirmationInputName +'" required="" data-category="Student" disabled=true><label for="'+confirmationInputName+'">Yes, for good and valuable consideration, the receipt and sufficiency of which is acknowledged, I, the parent or legal guardian, of the child (or legal guardian if the student is unable to enter into binding agreements in the jurisdiction in which the School operates) hereby agrees as above.<sup>*</sup></label></div>';
-        jrWaiverHmtml = '<h5>'+jrWaiverIntro+'</h5><h5>Please check each box to acknowledge:</h5><ol class="normal-check">'+jrWaiverListHtml+'</ol>'+studentNameHtml+parentInputHtml+jrWaiverConfirmInput;
 
-        $('#'+jrWaiverClassName).html(jrWaiverHmtml);
-        printJuniorRules();
-        printJuniorMedical(); 
+        if(countrySelected == 'Canada'){
+            jrWaiverHtml = '<h4>STUDENT ACTIVITY RELEASE AND INDEMNITY</h4><h4>PLEASE READ CAREFULLY</h4><h5>'+jrWaiverIntro+'</h5><h5>Please check each box to acknowledge:</h5><ol class="normal-check">'+jrWaiverListHtml+'</ol>'+studentNameHtml+parentInputHtml+jrWaiverConfirmInput;
+            printJuniorRules();
+            printJuniorMedical(); 
+        }else if(countrySelected == 'Australia'){
+            jrWaiverHtml=printParentsWaiver();
+        }
+
+        $('#'+jrWaiverClassName).html(jrWaiverHtml);
+        
     }
 
     hideInsurance();
@@ -45,6 +53,24 @@ const printJuniorWaiver = function(){
     //$('input:not([name="jr-waiver-confirmation"])','#'+containerClassName).prop('disabled',false).prop('required',true);
 };
 
+const printParentsWaiver = function(){
+    let jrParentsWaiverHtml = '',
+    studentFirstName = $('input[name=student_first_name]').val() + ' ',
+    studentMiddelName = $('input[name=student_middle_name]').val() != '' ? $('input[name=student_middle_name]').val() + ' ' : '' ,
+    studentLastName = $('input[name=student_last_name]').val(),
+    studentName = studentFirstName + studentMiddelName + studentLastName;
+    studentNameHtml = '<div><h5>Student Name:</h5><h6>'+studentName+'</h6></div>';
+    parentNameHtml = '<div><h5>Parent/Guardian Name:</h5><h6 class="parent-title">(Enter Name Above)</h6></div>',
+    confirmationParentsInputName = 'jr-parents-confirmation',
+    confirmationCaregivingInputName = 'jr-caregiving-confirmation',
+    confirmationObligationsInputName = 'jr-obligations-confirmation',
+    parentWaiverConfirmInput = '<div class="checkbox-line"><input type="checkbox" value="" class="jr-confirmation junior-digital-authority" id="'+confirmationParentsInputName +'" name="'+confirmationParentsInputName +'" required="" data-category="Student" disabled=true><label for="'+confirmationParentsInputName+'">Yes, I confirm that I have read, understood and agree to the above obligations of caregiver/parent.<sup>*</sup></label></div>';
+    parentWaiverConfirmNoInput = '<div class="checkbox-line"><input type="checkbox" value="" class="jr-confirmation junior-digital-authority" id="'+confirmationParentsInputName +'" name="'+ confirmationObligationsInputName +'" required="" data-category="Student" disabled=true><label for="'+confirmationParentsInputName+'">Yes, I confirm that I have read, understood and agree to the above obligations of the parents who are not accompanying their child to Australia.<sup>*</sup></label></div>';
+    caregivingWaiverConfirmInput = '<div class="checkbox-line"><input type="checkbox" value="" class="jr-confirmation junior-digital-authority" id="'+confirmationCaregivingInputName +'" name="'+confirmationCaregivingInputName +'" required="" data-category="Student" disabled=true><label for="'+confirmationCaregivingInputName+'">Yes, I confirm that I have read, understood and agree to the above obligations of the caregiver/parent.<sup>*</sup></label></div>';
+    jrParentsWaiverHtml = '<div class="parent-yes-option study-hide">'+jrParentsWaiverYesHtmlAU+studentNameHtml+parentNameHtml+parentWaiverConfirmInput+'</div><div class="parent-no-option study-hide">'+jrParentsWaiverNoHtmlAU+studentNameHtml+parentNameHtml+parentWaiverConfirmNoInput+jrCaregivingContractHtmlAu+studentNameHtml+parentNameHtml+caregivingWaiverConfirmInput+'</div>';
+
+    return jrParentsWaiverHtml;
+}
 const hideJuniorWaiver = function(){
     let containerClassName = 'junior-waiver-container';
     $('#'+containerClassName).addClass('study-hide').removeClass('study-show');
@@ -58,8 +84,10 @@ const addDigitalWaiverConfirmation = function(inputName){
         timeZoneStr = Intl.DateTimeFormat().resolvedOptions().timeZone,
         todayDateStr = todayDate.getDate()+'/'+currentMonth+'/'+todayDate.getFullYear()+' '+timeStamp+ ' (Timezone: '+timeZoneStr+')',
         parentFirstName = $('input[name=parent_guardian_first_name]').val(),
-        parenetLastName = $('input[name=parent_guardian_last_name]').val(),
-        parentName = parentFirstName + ' ' + parenetLastName;
+        parentLastName = $('input[name=parent_guardian_last_name]').val(),
+        parentFullName = $('input[name=additional_parent_full_name]:not(:disabled)').val(),
+
+        parentName = parentFullName ? parentFullName : parentFirstName + ' ' + parentLastName;
 
         digitalConfirmationTxt ='Electronic Signature Received: Parent/Guardian: '+parentName+' '+todayDateStr;
 
@@ -509,12 +537,14 @@ $(document).on('change','input.jr-waiver-item-check,input[name=parent_guardian_f
 
 });
 
-$(document).on('change','input[name=parent_guardian_first_name],input[name=parent_guardian_last_name]',function(){
+$(document).on('change','input[name=parent_guardian_first_name],input[name=parent_guardian_last_name],input[name=additional_parent_full_name]',function(){
     let parentFirstName = $('input[name=parent_guardian_first_name]').val(),
         parentLastName = $('input[name=parent_guardian_last_name]').val(),
-        parentName = parentFirstName + ' ' + parentLastName;
-   
-    $('input.jr-confirmation').prop('checked',false).val('');
+        parentName = $(this).attr('name') == 'additional_parent_full_name' ? $(this).val() : parentFirstName + ' ' + parentLastName,
+        disableCheckBox = parentName == '' ? true : false;
+
+    $('input[name=additional_parent_full_name]').not(this).val(parentName);
+    $('input.jr-confirmation').prop('checked',false).prop('disabled',disableCheckBox).val('');
     $('.parent-title').html(parentName);
 });
 
@@ -548,3 +578,16 @@ $(document).on('click','input[name=medical_medicine_option]',function(){
         $('input,textarea','#'+element).prop('disabled',false);
     }
 })
+
+$(document).on('click','input[name=additional_parent_caregiver_residence_option]',function(){
+    let target = $(this).attr('data-target'),
+        parentContainerIdName = 'additional-jr-waiver-container';
+    $('input[name=additional_parent_full_name]').val('');
+    $('.parent-title').html('(Enter Name Above)');
+    $('>div', '#'+parentContainerIdName).addClass('study-hide').removeClass('study-show');
+    $('input,select,textarea','#'+parentContainerIdName).prop('disabled',true);
+
+    $('.'+target, '#'+parentContainerIdName).removeClass('study-hide').addClass('study-show');
+    $('input,select,textarea','.'+target+' #'+parentContainerIdName).prop('disabled',false);
+})
+        

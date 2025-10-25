@@ -161,7 +161,6 @@ $(".campus-selection-container .dropdown-menu li.campus-name").on(
     disableCampusDrop();
     $("#program-list-container").empty();
     resetNextButton(".program-list-selection-container");
-    getCheckInCalendar(getCountryValue);
     clearAccommodationFields();
   }
 );

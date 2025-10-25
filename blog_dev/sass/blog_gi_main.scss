@@ -1,0 +1,300 @@
+h1,
+h2 {
+  font-family: Barlow;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+p {
+  font-family: Barlow;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 3%;
+}
+.blog-container {
+  overflow-x: unset;
+  &.blog-gi {
+    header {
+      &.top-nav {
+        #magic-line{
+          background-color: #003346 !important;
+        }
+        .navbar {
+          .nav-sub {
+            display: none;
+          }
+          .navbar-nav{
+            .nav-item{
+              &.show{
+                a{
+                  &.nav-link{
+                    color:#003346 !important;
+                  }
+                }
+              }
+            }
+            .nav-link{
+              &:hover{
+                color:#003346 !important;
+              }
+            }
+          }
+        }
+      }
+    }
+    .footer-container{
+      padding-top:0;
+      .divider{
+        margin-top:0;
+      }
+    }
+    .body-container-wrapper {
+      margin-top: 110px;
+      .content-container {
+        max-width: 1440px;
+        margin: 0 auto;
+      }
+      .container {
+        width: 100% !important;
+        max-width: auto !important;
+      }
+      h1,
+      h2,
+      h3,
+      h5 {
+        color: #003346;
+      }
+
+      a {
+        color: #82cfcb;
+      }
+      .section {
+        &.bg-blue-canvas {
+          .feature-box-container {
+            .post-description-container {
+              background-color: #fff;
+              h5 {
+                color: #111111;
+              }
+            }
+          }
+        }
+      }
+      .main-feature {
+        &.feature-grid {
+          .row {
+            > div {
+              &:last-child {
+                background-color: #82cfcb;
+
+                .post-description-container {
+                  p {
+                    color: #fff;
+                  }
+                  .post-meta-container {
+                    .tag-container {
+                      background-color: #003346;
+                    }
+                  }
+                  span {
+                    &.duration {
+                      color: #fff;
+                    }
+                  }
+                  .post-action-container {
+                    a {
+                      &.blog-link {
+                        color: #003346;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          &.grid-dark {
+            .row {
+              > div {
+                &:last-child {
+                  background-color: #003346;
+                  .post-description-container {
+                    .post-meta-container {
+                      .tag-container {
+                        background-color: #82cfcb;
+                      }
+                    }
+                    .post-action-container{
+                      a {
+                        &.blog-link {
+                          color: #82CFCB;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      #main-post-container{
+        &.section{
+          padding-top:50px;
+        }
+      }
+      .post-meta-container {
+        .tag-container {
+          color: #fff;
+          background-color: #82cfcb;
+
+          &::before {
+            border: 1px solid #000000;
+            background-color: #fff;
+          }
+        }
+        &.post-meta-time {
+          .horizontal-divider {
+            &.orange-divider {
+              &::before {
+                content: "";
+                background-color: #82cfcb;
+              }
+            }
+          }
+        }
+      }
+
+      .tag-white {
+        .post-meta-container {
+          .tag-container {
+            background-color: #fff;
+            color: #82cfcb;
+            border: 1px solid #000000;
+            &:before {
+              content: "";
+              background-color: #82cfcb;
+            }
+          }
+        }
+      }
+      #main-search {
+        .search-container {
+          h4 {
+            color: #82cfcb;
+          }
+          form {
+            .search-input-container {
+              input {
+                border-color: #82cfcb !important;
+
+                &:focus {
+                  border-color: #82cfcb;
+                }
+              }
+              .btn-search {
+                .fa-search {
+                  color: #82cfcb;
+                }
+              }
+            }
+          }
+        }
+      }
+      #blog-navigation {
+        background: #f2f2f2;
+
+        .blog-navigation-container {
+          ul {
+            li {
+              a {
+                color: #111111;
+              }
+              &.all-post {
+                background-color: #fff;
+
+                a {
+                  color: #82cfcb;
+                }
+              }
+            }
+          }
+        }
+      }
+      .post-description-container {
+        .blog-type-container {
+          .type-title {
+            .type-icon {
+              &.type-video {
+                &:before {
+                  content: "";
+                  background-image: url(https://5020112.fs1.hubspotusercontent-na1.net/hubfs/5020112/template-resources/images/internal/icons/icon_blog_play_aqua.png);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .side-menu-container {
+        &.a-side {
+          .side-menu-box-container {
+            padding-top:40px;
+            .tag-menu-box {
+              ul {
+               
+                li {
+                  border: 1px solid #82cfcb;
+                  &.all-link {
+                    background-color: #82cfcb;
+                    a {
+                      color: #fff;
+                      text-decoration: none;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        .side-menu-box-container {
+          .tag-menu-box {
+            ul {
+              li {
+                &.all-link {
+                  a {
+                    color: #82cfcb;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .image-container {
+        &.image-bg-effect {
+          &:before {
+            background-color: #82cfcb;
+          }
+          &:after {
+            background: #828282;
+          }
+        }
+      }
+      .social-media-container {
+        .social-icon {
+          &:hover {
+            color: #82cfcb;
+          }
+        }
+      }
+      .slick-slider {
+        .slick-prev:before,
+        .slick-next:before {
+          color: #82cfcb !important; /* Example: Red color */
+        }
+      }
+    }
+  }
+}

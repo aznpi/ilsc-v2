@@ -64,7 +64,7 @@ const updateCampusSelection = function (editNum) {
       quoteJson.quote_array[i].campus_currency = campusCurrencySelected;
       if (dataDisableResidenceCurrency == "1") {
         quoteJson.quote_array[i].show_currency = campusCurrencySelected;
-      }else{
+      } else {
         quoteJson.quote_array[i].show_currency = initShowCurrency;
       }
       break;
@@ -301,14 +301,18 @@ const updateProgramSelection = function (editNum) {
     quoteObject = localStorage.getItem(quoteJsonName),
     quoteJson = JSON.parse(quoteObject);
   programSelected = $("input[name=program_selection]").val();
-  programIdSelected = $("input[name=program_id_selection]").val(),
-  programDescriptionSelected = programSelected === 'Study and Work' ? 'Non EU/EEA students must have insurance.' : '';
+  (programIdSelected = $("input[name=program_id_selection]").val()),
+    (programDescriptionSelected =
+      programSelected === "Study and Work"
+        ? "Non EU/EEA Student must have insurance.<br>Insurance is available through ILSC for €125."
+        : "");
 
   for (var i = 0; i < quoteJson.quote_array.length; i++) {
     if (i === objPosition) {
       quoteJson.quote_array[i].program.option_program = programSelected;
       quoteJson.quote_array[i].program.program_id = programIdSelected;
-      quoteJson.quote_array[i].program.option_schedule_description = programDescriptionSelected;
+      quoteJson.quote_array[i].program.option_schedule_description =
+        programDescriptionSelected;
       break;
     }
   }
@@ -782,9 +786,9 @@ $(document).on(
     container.attr("data-selected", $(dropdownItem).attr("data-item"));
     $(dropdownItem).addClass("active").siblings().removeClass("active");
 
-     if($(this).hasClass('selectDuration')){
-        container.attr("data-note-selected", $(dropdownItem).attr("data-note"));
-      }
+    if ($(this).hasClass("selectDuration")) {
+      container.attr("data-note-selected", $(dropdownItem).attr("data-note"));
+    }
 
     let yearValue = $(
         ".start-date-selection-container .selectBox .selectBox__value[data-option=year]"
@@ -909,10 +913,14 @@ const printDurationSelection = function (weekArray) {
     maxLimit = 52,
     minVal = weekArray.find((mn) => mn.week.includes(minChar)),
     maxVal = weekArray.find((mx) => mx.week.includes(maxChar)),
-    durationTxt = countrySelected === 'Ireland' && programSelected === "General English"
-        ? 'Non EU/EEA students on a Tourist Visa / Visa Waiver may study General English for a maximum of 12 weeks.'
-        : '';
-    durationNote =  durationTxt !== '' ? '<div id="duration-note"><sup>*</sup>'+durationTxt+'</div>' : '';
+    durationTxt =
+      countrySelected === "Ireland" && programSelected === "General English"
+        ? "Non EU/EEA students on a Tourist Visa / Visa Waiver may study General English for a maximum of 12 weeks."
+        : "";
+  durationNote =
+    durationTxt !== ""
+      ? '<div id="duration-note"><sup>*</sup>' + durationTxt + "</div>"
+      : "";
 
   className.empty();
   $(parentEl).append(durationNote);
@@ -926,7 +934,9 @@ const printDurationSelection = function (weekArray) {
       numVal = weekArray.length > 0 ? weekArray[i].week : i;
       weekText = numVal == "1" ? "week" : "weeks";
       htmlOption +=
-        '<a href="#" class="dropdown-item" data-note="'+durationTxt+'" data-item="' +
+        '<a href="#" class="dropdown-item" data-note="' +
+        durationTxt +
+        '" data-item="' +
         numVal +
         '" tabindex="0">' +
         numVal +
@@ -940,7 +950,9 @@ const printDurationSelection = function (weekArray) {
     for (let z = minVal; z <= maxVal; z++) {
       weekText = z == "1" ? "week" : "weeks";
       htmlOption +=
-        '<a href="#" class="dropdown-item"  data-note="'+durationTxt+'" data-item="' +
+        '<a href="#" class="dropdown-item"  data-note="' +
+        durationTxt +
+        '" data-item="' +
         z +
         '" tabindex="0">' +
         z +
@@ -959,6 +971,13 @@ const getStartDates = function () {
     campus = $("input[name=campus_selection]").val(),
     campusId = $("input[name=campus_id_selection]").val(),
     campusEdit = $("input[name=quote_edit_original_campus]").val(),
+    programNameVal = $("input[name=program_price_selection]:checked").attr(
+      "data-program-name"
+    ),
+    programItemVal = $("input[name=program_price_selection]:checked").attr(
+      "data-item-name"
+    ),
+    programScheduleOption = campus === 'Dublin' && programNameVal && programItemVal ? '&item__in=' + programNameVal + '&schedule_option__in=' + programItemVal : '';
     programNameEdit = $(
       "input[name=quote_edit_original_program_selection]"
     ).val(),
@@ -969,6 +988,7 @@ const getStartDates = function () {
     queryParam =
       "&program__in=" +
       programId +
+      programScheduleOption +
       "&campus__in=" +
       campusId +
       "&start_dates__gt=" +
@@ -1398,7 +1418,7 @@ const updateStartDateSelection = function (editNum) {
   let objPosition = editNum - 1,
     quoteObject = localStorage.getItem(quoteJsonName),
     quoteJson = JSON.parse(quoteObject),
-    programSelected = $('input[name=program_selection]').val(),
+    programSelected = $("input[name=program_selection]").val(),
     yearValue = $(".selectBox .selectBox__value[data-option=year]").attr(
       "data-selected"
     ),
@@ -1411,9 +1431,10 @@ const updateStartDateSelection = function (editNum) {
     durationValue = $(
       ".selectBox .selectBox__value[data-option=duration]"
     ).attr("data-selected"),
-    durationNoteEl = $(".selectBox .selectBox__value[data-option=duration]")
-      .attr("data-note-selected"),
-    durationNote = durationNoteEl ? durationNoteEl : '',
+    durationNoteEl = $(
+      ".selectBox .selectBox__value[data-option=duration]"
+    ).attr("data-note-selected"),
+    durationNote = durationNoteEl ? durationNoteEl : "",
     scheduleName = $("input[name=program_start_date_selection]").attr(
       "data-program-name"
     ),
@@ -1429,7 +1450,8 @@ const updateStartDateSelection = function (editNum) {
   if (priceFormat.indexOf("Package") === -1) {
     programScheduleName = scheduleName + "-" + itemName;
   } else {
-    programScheduleName = programSelected !== "Study and Work" ? "Package" : itemName;
+    programScheduleName =
+      programSelected !== "Study and Work" ? "Package" : itemName;
   }
 
   startDate = yearValue + "-" + monthValue + "-" + dayValue;
@@ -1534,7 +1556,7 @@ const setOtherProgramFees = function (feeArray) {
         feeDescription: feeArray[i].feeDescription,
         priceType: feeArray[i].priceType,
         priceNotes: feeArray[i].priceNotes,
-        maxFee: feeArray[i].maxFee
+        maxFee: feeArray[i].maxFee,
       });
     }
   }
@@ -1628,7 +1650,7 @@ const getOtherProgramFees = function () {
           feeRange: rangeVal,
           priceType: dataObject[i].values["new_price_type"].name,
           underAgeFee: underAge,
-          maxFee: dataObject[i].values.max_fee
+          maxFee: dataObject[i].values.max_fee,
         });
       }
 
@@ -1950,7 +1972,10 @@ const printQuotesHTML = function () {
       .addClass("btn-black-outline");
   }
   let originCurrency = $("input[name=country_origin_currency_selection]").val();
-  $("button.btn-origin-currency").attr("data-origin-currency", countryOriginCurrencyParam);
+  $("button.btn-origin-currency").attr(
+    "data-origin-currency",
+    countryOriginCurrencyParam
+  );
   $("button.btn-origin-currency").text(countryOriginCurrencyParam);
   let quoteObj = JSON.parse(localStorage.getItem("quote-obj")),
     quoteHTML,
@@ -2036,8 +2061,13 @@ const printQuotesHTML = function () {
         startDate = quoteObj.quote_array[i].program.start_date;
         startDateObj = new Date(startDate);
 
-        scheduleDescription = quoteObj.quote_array[i].program.option_schedule_description;
-        isStudyWork =  quoteObj.quote_array[i].program.option_program === 'Study and Work' && scheduleDescription !== '' ? true : false;
+        scheduleDescription =
+          quoteObj.quote_array[i].program.option_schedule_description;
+        isStudyWork =
+          quoteObj.quote_array[i].program.option_program === "Study and Work" &&
+          scheduleDescription !== ""
+            ? true
+            : false;
 
         if (
           startDateObj >= exceptionStartDate &&
@@ -2052,10 +2082,10 @@ const printQuotesHTML = function () {
             }
           }
         }
- 
 
-        exceptionText = isStudyWork ? scheduleDescription :
-          "From Nov 7, 2022 (session 12) to March 24, 2023 (Session 3), we charge regular price for the Full-Time Morning schedule. The price will be $440 (1-11 weeks) / $420 (12-23 weeks) / $400 (24+ weeks) per week. Please consult with your advisor or agency.";
+        exceptionText = isStudyWork
+          ? scheduleDescription
+          : "From Nov 7, 2022 (session 12) to March 24, 2023 (Session 3), we charge regular price for the Full-Time Morning schedule. The price will be $440 (1-11 weeks) / $420 (12-23 weeks) / $400 (24+ weeks) per week. Please consult with your advisor or agency.";
         printExceptionHtml = isException
           ? "<div class='center disclaimer'><sup>**</sup>" +
             exceptionText +
@@ -2174,9 +2204,17 @@ const printQuotesHTML = function () {
           quoteObj.quote_array[i].campus_country +
           "</div>";
 
-        durationNote = quoteObj.quote_array[i].program.duration_note ? '<br><span>' + quoteObj.quote_array[i].program.duration_note + '</span>' : '';
+        durationNote = quoteObj.quote_array[i].program.duration_note
+          ? "<br><span>" +
+            quoteObj.quote_array[i].program.duration_note +
+            "</span>"
+          : "";
 
-        optionSchedule = quoteObj.quote_array[i].program.option_program === 'Study and Work' && quoteObj.quote_array[i].program.option_schedule !== '' ? ' - ' + quoteObj.quote_array[i].program.option_schedule : '';
+        optionSchedule =
+          quoteObj.quote_array[i].program.option_program === "Study and Work" &&
+          quoteObj.quote_array[i].program.option_schedule !== ""
+            ? " - " + quoteObj.quote_array[i].program.option_schedule
+            : "";
 
         scheduleProgramHtml =
           "<div class='line-item'><div><div class='item-description'><div class='item-label'><span class='label-title bold'>" +
@@ -2188,7 +2226,9 @@ const printQuotesHTML = function () {
           quoteObj.quote_array[i].program.start_date +
           " | End: " +
           quoteObj.quote_array[i].program.end_date +
-          durationNote + "<br>" + scheduleDescription +
+          durationNote +
+          "<br>" +
+          scheduleDescription +
           "</div></div><div class='item-price'>" +
           discountHtml +
           "<span class='bold program-price'>" +
@@ -2337,7 +2377,9 @@ const printQuotesHTML = function () {
       }
     }
   }
-  $("input[name=country_origin_currency_selection]").val(countryOriginCurrencyParam);
+  $("input[name=country_origin_currency_selection]").val(
+    countryOriginCurrencyParam
+  );
   localStorage.setItem(quoteJsonName, JSON.stringify(quoteObj));
   printQuoteWidth();
   setTimeout(setBoxHeight(".quote-program-schedule.quote-box"), 300);
@@ -2568,7 +2610,8 @@ const resetDestinationCurrency = function (currency) {
                 currencyModFormatter(-promoAutoTotal, toCurrency)
               );
             }
-            quoteObj.quote_array[i].promo.promo_auto_value = convertedPromoAutoValArray.join('|');
+            quoteObj.quote_array[i].promo.promo_auto_value =
+              convertedPromoAutoValArray.join("|");
             promoAutoTotalVal = convertCalcFloat(promoAutoTotalVal, convert);
           }
 
@@ -2765,8 +2808,8 @@ const sendEmailQuoteForm = function () {
 
   for (let i = 0; i < quoteObj.quote_array.length; i++) {
     let quoteNum = i + 1,
-    showCurrency = quoteObj.quote_array[i].show_currency;
-    
+      showCurrency = quoteObj.quote_array[i].show_currency;
+
     programTotalPriceInt = parseFloat(
       quoteObj.quote_array[i].program.program_total_price
     );
@@ -3421,7 +3464,7 @@ const sendEmailQuoteForm = function () {
   };
 
   console.log(formArray);
-/*
+  /*
   $.ajax({
     type: "POST",
     url: url,

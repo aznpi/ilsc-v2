@@ -380,11 +380,7 @@ section{
         .footnote{
             font-size:16px;
         }
-        #junior-waiver-container{
-            h6{
-                font-size: 2rem;
-            }
-            .checkbox-line{
+        .checkbox-line{
                 display: flex;
                 margin-top:30px;
 
@@ -401,6 +397,11 @@ section{
                     flex:1;
                 }
             }
+        #junior-waiver-container{
+            h6{
+                font-size: 2rem;
+            }
+
         }
         ul{
             padding-left:35px;

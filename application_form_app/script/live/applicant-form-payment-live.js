@@ -221,51 +221,8 @@ const addDigitalConfirmation = function () {
         currentMonth = todayDate.getMonth() + 1,
         timeStamp = todayDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
         timeZoneStr = Intl.DateTimeFormat().resolvedOptions().timeZone,
-        todayDateStr = todayDate.getDate() + '/' + currentMonth + '/' + todayDate.getFullYear() + ' ' + timeStamp + ' (Timezone: ' + timeZoneStr + ')',
-        selectedCountry = $('input[name=program_country]').val(),
-        selectedPrimarySchool = $('input[name=program_school]:checked').attr('data-school'),
-        selectedSecondarySchool = $('input[name=program_school_alternate-input]').val(),
-        accommodationBool = $('input[name=accommodation_option]:checked').val(),
-        termsFileCurrentVersion_LS_CA_val = termsFileCurrentVersion_LS_CA ? termsFileCurrentVersion_LS_CA : '',
-        termsFileCurrentUrl_LS_CA_val = termsFileCurrentUrl_LS_CA ? termsFileCurrentUrl_LS_CA : '',
-        termsFileCurrentVersion_LS_IN_val = termsFileCurrentVersion_LS_IN ? termsFileCurrentVersion_LS_IN : '',
-        termsFileCurrentUrl_LS_IN_val = termsFileCurrentUrl_LS_IN ? termsFileCurrentUrl_LS_IN : '',
-        termsFileCurrentVersion_ELS_US_val = termsFileCurrentVersion_ELS_US ? termsFileCurrentVersion_ELS_US : '',
-        termsFileCurrentUrl_ELS_US_val = termsFileCurrentUrl_ELS_US ? termsFileCurrentUrl_ELS_US : '',
-        termsFileCurrentVersion_GC_CA_val = termsFileCurrentVersion_GC_CA ? termsFileCurrentVersion_GC_CA : '',
-        termsFileCurrentUrl_GC_CA_val = termsFileCurrentUrl_GC_CA ? termsFileCurrentUrl_GC_CA : '',
-        termsFileCurrentVersion_GC_AU_val = termsFileCurrentVersion_GC_AU ? termsFileCurrentVersion_GC_AU : '',
-        termsFileCurrentUrl_GC_AU_val = termsFileCurrentUrl_GC_AU ? termsFileCurrentUrl_GC_AU : '',
-        termsFileCurrentVersion_LS_AU_val = termsFileCurrentVersion_LS_AU ? termsFileCurrentVersion_LS_AU : '',
-        termsFileCurrentUrl_LS_AU_val = termsFileCurrentUrl_LS_AU ? termsFileCurrentUrl_LS_AU : '',
-        accommodationCurrentVersion_CA_val = accommodationCurrentVersion_CA ? accommodationCurrentVersion_CA : '',
-        accommodationCurrentUrl_CA_val = accommodationCurrentUrl_CA ? accommodationCurrentUrl_CA : '',
-        accommodationCurrentVersion_US_val = accommodationCurrentVersion_US ? accommodationCurrentVersion_US : '',
-        accommodationCurrentUrl_US_val = accommodationCurrentUrl_US ? accommodationCurrentUrl_US : '',
-        accommodationCurrentVersion_AU_val = accommodationCurrentVersion_AU ? accommodationCurrentVersion_AU : '',
-        accommodationCurrentUrl_AU_val = accommodationCurrentUrl_AU ? accommodationCurrentUrl_AU : '',
-        accommodationCurrentVersion_IN_val = accommodationCurrentVersion_IN ? accommodationCurrentVersion_IN : '',
-        accommodationCurrentUrl_IN_val = accommodationCurrentUrl_IN ? accommodationCurrentUrl_IN : '';
+        todayDateStr = todayDate.getDate() + '/' + currentMonth + '/' + todayDate.getFullYear() + ' ' + timeStamp + ' (Timezone: ' + timeZoneStr + ')';
 
-    policyVersion = selectedPrimarySchool == 'Language School' ? selectedCountry == 'Canada' ? termsFileCurrentVersion_LS_CA_val : selectedCountry == 'Australia' ? termsFileCurrentVersion_LS_AU_val : selectedCountry == 'India' ? termsFileCurrentVersion_LS_IN_val : '' : selectedPrimarySchool == 'Greystone College' ? selectedCountry == 'Canada' ? termsFileCurrentVersion_GC_CA_val : selectedCountry == 'Australia' ? termsFileCurrentVersion_GC_AU_val : '' : selectedPrimarySchool == 'ELS' ? termsFileCurrentVersion_ELS_US_val : '';
-
-    policyVersion2 = selectedSecondarySchool ? selectedSecondarySchool == 'Greystone College' ? selectedCountry == 'Canada' ? termsFileCurrentVersion_GC_CA_val : selectedCountry == 'Australia' ? termsFileCurrentVersion_GC_AU_val : false : false : false;
-
-    policyFileUrl = selectedPrimarySchool == 'Language School' ? selectedCountry == 'Canada' ? termsFileCurrentUrl_LS_CA_val : selectedCountry == 'Australia' ? termsFileCurrentUrl_LS_AU_val : selectedCountry == 'India' ? termsFileCurrentUrl_LS_IN_val : '' : selectedPrimarySchool == 'Greystone College' ? selectedCountry == 'Canada' ? termsFileCurrentUrl_GC_CA_val : selectedCountry == 'Australia' ? termsFileCurrentUrl_GC_AU_val : '' : selectedPrimarySchool == 'ELS' ? termsFileCurrentUrl_ELS_US_val : '';
-
-    policyFileUrl2 = selectedSecondarySchool ? selectedSecondarySchool == 'Greystone College' ? selectedCountry == 'Canada' ? termsFileCurrentUrl_GC_CA_val : selectedCountry == 'Australia' ? termsFileCurrentUrl_GC_AU_val : false : false : false;
-
-    accommodationVersion = accommodationBool == 1 ? selectedCountry == 'Canada' ? accommodationCurrentVersion_CA_val : selectedCountry == 'Australia' ? accommodationCurrentVersion_AU_val : selectedCountry == 'India' ? accommodationCurrentVersion_IN_val : selectedCountry == 'USA' ? accommodationCurrentVersion_US_val : false : false;
-
-    accommodationUrl = accommodationBool == 1 ? selectedCountry == 'Canada' ? accommodationCurrentUrl_CA_val : selectedCountry == 'Australia' ? accommodationCurrentUrl_AU_val : selectedCountry == 'India' ? accommodationCurrentUrl_IN_val : selectedCountry == 'USA' ? accommodationCurrentUrl_US_val : false : false;
-
-    fileName = policyFileUrl ? policyFileUrl.split('/').pop().replace('.pdf', '') : '';
-    fileName2 = policyFileUrl2 ? policyFileUrl2.split('/').pop().replace('.pdf', '') : '';
-    accommodationFileName = accommodationUrl ? accommodationUrl.split('/').pop().replace('.pdf', '') : '';
-
-    policyStr = selectedPrimarySchool == 'Language School' && selectedSecondarySchool ? ' on policies ' + fileName + ' and ' + fileName2 : ' on policies ' + fileName;
-
-    policyStr = accommodationBool == 1 ? policyStr + ' and on accommodation policies ' + accommodationFileName : policyStr;
 
     signatureName = applicantStatus == 'Agent' ? agentName : studentName;
 
@@ -273,15 +230,6 @@ const addDigitalConfirmation = function () {
 
     $('input[name=e_signature_digital_confirmation]').val(digitalConfirmationTxt);
 
-    if (policyFileUrl) {
-        $('input[name=primary_application_terms_and_condition_policy_url]').val(policyFileUrl);
-    }
-    if (policyFileUrl2) {
-        $('input[name=secondary_application_terms_and_condition_policy_url]').val(policyFileUrl2);
-    }
-    if (accommodationUrl) {
-        $('input[name=accommodation_policy_url]').val(accommodationUrl);
-    }
 }
 
 const printApplicationSummary = function () {
@@ -319,18 +267,18 @@ const printApplicationSummary = function () {
     for (let stf = 0; stf < studentFormArray.length; stf++) {
         for (let sti = 0; sti < studentInfoArray.length; sti++) {
             if (!studentInfoArray[sti].hiddenEnable) {
-            if (studentInfoArray[sti].schoolParentDependence.includes(parentSchool)) {
-                if (studentFormArray[stf].name == studentInfoArray[sti].inputName) {
+                if (studentInfoArray[sti].schoolParentDependence.includes(parentSchool)) {
+                    if (studentFormArray[stf].name == studentInfoArray[sti].inputName) {
 
-                    studentLabelArray.push({
-                        'name': studentFormArray[stf].name,
-                        'label': studentInfoArray[sti].inputLabel,
-                        'value': studentFormArray[stf].value
-                    });
+                        studentLabelArray.push({
+                            'name': studentFormArray[stf].name,
+                            'label': studentInfoArray[sti].inputLabel,
+                            'value': studentFormArray[stf].value
+                        });
 
+                    }
                 }
             }
-        }
         }
     };
     for (let st = 0; st < studentLabelArray.length; st++) {
@@ -387,29 +335,29 @@ const printApplicationSummary = function () {
         } else {
             for (let pi = 0; pi < programInfoArray.length; pi++) {
                 if (!programInfoArray[pi].hiddenEnable) {
-                if (studyFormArray[stf].name == programInfoArray[pi].inputName) {
+                    if (studyFormArray[stf].name == programInfoArray[pi].inputName) {
 
-                    valueStr = studyFormArray[stf].name.includes('program_is_coop_') ? studyFormArray[stf].value == 2 ? 'Micro-Credentials' : studyFormArray[stf].value == 1 ? 'Co-Op' : studyFormArray[stf].value == 0 ? 'Academic' : studyFormArray[stf].value : studyFormArray[stf].value == 1 ? 'Yes' : studyFormArray[stf].value == 0 ? 'No' : studyFormArray[stf].value == 'False' ? 'No' : studyFormArray[stf].value == 'True' ? 'Yes' : studyFormArray[stf].value;
+                        valueStr = studyFormArray[stf].name.includes('program_is_coop_') ? studyFormArray[stf].value == 2 ? 'Micro-Credentials' : studyFormArray[stf].value == 1 ? 'Co-Op' : studyFormArray[stf].value == 0 ? 'Academic' : studyFormArray[stf].value : studyFormArray[stf].value == 1 ? 'Yes' : studyFormArray[stf].value == 0 ? 'No' : studyFormArray[stf].value == 'False' ? 'No' : studyFormArray[stf].value == 'True' ? 'Yes' : studyFormArray[stf].value;
 
-                    if (studyFormArray[stf].name.includes('additional_australia_visa_previous_file_upload')) {
-                        fileNum = $('input[name=additional_australia_visa_previous_file_upload').get(0).files.length;
-                        valueStr = fileNum > 1 ? fileNum + ' files' : studyFormArray[stf].value;
-                    }
+                        if (studyFormArray[stf].name.includes('additional_australia_visa_previous_file_upload')) {
+                            fileNum = $('input[name=additional_australia_visa_previous_file_upload').get(0).files.length;
+                            valueStr = fileNum > 1 ? fileNum + ' files' : studyFormArray[stf].value;
+                        }
 
-                    labelValue = schoolSelected == 'Greystone College' ? programInfoArray[pi].inputLabel == 'Program' ? 'Program/Course' : programInfoArray[pi].inputLabel : programInfoArray[pi].inputLabel;
+                        labelValue = schoolSelected == 'Greystone College' ? programInfoArray[pi].inputLabel == 'Program' ? 'Program/Course' : programInfoArray[pi].inputLabel : programInfoArray[pi].inputLabel;
 
-                    if (programInfoArray[pi].inputAssign == 'primary') {
-                        programPrimaryLabelArray.push({
-                            'name': studyFormArray[stf].name,
-                            'label': labelValue,
-                            'value': valueStr
-                        });
-                    } else {
-                        programAlternateLabelArray.push({
-                            'name': studyFormArray[stf].name,
-                            'label': labelValue,
-                            'value': valueStr
-                        });
+                        if (programInfoArray[pi].inputAssign == 'primary') {
+                            programPrimaryLabelArray.push({
+                                'name': studyFormArray[stf].name,
+                                'label': labelValue,
+                                'value': valueStr
+                            });
+                        } else {
+                            programAlternateLabelArray.push({
+                                'name': studyFormArray[stf].name,
+                                'label': labelValue,
+                                'value': valueStr
+                            });
                         }
                     }
                 }
@@ -618,40 +566,45 @@ const printApplicationSummary = function () {
 
     }
 
-    policyLink = schoolSelected == 'ELS' ? 'https://www.els.edu/terms-of-use' : schoolSelected == 'Greystone College' ? countrySelected == 'Canada' ? 'https://www.ilsc.com/greystone-college/canada/policies' : 'https://www.ilsc.com/greystone-college/australia/policies' : 'https://www.ilsc.com/language-schools/policies-procedures';
-    accommLink = schoolSelected == 'ELS' ? 'https://www.els.edu/how-to-apply/terms-conditions' : 'https://www.accommodations.ilsc.com/accommodation-booking-policy';
-    contractLink = countrySelected == 'Australia' ? 'https://www.ilsc.com/hubfs/pdf/applications-pricelists/student-contract-australia-terms-conditions.pdf' : countrySelected == 'Canada' ? schoolValSelected.includes('Juniors') ? 'https://www.ilsc.com/hubfs/pdf/applications-pricelists/junior-student-contract-agreement.pdf' : 'https://www.ilsc.com/hubfs/pdf/applications-pricelists/student-contract-canada-terms-conditions.pdf' : countrySelected == 'India' ? 'https://www.ilsc.com/hubfs/pdf/applications-pricelists/student-contract-india-terms-conditions.pdf' : 'https://www.ilsc.com/hubfs/pdf/applications-pricelists/student-contract-canada-terms-conditions.pdf';
-    termsLink = countrySelected == 'Canada' ? schoolValSelected.includes('Juniors') ? 'https://www.ilsc.com/hubfs/pdf/applications-pricelists/junior-supplemental-forms.pdf' : '' : '';
-    privacyLink = schoolSelected == 'ELS' ? 'https://www.els.edu/privacy-policy' : '';
-    tuitionLink = schoolSelected == 'ELS' ? 'https://www.els.edu/admissions/tuition-fees' : '';
-    cancelLink = schoolSelected == 'ELS' ? 'https://www.els.edu/how-to-apply/terms-conditions' : '';
-
-    proofOfFundsHtml = schoolSelected == 'ELS' ? applicantStatus == 'Agent' ? proofOfFundsAgentFormStatementHtml : '' : '';
-
-    if (countrySelected == 'Canada') {
-        if (applicantStatus == 'Agent') {
-            languageSchoolContractTxt = greystoneIlscAgentDeclarationHtmlCA;
-        } else {
-            languageSchoolContractTxt = greystoneIlscStudentDeclarationHtmlCA;
-        }
-    } else if (countrySelected == 'Australia') {
-        if (applicantStatus == 'Agent') {
-            languageSchoolContractTxt = greystoneIlscAgentDeclarationHtmlAU;
-        } else {
-            languageSchoolContractTxt = greystoneIlscStudentDeclarationHtmlAU;
-        }
-    } else {
-        languageSchoolContractTxt = '';
-    }
-
-    elsPolicyTxt = releaseFormStatementHtml + 'By submitting this form by clicking the confirmation button below, you acknowledge that you have read and agreed to the <a href="' + policyLink + '" target="_blank">Terms of Use</a>, <a href="' + privacyLink + '" target="_blank">Privacy Policy</a>, <a href="' + cancelLink + '" target="_blank">Cancellation & Refund Policy</a> and <a href="' + tuitionLink + '" target="_blank">Prices & Dates addendum</a>.' + proofOfFundsHtml;
-
-    policyHtml = schoolSelected == 'ELS' ? elsPolicyTxt : languageSchoolContractTxt;
-
-    $('.submit-policy-container').html(policyHtml);
     $('.step-breadcrumb-container').hide();
+    getPolicyTxt();
 
 };
+
+const getPolicyTxt = function () {
+    let schoolSelected = $('input[name=program_school]:checked').attr('data-school'),
+        applicantStatus = $('input[name=online_applicant_status]:checked').val(),
+        countrySelected = $('input[name=program_country]').val(),
+        tableId = policyTable,
+        queryParam = '&country__in=' + countrySelected + '&school__in=' + schoolSelected + '&applicant_type__in=' + applicantStatus + '&enable__eq=true',
+        api_url = apiUrl + tableId + '/rows?portalId=' + portalId + queryParam;
+    api_url = encodeURI(api_url),
+
+        $.ajax({
+            url: api_url,
+            type: "get",
+            async: false,
+            success: function (data) {
+                let dataObject = data.results,
+                    proofOfFundsHtml = schoolSelected == 'ELS' ? applicantStatus == 'Agent' ? proofOfFundsAgentFormStatementHtml : '' : '',
+                    contractTxt = '',
+                    inputTxt = countrySelected == 'Canada' ? applicantStatus == 'Agent' ? greystoneIlscAgentDeclarationHtmlCA : greystoneIlscStudentDeclarationHtmlCA : countrySelected == 'Australia' ? applicantStatus == 'Agent' ? greystoneIlscAgentDeclarationHtmlAU : greystoneIlscStudentDeclarationHtmlAU : countrySelected == 'USA' ? releaseFormStatementHtml + proofOfFundsHtml : countrySelected == 'Ireland' ? greystoneIlscStudentDeclarationHtmlCA : '';
+
+
+                if (dataObject.length > 0) {
+                    for (let i = 0; i < 1; i++) {
+                        contractTxt += dataObject[i].values.policy_text_html;
+                    }
+                }
+
+                policyHtml = '<div class="footnote">' + contractTxt + inputTxt + '</div>';
+
+                $('.submit-policy-container').html(policyHtml);
+            }
+        });
+
+
+}
 
 const printContractFileInput = function () {
     let additionClassName = 'submit-policy-file-container';
@@ -1749,16 +1702,19 @@ const printStartDates = function (selectedProgram, element, minAge, maxAge, inpu
         selectedSchool = $('input[name=program_school]:checked').val(),
         selectedCountry = $('input[name=program_country]').val(),
         selectedSchedule = $('input[name=program_option_primary-input]:checked').val(),
+        selectedScheduleArray = selectedSchedule ? selectedSchedule.split('-') : '',
+        selectedScheduleItem = selectedScheduleArray.length > 1 ? selectedScheduleArray[0] : '',
+        selectedScheduleName = selectedScheduleArray.length > 1 ? selectedScheduleArray[1] : '',
         dateBirth = new Date($('input[name=student_dob]').val()),
         dateBirthTime = dateBirth.getTime(),
         minorAge = 18,
         epochPrimaryStartDate = '',
-        campusName = schoolVal == 'ELS' ? $('input[name=program_campus]:checked').val() : '';
+        campusName = $('input[name=program_campus]:checked').val(),
     campusMinAge = $('input[name="campus-min-age"]').val(),
         minAgeVal = minAge ? minAge : campusMinAge,
         maxAgeVal = maxAge ? maxAge : 99,
         availableStartDateMessage = schoolVal == 'ELS' ? ' Available start dates depend on age of student upon the start of program.' : null,
-        sessionStartDateMessage = schoolVal == 'ELS' ? '<p>For the best experience we encourage students (especially academically-bound students who plan to progress into an ELS partner school) to start on session start dates and not to start on week four of the session. However, start dates are available every Monday.</p><sup>*</sup>Session Start Date' : '<sup>*</sup>Session Start Date',
+        sessionStartDateMessage = schoolVal == 'ELS' ? 'For the best experience we encourage students (especially academically-bound students who plan to progress into an ELS partner school) to start on session start dates and not to start on week four of the session. However, start dates are available every Monday.<br/><br/><sup>*</sup>Session Start Date' : '<sup>*</sup>Session Start Date',
         typeQuery = programType == 'Micro-Credential' ? 'course' : 'program',
         programScheduleSelected = selectedParentSchool == 'Greystone College' ? $('input[name=' + inputName + ']:checked').val() : '',
         tableId = selectedParentSchool == 'Language School' ? startDateTableLS : selectedParentSchool == 'Greystone College' ? programType == 'Micro-Credential' ? startDateTableCoursesGC : startDateTableGC : selectedParentSchool == 'ELS' ? startDateTableELS : startDateTableLS,
@@ -1794,14 +1750,14 @@ const printStartDates = function (selectedProgram, element, minAge, maxAge, inpu
 
         //scheduleFilterObj = scheduleBreakArr.filter(x => (x.school.includes(selectedCurrentSchool)));
 
-          startDateArr = [];
-          /*
-                  for (let i = 0; i < scheduleFilterObj.length; i++) {
-            if (epochPrimaryStartDate >= scheduleFilterObj[i].startDate && epochPrimaryStartDate <= scheduleFilterObj[i].endDate && programScheduleSelected === scheduleFilterObj[i].session) {
-                          startDateArr.push(scheduleFilterObj[i].endDate);
-                      }
-                  }
-              */
+        startDateArr = [];
+        /*
+                for (let i = 0; i < scheduleFilterObj.length; i++) {
+          if (epochPrimaryStartDate >= scheduleFilterObj[i].startDate && epochPrimaryStartDate <= scheduleFilterObj[i].endDate && programScheduleSelected === scheduleFilterObj[i].session) {
+                        startDateArr.push(scheduleFilterObj[i].endDate);
+                    }
+                }
+            */
         epochPrimaryStartDate = startDateArr.length > 0 ? startDateArr.slice(0, 1) : epochPrimaryStartDate;
 
     }
@@ -1810,8 +1766,9 @@ const printStartDates = function (selectedProgram, element, minAge, maxAge, inpu
 
         dateQuery = epochPrimaryStartDate != '' ? '&start_dates__gte=' + epochPrimaryStartDate : '';
         sessionSchedule = programType == 'Micro-Credential' ? '&session_schedule__eq=' + programScheduleSelected : '';
+        programScheduleOption = campusName === 'Dublin' && selectedScheduleArray.length > 1 ? '&item__in=' + selectedScheduleItem + '&schedule_option__in=' + selectedScheduleName : '';
 
-        let queryParam = '&' + typeQuery + '__in=' + selectedProgram + '&campus__in=' + selectedCampus + sessionSchedule + dateQuery,
+        let queryParam = '&' + typeQuery + '__in=' + selectedProgram + '&campus__in=' + selectedCampus + sessionSchedule + programScheduleOption + dateQuery,
             api_url = apiUrl + tableId + '/rows?portalId=' + portalId + queryParam;
         api_url = encodeURI(api_url),
             foundNoneHtml = "<option disabled selected value=''>No Start Dates Available</option>";
@@ -1892,7 +1849,7 @@ const printStartDates = function (selectedProgram, element, minAge, maxAge, inpu
                         $('#study-program-' + comboVal + ' .' + element + ' .study-program-start-date-dropdown label').append('<p class="age-message">' + availableStartDateMessage + '</p>');
                     }
 
-                    $('#study-program-' + comboVal + ' .' + element + ' .study-program-start-date-dropdown label .session-message').remove();
+                    $('#study-program-' + comboVal + ' .' + element + ' .study-program-start-date-dropdown label p.session-message').remove();
                     if (hasSessionDate.includes(1)) {
                         $('#study-program-' + comboVal + ' .' + element + ' .study-program-start-date-dropdown label').append('<p class="session-message">' + sessionStartDateMessage + '</p>');
                     }
@@ -1925,6 +1882,8 @@ const printStartDates = function (selectedProgram, element, minAge, maxAge, inpu
 
 const printProgramDuration = function (element, inputName) {
     let comboVal = returnComboVal(inputName),
+        countrySelected = $('input[name=program_country]').val(),
+        programSelected = $('select[name=program_name_primary-input] option:selected').val(),
         selectedDuration = $('select[name=program_startdate_primary-input] option:selected').attr('data-week-available'),
         durationArray = selectedDuration ? selectedDuration.split(',') : [],
         minChar = '>',
@@ -1933,7 +1892,11 @@ const printProgramDuration = function (element, inputName) {
         maxVal = durationArray.find(mx => mx.includes(maxChar)),
         maxLimit = 52,
         className = $('#study-program-' + comboVal + '.study-program-selection .program-option-duration-input.' + element + ' .duration-dropdown select'),
-        optionHtml = '<option disabled selected value="">Choose Duration</option>';
+        parentEl = $('#study-program-' + comboVal + '.study-program-selection .program-option-duration-input.' + element + ' .duration-dropdown'),
+        optionHtml = '<option disabled selected value="">Choose Duration</option>',
+        durationNote = countrySelected == 'Ireland' && programSelected !== 'Study and Work' ? '<div id="duration-note"><p><sup>*</sup>Non EU/EEA students on a Tourist Visa / Visa Waiver may study a maximum of 12 weeks</p></div>' : '';
+
+        $('#duration-note').remove();
 
 
     if (element == 'primary-input') {
@@ -1962,6 +1925,7 @@ const printProgramDuration = function (element, inputName) {
 
         $('#study-program-' + comboVal + ' .program-option-duration-input.primary-input').removeClass('study-hide').addClass('study-show');
         className.html(optionHtml).attr('disabled', false);
+        $(parentEl).append(durationNote);
     }
 };
 
@@ -2344,7 +2308,7 @@ const printSchoolSelection = function () {
         nationalitySelected = $('select[name=student_nationality] option:selected').val(),
         tableId = schoolTypeListTable,
         countryQuery = schoolVal == 'ELS' ? '&parent_school__in=ELS' : '&parent_school__ne=ELS',
-        queryParam = countryQuery + '&location_country__in=' + countrySelected,
+        queryParam = countryQuery + '&location_country__in=' + countrySelected + '&enable__eq=true',
         api_url = apiUrl + tableId + '/rows?portalId=' + portalId + queryParam,
         listHtml = '';
 
@@ -2423,9 +2387,13 @@ const printAdditionalInfo = function () {
         fileInputHtml = programSelected != 'French Communication Evening' ? insidePermitFileHtml + insideFlightFileHtml : '';
         additionalHtml = shirtHtml + jrFamilyHtml + insideCountryOption + fileInputHtml + inputHtml + additionalNotesHtml;
 
+    } else if (countrySelected == 'Ireland') {
+
+        additionalHtml = govSponsoredHtml + englishLevelHtml + additionalNotesHtml;
+
     } else if (countrySelected == 'USA') {
         if (selectedSchoolName != 'ELS Youth') {
-            additionalHtml = visaFormRadioUsHtml + visaFormAddDependentButtonHtml + visaRadioUsHtml + visaTransferInputUsHtml + visaTransferAttendanceInputUsHtml + collegeRadioUsHtml + collegeAcceptRadioUsHtml + collegeInputUsHtml + additionalNotesHtml;
+            additionalHtml = visaFormRadioUsHtml + visaFormAddDependentButtonHtml + visaRadioUsHtml + visaTransferInputUsHtml + visaTransferAttendanceInputUsHtml + collegeRadioUsHtml + collegeAcceptRadioUsHtml + collegeInstituteAccordion + collegeInputUsHtml + additionalNotesHtml;
         }
     } else if (countrySelected == 'Online') {
         additionalHtml = inputHtml + additionalCurrencyPaymentOptionHtml + additionalOnlineNotesHtml;
@@ -3041,7 +3009,6 @@ const showInsurance = function () {
     $(".fixed-side-menu-list .menu-additional.step-5 #step-insurance").show();
     $('.insurance-container #insurance-option-container .input-container input[name=insurance_option]').prop('disabled', false).prop('required', true);
 }
-
 $(document).on("click", ".section-application-form .step-container .btn.next", function () {
     let dataStepVar = $(this).attr('data-step'),
         dataForm = $(this).attr('data-form'),
@@ -3144,7 +3111,7 @@ $(document).on('click', 'input[name=student_dob], .campus-select-radio .box-colo
     resetCampusProgram();
     resetAccommodationDetails();
     setTimeout(() => {
-    printProgram(selected, 'primary-input');
+        printProgram(selected, 'primary-input');
     }, 500)
 
 });
@@ -3413,17 +3380,21 @@ const resetProgramComboDate = function (element, inputName) {
 const startDateAction = function (element, thisElement) {
     let isPairable = $('input[name=program_school]:checked').attr('data-pairable'),
         selectedParentSchool = $('input[name=program_school]:checked').attr('data-school'),
+        selectedCountry = $('input[name=program_country]').val(),
         inputName = $(thisElement).attr('name');
 
     if (selectedParentSchool == 'Language School' || selectedParentSchool == 'ELS') {
         printProgramDuration(element, inputName)
     }
 
-    if (isPairable == 1) {
-        if (element != 'alternate-input') {
-            printAlternateOption(element);
+    if (selectedCountry !== 'Ireland') {
+        if (isPairable == 1) {
+            if (element != 'alternate-input') {
+                printAlternateOption(element);
+            }
         }
     }
+
 
     setTimeout(resetProgramComboDate(element, inputName), 500);
 
@@ -3458,16 +3429,19 @@ const startDateAction = function (element, thisElement) {
                     }
                 },
                 beforeShowDay: function (date) {
-                    if (selectedParentSchool == 'ELS') {
-                        return [true];
-                    } else {
-                        if (date.getDay() == 6 || date.getDay() == 0) {
-                            return [true];
+                        if (selectedCountry == 'Ireland') {
+                             if (date.getDay() == 0) {
+                                return [true];
+                             }else{
+                                return [false];
+                             }
                         } else {
-                            return [false];
+                            if (date.getDay() == 6 || date.getDay() == 0) {
+                                return [true];
+                            } else {
+                                return [false];
+                            }
                         }
-                    }
-
                 }
             }
         );
@@ -3539,6 +3513,61 @@ const durationAction = function (element, tEl) {
     printAdditionalInfo();
 
 };
+
+const printUasInstitutionDrop = function () {
+    let url = 'https://uasform.azurewebsites.net/get-dropdown-list-data';
+    api_url = encodeURI(url);
+    instituteArray = [];
+
+
+    $.get(api_url).done(function (data) {
+        let dataObject = data.list;
+
+        console.log(dataObject);
+
+        if (dataObject.length > 0) {
+            for (let i = 0; i < dataObject.length; i++) {
+
+                instituteArray.push({
+                    'schoolName': dataObject[i].institutionName,
+                });
+            }
+
+            instituteArray.sort();
+        }
+        let optionItemsHtml = '';
+
+        for (let i = 0; i < instituteArray.length; i++) {
+            optionItemsHtml += '<option value="' + instituteArray[i].schoolName + '">' + instituteArray[i].schoolName + '</option>';
+        }
+
+
+        $('#accordionInstitute').html('<label for="college-institute">Please select the school you are attending from the list below (if the school is not on the list, you can enter the school name below): <sup>*</sup></label><div class="form-group"><select id="college-institute" class="form-control" name="college-accepted-name" required><option value="none" disabled selected>Select Institution</option>' + optionItemsHtml + '</select></div>');
+
+    });
+
+    /*
+        let data = { "list": [{ "institutionName": "Barry University", "checked": true }, { "institutionName": "Berkeley College [Midtown Manhattan Campus]", "checked": true }, { "institutionName": "Berkeley College [Newark]", "checked": true }, { "institutionName": "Berkeley College [Woodbridge]", "checked": true }, { "institutionName": "Berkeley College [Woodland Park Campus]", "checked": true }, { "institutionName": "Bunker Hill Community College", "checked": true }, { "institutionName": "California College of the Arts", "checked": true }, { "institutionName": "California Lutheran University", "checked": true }, { "institutionName": "Canada College", "checked": true }, { "institutionName": "Case Western Reserve University", "checked": true }, { "institutionName": "City University of Seattle", "checked": true }, { "institutionName": "Clark University", "checked": true }, { "institutionName": "Clemson University", "checked": true }, { "institutionName": "College of San Mateo", "checked": true }, { "institutionName": "Columbia College Chicago", "checked": true }, { "institutionName": "De Anza College", "checked": true }, { "institutionName": "Diablo Valley College", "checked": true }, { "institutionName": "Dominican University", "checked": true }, { "institutionName": "Dominican University of California", "checked": true }, { "institutionName": "East Tennessee State University", "checked": true }, { "institutionName": "Eastern Kentucky University", "checked": true }, { "institutionName": "Eckerd College", "checked": true }, { "institutionName": "Edmonds College", "checked": true }, { "institutionName": "El Camino College", "checked": true }, { "institutionName": "Fairleigh Dickinson University [Metropolitan Campus]", "checked": true }, { "institutionName": "Florida Institute of Technology", "checked": true }, { "institutionName": "Foothill College", "checked": true }, { "institutionName": "Fulton-Montgomery Community College (at Johnstown) [SUNY]", "checked": true }, { "institutionName": "Glendale Community College [California]", "checked": true }, { "institutionName": "Governors State University", "checked": true }, { "institutionName": "Grand Valley State University", "checked": true }, { "institutionName": "Green River College", "checked": true }, { "institutionName": "Hillsborough Community College", "checked": true }, { "institutionName": "Indiana University - Indianapolis", "checked": true }, { "institutionName": "Irvine Valley College", "checked": true }, { "institutionName": "Johnson \u0026 Wales University - Providence", "checked": true }, { "institutionName": "Kent State University", "checked": true }, { "institutionName": "Lewis University", "checked": true }, { "institutionName": "Marquette University", "checked": true }, { "institutionName": "Marymount University", "checked": true }, { "institutionName": "Miami University [Oxford]", "checked": true }, { "institutionName": "Middle Tennessee State University", "checked": true }, { "institutionName": "MiraCosta College", "checked": true }, { "institutionName": "Nova Southeastern University", "checked": true }, { "institutionName": "Ohio Dominican University", "checked": true }, { "institutionName": "Oklahoma City University", "checked": true }, { "institutionName": "Orange Coast College", "checked": true }, { "institutionName": "Otis College of Art and Design", "checked": true }, { "institutionName": "Pasadena City College", "checked": true }, { "institutionName": "Robert Morris University", "checked": true }, { "institutionName": "Rowan University", "checked": true }, { "institutionName": "Rutgers University - Camden", "checked": true }, { "institutionName": "Saint Joseph\u0027s University", "checked": true }, { "institutionName": "Santa Monica College", "checked": true }, { "institutionName": "Santa Rosa Junior College", "checked": true }, { "institutionName": "Santiago Canyon College", "checked": true }, { "institutionName": "Seattle Central College", "checked": true }, { "institutionName": "Shoreline Community College", "checked": true }, { "institutionName": "Skyline College", "checked": true }, { "institutionName": "South Seattle College", "checked": true }, { "institutionName": "South University \u2013 Tampa", "checked": true }, { "institutionName": "Stockton University", "checked": true }, { "institutionName": "Texas Tech University", "checked": true }, { "institutionName": "The Culinary Institute of America", "checked": true }, { "institutionName": "The Culinary Institute of America at Greystone", "checked": true }, { "institutionName": "The University of Scranton", "checked": true }, { "institutionName": "The University of Tampa", "checked": true }, { "institutionName": "University of Cincinnati", "checked": true }, { "institutionName": "University of Houston - Clear Lake", "checked": true }, { "institutionName": "University of La Verne", "checked": true }, { "institutionName": "University of Massachusetts Dartmouth", "checked": true }, { "institutionName": "University of Missouri - St. Louis", "checked": true }, { "institutionName": "University of Nevada Las Vegas", "checked": true }, { "institutionName": "University of St. Thomas - Houston", "checked": true }, { "institutionName": "University of St. Thomas - Minnesota", "checked": true }, { "institutionName": "Valparaiso University", "checked": true }, { "institutionName": "Western Michigan University", "checked": true }] };
+    
+        dataObject = data.list;
+    
+        console.log(dataObject)
+    
+        if (dataObject.length > 0) {
+            for (let i = 0; i < dataObject.length; i++) {
+    
+                instituteArray.push({
+                    'schoolName': dataObject[i].institutionName,
+                });
+            }
+    
+            instituteArray.sort();
+        }
+    
+    */
+
+}
+
 
 $(document).on('change', 'select[name=student_address_country]', function () {
 
@@ -3758,29 +3787,64 @@ $(document).on('click', 'input[name=additional_visa_form_us]', function () {
 });
 $(document).on('click', 'input[name=additional_college_question_us]', function () {
 
-    let el = '.college-acceptance';
+    let el = '.college-acceptance',
+        el2 = '.college-input';
 
     if ($(this).val() == 'Yes') {
         $(el).removeClass('study-hide').addClass('study-show');
         $('input', el).attr('required', true).attr('disabled', false);
     } else {
-        $(el).removeClass('study-show').addClass('study-hide');
-        $('input', el).attr('required', false).attr('disabled', true);
+        $(el + ',' + el2).removeClass('study-show').addClass('study-hide');
+        $('input', el + ',' + el2).attr('required', false).attr('disabled', true).prop("checked", false);
     }
 });
 
 $(document).on('click', 'input[name=additional_college_accept_question_us]', function () {
 
-    let el = '.college-input';
+    let el = '.college-input',
+        el2 = '.college-input-hidden'
+    elAccordion = '#accordionInstitute';
+
+    if ($('#accordionInstitute .accordion-item').length == 0) {
+        printUasInstitutionDrop();
+    }
 
     if ($(this).val() == 'Yes') {
-        $(el).removeClass('study-hide').addClass('study-show');
-        $('input', el).attr('required', true).attr('disabled', false);
+        $(el + ',' + elAccordion).removeClass('study-hide').addClass('study-show');
+        $('input', el + ',' + elAccordion + ',' + el2).attr('required', true).attr('disabled', false);
     } else {
-        $(el).removeClass('study-show').addClass('study-hide');
-        $('input', el).attr('required', false).attr('disabled', true);
+        $(el + ',' + elAccordion).removeClass('study-show').addClass('study-hide');
+        $('input', el + ',' + elAccordion + ',' + el2).attr('required', false).attr('disabled', true);
     }
 });
+$(document).on('change', 'select[name=college-accepted-name],input[name=additional_college_name_input]', function () {
+    let val = $(this).val();
+
+    $('input[name=additional_college_name]').val(val);
+
+    if ($(this).attr('name') === 'college-accepted-name') {
+        $('input[name=additional_college_name_input]').val('').attr('required', false);
+    } else {
+        $('select[name=college-accepted-name] option[value=none]').prop("selected", true);
+        $('input[name=additional_college_name_input]').attr('required', true);
+    }
+});
+
+$(document).on('click', '#accordionInstitute h4.accordion-header button', function () {
+    target = $(this).attr('data-bs-target');
+
+    $('#accordionInstitute h4.accordion-header button').addClass('collapsed').parent().next('.accordion-collapse').removeClass('show');
+
+    if ($(this).hasClass('collapsed')) {
+        $(this).removeClass('collapsed');
+        $(this).parent().next(target).addClass('show');
+    } else {
+        $(this).addClass('collapsed')
+        $(this).parent().next(target).removeClass('show');
+    }
+
+});
+
 $(document).on('click', '#add-jr-family-member', function () {
     dValue = $('.jr-family-member-container >div').length + 1;
     dClass = 'family-member-' + dValue;

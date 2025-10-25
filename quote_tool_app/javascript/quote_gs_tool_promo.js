@@ -1758,6 +1758,7 @@ const printQuotesHTML = function () {
         accommodationNoteVal =
           quoteObj.quote_array[i].accommodation.accommodation_note;
         campusCountry = quoteObj.quote_array[i].campus_country;
+        materialFeeStr = campusCountry.includes("Australia") ? "Resource Fee" : "Material Fee";
         promoAutoTotalVal = 0;
         discountVal = 0;
         discountHtml = "";
@@ -1906,7 +1907,7 @@ const printQuotesHTML = function () {
         }
         if (priceMaterialVal > 0) {
           materialHtml =
-            "<div class='line-item'><div><div class='item-description'><div class='item-label'><span class='label-title bold'>Material Fee</span></div></div><div class='item-price'><span class='bold material-fee'>" +
+            "<div class='line-item'><div><div class='item-description'><div class='item-label'><span class='label-title bold'>"+materialFeeStr+"</span></div></div><div class='item-price'><span class='bold material-fee'>" +
             currencyFormatter(priceMaterialVal) +
             "</span></div></div></div>";
         }

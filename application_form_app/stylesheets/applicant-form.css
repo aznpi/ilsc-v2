@@ -340,22 +340,22 @@ section.section-application-form .age-message {
 section.section-application-form .footnote {
   font-size: 16px;
 }
-section.section-application-form #junior-waiver-container h6 {
-  font-size: 2rem;
-}
-section.section-application-form #junior-waiver-container .checkbox-line {
+section.section-application-form .checkbox-line {
   display: flex;
   margin-top: 30px;
 }
-section.section-application-form #junior-waiver-container .checkbox-line input[type=checkbox] {
+section.section-application-form .checkbox-line input[type=checkbox] {
   width: 35px;
   height: 35px;
 }
-section.section-application-form #junior-waiver-container .checkbox-line input[disabled=true] {
+section.section-application-form .checkbox-line input[disabled=true] {
   background-color: #a6a4a4;
 }
-section.section-application-form #junior-waiver-container .checkbox-line label {
+section.section-application-form .checkbox-line label {
   flex: 1;
+}
+section.section-application-form #junior-waiver-container h6 {
+  font-size: 2rem;
 }
 section.section-application-form ul {
   padding-left: 35px;

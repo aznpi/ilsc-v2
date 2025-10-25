@@ -1602,6 +1602,9 @@ const updateStartDateSelection = function (editNum) {
     dayValue = $(".selectBox .selectBox__value[data-option=month]").attr(
       "data-day-selected"
     ),
+    durationValue = $("input[name=program_price_selection]:checked").attr(
+      "data-duration"
+    ),
     scheduleName = $("input[name=program_selection]").val(),
     itemName = $("input[name=program_schedule_selection]").val();
 
@@ -1614,6 +1617,7 @@ const updateStartDateSelection = function (editNum) {
   for (var i = 0; i < quoteJson.quote_array.length; i++) {
     if (i === objPosition) {
       quoteJson.quote_array[i].program.start_date = startDate;
+      quoteJson.quote_array[i].program.duration = durationValue;
       break;
     }
   }
@@ -2105,7 +2109,7 @@ const updateScheduleSelection = function (editNum) {
   scheduleStandardPriceSelected = $(
     "input[name=program_schedule_standard_price_selection]"
   ).val();
-  durationSelected = $("input[name=program_schedule_duration_selection]").val();
+  durationSelected = $('input[name=program_price_selection]:checked').attr('data-duration');
   totalPrice = schedulePriceSelected;
 
   for (var i = 0; i < quoteJson.quote_array.length; i++) {
@@ -2129,8 +2133,8 @@ const setTotalPrice = function () {
   let editNum = $("input[name=quote_number]").val(),
     isFamilyEnable = $("input[name=family_enable]").val(),
     durationSelected = $(
-      "input[name=program_schedule_duration_selection]"
-    ).val(),
+      "input[name=program_price_selection]:checked"
+    ).attr("data-duration"),
     quoteObj = JSON.parse(localStorage.getItem("quote-obj")),
     totalAddPrice = 0;
 

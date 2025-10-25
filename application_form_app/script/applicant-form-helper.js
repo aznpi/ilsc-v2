@@ -3391,18 +3391,6 @@ const additionalInfoArray = [
     displayShow: false,
   },
   {
-    inputLabel: "Have you already been accepted to a US institution?",
-    inputName: "additional_accepted_college_option",
-    objInputName: "has_the_student_already_been_accepted_to_a_us_institution_",
-    displayShow: false,
-  },
-  {
-    inputName: "accommodation_accepted_college_specified",
-    inputLabel: "Name of the US Institution.",
-    objInputName: "name_of_the_us_institution",
-    displayShow: false,
-  },
-  {
     inputLabel: "Do you need a custodian letter or a minor consent form?",
     inputName: "additional_minor_consent_form_option",
     objInputName: "custodian_letter",
@@ -3425,6 +3413,349 @@ const additionalInfoArray = [
       },
     ],
     displayShow: true,
+  },
+  {
+    inputLabel: "Do you (your children) have a disability?",
+    inputName: "additional_child_disability_option",
+    objInputName: "do_you_have_a_disability_",
+    inputType: "radio-option",
+    required: true,
+    category: "Additional",
+    countryDependence: "Australia",
+    schoolParentDependence: "ILSC",
+    schoolDependence: "Junior",
+    value: "",
+    obj: [
+      {
+        optionLabel: "No",
+        optionValue: "No",
+        optionType: "strict",
+      },
+      {
+        optionLabel: "Yes",
+        optionValue: "Yes",
+        optionType: "option-other",
+        optionName: "additional_child_disability_specified",
+        dependentClass: "additional_child_disability_option",
+        placeholder: "If yes, do you (your child) require extra learning support? Please share the details.",
+      },
+    ],
+    displayShow: true,
+  },
+  {
+    inputName: "additional_child_disability_specified",
+    inputLabel: "If yes, do you (your child) require extra learning support? Please share the details.",
+    objInputName: "details_of_extra_learning_support",
+    displayShow: false,
+  },
+
+  {
+    inputLabel: "Does the parent reside in Australia and serve as the primary contact and caregiver for the student during their course duration?",
+    inputName: "additional_parent_caregiver_residence_option",
+    objInputName: "additional_parent_caregiver_residence_option",
+    inputType: "radio-option",
+    required: true,
+    category: "Additional",
+    countryDependence: "Australia",
+    schoolParentDependence: "ILSC",
+    schoolDependence: "Junior",
+    value: "",
+    obj: [
+          {
+            optionLabel: "No",
+            optionValue: "No",
+            optionType: "option-other-multi-input",
+            optionTarget: "parent-no-option",
+            optionCondition: true,
+            dependentClass: "additional_parent_caregiver_residence_option",
+            placeholder: "If no, please fill:",
+            conditionArray: [
+              {
+                conditionProgramType:"Homestay",
+                obj:[
+                  {
+                    inputLabel: "Parent's Full Name",
+                    inputName: "additional_parent_full_name",
+                    inputType: "text",
+                    required: true,
+                    digitalAuthority: true
+                  },
+                  {
+                    inputLabel: "I give authority to ILSC to place my child under the care of a Host Family",
+                    inputName: "additional_parent_authority_host_family",
+                    inputType:"checkbox",
+                    value: "I give authority to ILSC to place my child under the care of a Host Family.",
+                    digitalAuthority: true,
+                    digitalAuthorityClassName: "jr-confirmation"
+                  }
+                ]
+              },
+              {
+                conditionProgramType:"Day Only",
+                obj:[
+                  {
+                    inputLabel: "Parent's Full Name",
+                    inputName: "additional_parent_full_name",
+                    inputType: "text",
+                    required: true,
+                    digitalAuthority: true
+                  },
+                  {
+                    inputLabel: "Caregiver's Full Name",
+                    inputName: "additional_caregiver_full_name",
+                    inputType: "text",
+                    required: true
+                  },
+                  {
+                    inputLabel: "Caregiver's Relationship to Student",
+                    inputName: "additional_caregiver_relationship",
+                    inputType: "text",
+                    required: true
+                  },
+                  {
+                    inputLabel: "Caregiver's Australian Address",
+                    inputName: "additional_caregiver_residential_address",
+                    inputType: "text",
+                    required: true
+                  },
+                  {
+                    inputLabel: "Caregiver's Phone Number",
+                    inputName: "additional_caregiver_phone_number",
+                    inputType: "text-phone",
+                    required: true
+                  },
+                  {
+                    inputLabel: "Caregiver's Email Address",
+                    inputName: "additional_caregiver_email_address",
+                    inputType: "text-email",
+                    required: true
+                  },
+                  {
+                    inputLabel: "Copy of Caregiver's ID (jpeg,png,pdf; max. size: 1mb)",
+                    inputName: "additional_caregiver_id",
+                    objInputName: "caregiver_id",
+                    inputType: "file",
+                    required: true
+                  },
+                  {
+                    inputLabel: "I give authority to ILSC to place my child under the care of the above Caregiver during the course duration.",
+                    inputName: "additional_caregiver_authority",
+                    inputType:"checkbox",
+                    value: "I give authority to ILSC to place my child under the care of the above Caregiver during the course duration.",
+                    digitalAuthority: true,
+                    digitalAuthorityClassName: "jr-confirmation"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            optionLabel: "Yes",
+            optionValue: "Yes",
+            optionType: "option-other-multi-input",
+            optionTarget: "parent-yes-option",
+            dependentClass: "additional_parent_caregiver_residence_option",
+            placeholder: "If yes, please fill:",
+            obj : [
+              {
+                inputLabel: "Parent's Full Name",
+                inputName: "additional_parent_full_name",
+                inputType: "text",
+                required: true,
+                digitalAuthority: true
+              },
+              {
+                inputLabel: "Parent's Date of Birth",
+                inputName: "additional_parent_date_of_birth",
+                inputType: "text-date",
+                required: true
+              },
+              {
+                inputLabel: "Parent's Nationality",
+                inputName: "additional_parent_nationality",
+                inputType: "text",
+                required: true
+              },
+              {
+                inputLabel: "Parent's Gender",
+                inputName: "additional_parent_gender",
+                inputType: "dropdown",
+                obj: [
+                  {
+                    optionLabel: "Male",
+                    optionValue: "Male",
+                  },
+                  {
+                    optionLabel: "Female",
+                    optionValue: "Female",
+                  },
+                  {
+                    optionLabel: "Other",
+                    optionValue: "Other",
+                  },
+                ],
+                required: true
+              },
+              {
+                inputLabel: "Parent's Residential (Hotel) Address",
+                inputName: "additional_parent_residential_address",
+                inputType: "text",
+                required: true
+              },
+              {
+                inputLabel: "Parent's Phone Number",
+                inputName: "additional_parent_phone_number",
+                inputType: "text-phone",
+                required: true
+              },
+              {
+                inputLabel: "Parent's Email Address",
+                inputName: "additional_parent_email_address",
+                inputType: "text-email",
+                required: true
+              },
+              {
+                inputLabel: "Parent's Passport (jpeg,png,pdf; max. size: 1mb)",
+                inputName: "additional_parent_passport",
+                objInputName: "parent_passport",
+                inputType: "file",
+                required: true
+              },
+            ]
+          },
+    ],
+    displayShow: true,
+  },
+
+  {
+    inputLabel: "E-Signature Digital Confirmation of Parent/Guardian",
+    inputName: "jr-parents-confirmation",
+    objInputName: "junior_parent_guardian_esignature_digital_confirmation",
+    displayShow: false,
+  },
+  {
+    inputLabel: "E-Signature Digital Confirmation of Caregiver",
+    inputName: "jr-caregiving-confirmation",
+    objInputName: "junior_caregiving_contract_esignature_digital_confirmation",
+    displayShow: false,
+  },
+  {
+    inputLabel: "E-Signature Digital Confirmation of Parent Obligations",
+    inputName: "jr-obligation-confirmation",
+    objInputName: "jjunior_parent_obligations_esignature_digital_confirmation",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Do you (your children) have a disability? ",
+    inputName: "additional_child_disability_specified",
+    objInputName: "do_you_have_a_disability_",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Does the parent reside in Australia and serve as the primary contact and caregiver for the student during their course duration? ",
+    inputName: "additional_parent_caregiver_residence_option",
+    objInputName: "does_the_parent_reside_in_australia_and_serve_as_the_primary_contact_and_caregiver_for_the_student_",
+    displayShow: false,
+  },
+
+  {
+    inputLabel: "Parent's Full Name",
+    inputName: "additional_parent_full_name",
+    objInputName: "parent_s_full_name",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Parent's Date of Birth",
+    inputName: "additional_parent_date_of_birth",
+    objInputName: "parent_date_of_birth",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Parent's Nationality",
+    inputName: "additional_parent_nationality",
+    objInputName: "parent_nationality",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Parent's Gender",
+    inputName: "additional_parent_gender",
+    objInputName: "parent_gender",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Parent's Residential (Hotel) Address",
+    inputName: "additional_parent_residential_address",
+    objInputName: "parent_esidential_address",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Parent's Phone Number",
+    inputName: "additional_parent_phone_number",
+    objInputName: "parent_phone",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Parent's Email Address",
+    inputName: "additional_parent_email_address",
+    objInputName: "parent_email_address",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Parent's Passport Number",
+    inputName: "additional_parent_passport_number",
+    objInputName: "parent_passport",
+    displayShow: false,
+  },
+
+  {
+    inputLabel: "Caregiver's Full Name",
+    inputName: "additional_caregiver_full_name",
+    objInputName: "caregiver_full_name",
+    displayShow: false,
+  },
+
+  {
+    inputLabel: "Caregiver's Relationship to Student",
+    inputName: "additional_caregiver_relationship",
+    objInputName: "caregiver_relationship_to_the_student",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Caregiver's Australian Address",
+    inputName: "additional_caregiver_residential_address",
+    objInputName: "caregiver_address",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Caregiver's Phone Number",
+    inputName: "additional_caregiver_phone_number",
+    objInputName: "caregiver_phone",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Caregiver's Email Address",
+    inputName: "additional_caregiver_email_address",
+    objInputName: "caregiver_email_address",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Copy of the Caregiver's ID",
+    inputName: "additional_caregiver_id_copy",
+    objInputName: "copy_of_the_caregiver_id",
+    displayShow: false,
+  },
+
+  {
+    inputLabel: "Have you already been accepted to a US institution?",
+    inputName: "additional_accepted_college_option",
+    objInputName: "has_the_student_already_been_accepted_to_a_us_institution_",
+    displayShow: false,
+  },
+  {
+    inputName: "accommodation_accepted_college_specified",
+    inputLabel: "Name of the US Institution.",
+    objInputName: "name_of_the_us_institution",
+    displayShow: false,
   },
   {
     inputLabel: "Medical Name:",
@@ -3959,6 +4290,17 @@ const subtractYears = function (numOfYears, date) {
   return d.getTime();
 };
 
+$(document).on("click", "input.option-other-multi-input", function () {
+  let targetDiv = $(this).attr('data-target'),
+      className = '.' + $(this).attr('name');
+
+  $(className).removeClass("study-show").addClass("study-hide");
+  $('input,select,textarea', className).attr("disabled", true);
+
+  $(className + '[data-target=' + targetDiv + ']').removeClass("study-hide").addClass("study-show");
+  $('input:not([type=checkbox]),select,textarea', className + '[data-target=' + targetDiv + ']').attr("disabled", false);
+});
+
 $(document).on("click", "input.other-input", function () {
   if (!$(this).parent().hasClass("multi-target")) {
     $(this)
@@ -3978,7 +4320,7 @@ $(document).on("click", "input.other-input", function () {
       .attr("disabled", false);
   }
 });
-$(document).on("click", "input.indenpendent-input", function () {
+$(document).on("click", "input.independent-input", function () {
   if ($(this).parent().hasClass("multi-target")) {
     $(this)
       .parent()

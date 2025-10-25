@@ -1,0 +1,171 @@
+.blog-container {
+  &.blog-gs {
+    .body-container-wrapper {
+      h1,
+      h2,
+      h3,
+      h5 {
+        color: #81b1cc;
+      }
+
+      a {
+        color: #81b1cc;
+      }
+      .section {
+        &.bg-blue-canvas {
+          .feature-box-container {
+            .post-description-container {
+              background-color: #fff;
+              h5 {
+                color: #111111;
+              }
+            }
+          }
+        }
+      }
+      .main-feature {
+        &.feature-grid {
+          &.grid-dark {
+            .col-md-6 {
+              &:last-child {
+                background-color: #003346;
+              }
+            }
+          }
+        }
+      }
+      .post-meta-container {
+        .tag-container {
+          color: #fff;
+          background-color: #81b1cc;
+
+          &::before {
+            border: 1px solid #000000;
+            background-color: #fff;
+          }
+        }
+        &.post-meta-time {
+          .horizontal-divider {
+            &.orange-divider {
+              &::before {
+                content: "";
+                background-color: #81b1cc;
+              }
+            }
+          }
+        }
+      }
+
+      .tag-white {
+        .post-meta-container {
+          .tag-container {
+            background-color: #fff;
+            color: #81b1cc;
+            border: 1px solid #000000;
+            &:before {
+              content: "";
+              background-color: #81b1cc;
+            }
+          }
+        }
+      }
+      #main-search {
+        .search-container {
+          h4 {
+            color: #81b1cc;
+          }
+          form {
+            .search-input-container {
+              input {
+                border-color: #81b1cc !important;
+
+                &:focus {
+                  border-color: #81b1cc;
+                }
+              }
+              .btn-search {
+                .fa-search {
+                  color: #81b1cc;
+                }
+              }
+            }
+          }
+        }
+      }
+      #blog-navigation {
+        background: #f2f2f2;
+
+        .blog-navigation-container {
+          ul {
+            li {
+              a {
+                color: #111111;
+              }
+              &.all-post {
+                background-color: #fff;
+
+                a {
+                  color: #81b1cc;
+                }
+              }
+            }
+          }
+        }
+      }
+      .post-description-container {
+        .blog-type-container {
+          .type-title {
+            .type-icon {
+              &.type-video {
+                &:before {
+                  content: "";
+                  background-image: url(https://5020112.fs1.hubspotusercontent-na1.net/hubfs/5020112/template-resources/images/internal/icons/icon_blog_play_blue.png);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .side-menu-container {
+        .side-menu-box-container {
+          .tag-menu-box {
+            ul {
+              li {
+                &.all-link {
+                  a {
+                    color: #81b1cc;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .image-container {
+        &.image-bg-effect {
+          &:before {
+            background-color: #81b1cc;
+          }
+          &:after {
+            background: #828282;
+          }
+        }
+      }
+      .social-media-container {
+        .social-icon {
+          &:hover {
+            color: #81b1cc;
+          }
+        }
+      }
+      .slick-slider {
+        .slick-prev:before,
+        .slick-next:before {
+          color: #81b1cc !important; /* Example: Red color */
+        }
+      }
+    }
+  }
+}
