@@ -64,9 +64,9 @@ const printParentsWaiver = function(){
     confirmationParentsInputName = 'jr-parents-confirmation',
     confirmationCaregivingInputName = 'jr-caregiving-confirmation',
     confirmationObligationsInputName = 'jr-obligations-confirmation',
-    parentWaiverConfirmInput = '<div class="checkbox-line"><input type="checkbox" value="" class="jr-confirmation junior-digital-authority" id="'+confirmationParentsInputName +'" name="'+confirmationParentsInputName +'" required="" data-category="Student" disabled=true><label for="'+confirmationParentsInputName+'">Yes, I confirm that I have read, understood and agree to the above obligations of caregiver/parent.<sup>*</sup></label></div>';
-    parentWaiverConfirmNoInput = '<div class="checkbox-line"><input type="checkbox" value="" class="jr-confirmation junior-digital-authority" id="'+confirmationParentsInputName +'" name="'+ confirmationObligationsInputName +'" required="" data-category="Student" disabled=true><label for="'+confirmationParentsInputName+'">Yes, I confirm that I have read, understood and agree to the above obligations of the parents who are not accompanying their child to Australia.<sup>*</sup></label></div>';
-    caregivingWaiverConfirmInput = '<div class="checkbox-line"><input type="checkbox" value="" class="jr-confirmation junior-digital-authority" id="'+confirmationCaregivingInputName +'" name="'+confirmationCaregivingInputName +'" required="" data-category="Student" disabled=true><label for="'+confirmationCaregivingInputName+'">Yes, I confirm that I have read, understood and agree to the above obligations of the caregiver/parent.<sup>*</sup></label></div>';
+    parentWaiverConfirmInput = '<div class="checkbox-line"><input type="checkbox" value="" class="jr-confirmation junior-digital-authority" id="'+confirmationParentsInputName +'" name="'+confirmationParentsInputName +'" required="" data-category="Additional" disabled=true><label for="'+confirmationParentsInputName+'">Yes, I confirm that I have read, understood and agree to the above obligations of caregiver/parent.<sup>*</sup></label></div>';
+    parentWaiverConfirmNoInput = '<div class="checkbox-line"><input type="checkbox" value="" class="jr-confirmation junior-digital-authority" id="'+confirmationParentsInputName +'" name="'+ confirmationObligationsInputName +'" required="" data-category="Additional" disabled=true><label for="'+confirmationParentsInputName+'">Yes, I confirm that I have read, understood and agree to the above obligations of the parents who are not accompanying their child to Australia.<sup>*</sup></label></div>';
+    caregivingWaiverConfirmInput = '<div class="checkbox-line"><input type="checkbox" value="" class="jr-confirmation junior-digital-authority" id="'+confirmationCaregivingInputName +'" name="'+confirmationCaregivingInputName +'" required="" data-category="Additional" disabled=true><label for="'+confirmationCaregivingInputName+'">Yes, I confirm that I have read, understood and agree to the above obligations of the caregiver/parent.<sup>*</sup></label></div>';
     jrParentsWaiverHtml = '<div class="parent-yes-option study-hide">'+jrParentsWaiverYesHtmlAU+studentNameHtml+parentNameHtml+parentWaiverConfirmInput+'</div><div class="parent-no-option study-hide">'+jrParentsWaiverNoHtmlAU+studentNameHtml+parentNameHtml+parentWaiverConfirmNoInput+jrCaregivingContractHtmlAu+studentNameHtml+parentNameHtml+caregivingWaiverConfirmInput+'</div>';
 
     return jrParentsWaiverHtml;
@@ -171,7 +171,7 @@ const printInsuranceInput = function(){
     let insuranceClassName = 'insurance-option-container',
         insuranceNote = countrySelected == 'Ireland' ? '<div class="insurance-footnote footnote study-hide"><p><sup>*</sup>If NO, and staying in homestay, please supply a copy of the policy in English by fax to: +353 1 644 9762. Otherwise, we will add insurance onto your invoice. EU / EEA students - If you provide individual private medical insurance Under EU / EEA regulations students from other member states who are attending a course of study are entitled to medical services in Ireland. In order to be eligible for any of these services, you will be required to provide the Irish health authorities with documentation from your home country that validates your entitlement. You should therefore contact the Health Authority in your home country, well in advance of travelling to Ireland, to fulfil any registration requirements and to obtain the necessary forms that you will need.</p></div>' : '',
         defaultInsuranceText = 'Do you want to purchase your private medical insurance through ILSC/Greystone College?',
-        insuranceTxt = countrySelected == 'Australia' ? 'Do you want to purchase your OSHC (Overseas Student Health Cover) through ILSC/Greystone College?' : countrySelected == 'USA' ? 'Do you need ELS to organize your medical insurance?' : defaultInsuranceText,
+        insuranceTxt = countrySelected == 'Australia' ? schoolSelected == 'Greystone Institute' ? 'Do you want to purchase your OSHC (Overseas Student Health Cover) through Greystone Institute?' : 'Do you want to purchase your OSHC (Overseas Student Health Cover) through ILSC/Greystone College?' : countrySelected == 'USA' ? 'Do you need ELS to organize your medical insurance?' : defaultInsuranceText,
         addedTxt = countrySelected == 'USA' ? "<span class='disclaimer'>(All ELS Students must have health insurance valid in the US. If you cannot provide proof of your own insurance in English, you must enroll in the ELS Student Health Plan.)</span>" : '',
         optionHtml = '<div class="input-container insurance-option-check"><label>'+insuranceTxt+'<sup>*</sup>'+addedTxt+'</label><div class="form-check"><input class="form-check-input" value="0" type="radio" name="insurance_option" id="insurance-option-no" required><label class="form-check-label" for="insurance-option-no">No</label></div><div class="form-check"><input class="form-check-input" value="1" type="radio" name="insurance_option" id="insurance-option-yes"><label class="form-check-label" for="insurance-option-yes">Yes</label></div>'+insuranceNote+'</div>',
         medicalStartDateHtml = '<div class="input-container medical-date-input-container study-hide"><label for="medical-start-datePicker">Medical Insurance Start Date<sup>*</sup></label><input type="text" value="'+placeHolder+'" class="form-control medical-date-picker" id="medical-start-datePicker" name="medical_start_datepicker" placeholder="'+placeHolder+'" required="" tabindex="0" disabled></div>',
@@ -541,10 +541,19 @@ $(document).on('change','input[name=parent_guardian_first_name],input[name=paren
     let parentFirstName = $('input[name=parent_guardian_first_name]').val(),
         parentLastName = $('input[name=parent_guardian_last_name]').val(),
         parentName = $(this).attr('name') == 'additional_parent_full_name' ? $(this).val() : parentFirstName + ' ' + parentLastName,
-        disableCheckBox = parentName == '' ? true : false;
+        disableCheckBox = parentName == '' ? true : false,
+        digitalAuthorityCheck = $(this).is('[data-authority]') ? true : false,
+        dataClass = digitalAuthorityCheck ? 'div.' + $(this).attr('data-target') : '',
+        dataTarget = digitalAuthorityCheck ? 'div[data-target=' + $(this).attr('data-target') + ']' : '';
 
     $('input[name=additional_parent_full_name]').not(this).val(parentName);
-    $('input.jr-confirmation').prop('checked',false).prop('disabled',disableCheckBox).val('');
+    if(digitalAuthorityCheck){
+        $('input.jr-confirmation',dataClass).prop('checked',false).prop('disabled',disableCheckBox).val('');
+        $('input.jr-confirmation',dataTarget).prop('checked',false).prop('disabled',disableCheckBox).val('');
+    }else{
+        $('input.jr-confirmation').prop('checked',false).prop('disabled',disableCheckBox).val('');
+    }
+    
     $('.parent-title').html(parentName);
 });
 
@@ -588,6 +597,6 @@ $(document).on('click','input[name=additional_parent_caregiver_residence_option]
     $('input,select,textarea','#'+parentContainerIdName).prop('disabled',true);
 
     $('.'+target, '#'+parentContainerIdName).removeClass('study-hide').addClass('study-show');
-    $('input,select,textarea','.'+target+' #'+parentContainerIdName).prop('disabled',false);
+    $('input:not([type=checkbox]),select,textarea','#'+parentContainerIdName+' .'+target).prop('disabled',false);
 })
         

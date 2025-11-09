@@ -1,0 +1,45 @@
+.gi-application-form a {
+  color: var(--bs-gc-color);
+}
+.gi-application-form section {
+  --bs-ilsc-color: #83cfcb;
+  --bs-gc-color: #81b0cb;
+}
+.gi-application-form section .btn-orange {
+  background-color: var(--bs-gc-color);
+  border-color: var(--bs-gc-color);
+}
+.gi-application-form section .btn-orange:hover {
+  border-color: var(--bs-ilsc-color) !important;
+}
+.gi-application-form section .btn-orange-outline {
+  color: var(--bs-gc-color);
+  border-color: var(--bs-gc-color);
+}
+.gi-application-form section .btn-orange-outline:hover {
+  background-color: var(--bs-gc-color);
+  color: #fff;
+}
+.gi-application-form section.section-application-form .step-container .btn-container button.btn-orange:hover {
+  border-color: var(--bs-ilsc-color) !important;
+}
+.gi-application-form section.section-application-form .step-container ul.applicant-status-boxes li label .box-color:before {
+  border-top: 3px solid var(--bs-ilsc-color);
+  border-bottom: 3px solid var(--bs-ilsc-color);
+}
+.gi-application-form section.section-application-form .step-container ul.applicant-status-boxes li label .box-color:after {
+  border-left: 3px solid var(--bs-ilsc-color);
+  border-right: 3px solid var(--bs-ilsc-color);
+}
+.gi-application-form .app-step-container .lds-ring div {
+  border-color: var(--bs-ilsc-color) transparent transparent transparent;
+}
+.gi-application-form .ui-datepicker .ui-datepicker-prev span, .gi-application-form .ui-datepicker .ui-datepicker-next span {
+  background-color: #6c757d !important;
+}
+.gi-application-form .ui-datepicker td a {
+  background-color: #6c757d !important;
+}
+.gi-application-form .ui-datepicker td a:hover {
+  color: #fff !important;
+}/*# sourceMappingURL=applicant-form-gi.css.map */

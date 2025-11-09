@@ -934,6 +934,7 @@ section{
                             display: grid;
                             font-size: 1.8rem;
                             background-color:#0082c2;
+                            background-size:cover;
                             &.selected{
                                 color:#FFF;
                             }
@@ -964,7 +965,7 @@ section{
                 margin:0;
             }
             .study-box-container,.study-box-inner-container{
-                border:2px solid #cecece;
+                border:2px solid #eeeeee;
                 border-radius: 5px;
                 margin:20px auto;
                 overflow:hidden;

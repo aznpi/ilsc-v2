@@ -166,6 +166,9 @@ const campusList = [
   "Sydney",
   "New Delhi",
 ];
+const campusListGI = [
+  "Brisbane"
+];
 const campusListELS = [
   "Chicago",
   "Cincinnati",
@@ -985,7 +988,7 @@ const studentInfoArray = [
     required: false,
     category: "Application",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     obj: [
       {
         optionLabel: "Student",
@@ -1013,7 +1016,7 @@ const studentInfoArray = [
     required: true,
     category: "Agent",
     value: agencyName,
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1024,7 +1027,7 @@ const studentInfoArray = [
     required: true,
     category: "Agent",
     value: agencyRegion,
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1035,7 +1038,7 @@ const studentInfoArray = [
     required: true,
     category: "Agent",
     value: agencyContactPerson,
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1046,7 +1049,7 @@ const studentInfoArray = [
     required: true,
     category: "Agent",
     value: agencyEmail,
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1057,7 +1060,7 @@ const studentInfoArray = [
     required: false,
     category: "Agent",
     value: agencyPhone,
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1070,7 +1073,7 @@ const studentInfoArray = [
     value: "",
     source: "local-storage",
     obj: "advisor-array",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1098,6 +1101,18 @@ const studentInfoArray = [
     displayShow: true,
   },
   {
+    inputLabel: "Student Advisor - Campus Location",
+    inputName: "advisor_campus",
+    objInputName: "advisor_campus",
+    inputType: "dropdown",
+    required: true,
+    category: "Advisor",
+    value: "",
+    obj: campusListGI,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+  },
+  {
     inputLabel: "Student Advisor - Name",
     inputName: "advisor_name",
     objInputName: "advisor_name",
@@ -1105,7 +1120,7 @@ const studentInfoArray = [
     required: true,
     category: "Advisor",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1116,7 +1131,7 @@ const studentInfoArray = [
     required: true,
     category: "Advisor",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1151,7 +1166,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC",
+    schoolParentDependence: "ILSC,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1175,7 +1190,7 @@ const studentInfoArray = [
     required: false,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1187,7 +1202,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC",
+    schoolParentDependence: "ILSC,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1210,7 +1225,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1221,7 +1236,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1233,7 +1248,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC",
+    schoolParentDependence: "ILSC,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1256,7 +1271,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1267,7 +1282,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC",
+    schoolParentDependence: "ILSC,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1289,7 +1304,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1300,7 +1315,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     obj: countryList,
     displayShow: true,
   },
@@ -1313,7 +1328,7 @@ const studentInfoArray = [
     required: false,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     hidden: true,
     displayShow: true,
   },
@@ -1325,7 +1340,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     obj: countryList,
     displayShow: true,
   },
@@ -1337,7 +1352,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
   },
   {
@@ -1348,7 +1363,7 @@ const studentInfoArray = [
     required: false,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     requiredDependence: "ELS",
     displayShow: true,
   },
@@ -1360,7 +1375,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     obj: countryList,
     displayShow: true,
   },
@@ -1372,7 +1387,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC",
+    schoolParentDependence: "ILSC,Greystone Institute",
     obj: ["Male", "Female", "Non-Binary"],
     displayShow: true,
   },
@@ -1396,7 +1411,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC",
+    schoolParentDependence: "ILSC,Greystone Institute",
     obj: languageListNative,
     displayShow: true,
   },
@@ -1420,7 +1435,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     obj: languageList,
     displayShow: true,
     applicationRestriction: "Walk-in Student Advisor,Agent",
@@ -1433,7 +1448,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC",
+    schoolParentDependence: "ILSC,Greystone Institute",
     simpleDisable: true,
     obj: [
       {
@@ -1470,7 +1485,7 @@ const studentInfoArray = [
     required: false,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC",
+    schoolParentDependence: "ILSC,Greystone Institute",
     displayShow: false,
   },
   {
@@ -1480,7 +1495,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "Yes",
-    schoolParentDependence: "ILSC,ELS",
+    schoolParentDependence: "ILSC,ELS,Greystone Institute",
     displayShow: true,
     preHtml: privacyAgreementPreHtml,
     postHtml: privacyAgreementPostHtml,
@@ -1668,7 +1683,7 @@ const programInfoArray = [
     inputName: "program_name_primary-input",
     objInputName: "program_name",
     inputAssign: "primary",
-    schoolDependence: "Language Schools,Greystone College,ELS,Online,Junior",
+    schoolDependence: "Language Schools,Greystone College,ELS,Online,Junior,Greystone Institute",
     category: "Program",
     displayShow: true,
   },
@@ -1686,7 +1701,7 @@ const programInfoArray = [
     inputName: "program_startdate_primary-input",
     objInputName: "program_start_date",
     inputAssign: "primary",
-    schoolDependence: "Language Schools,Greystone College,ELS,Online,Junior",
+    schoolDependence: "Language Schools,Greystone College,ELS,Online,Junior,Greystone Institute",
     category: "Program",
     displayShow: true,
   },
@@ -1831,7 +1846,7 @@ const programInfoArray = [
     inputName: "additional_prola_taken",
     objInputName: "prola_taken",
     inputAssign: "primary",
-    schoolDependence: "Greystone College",
+    schoolDependence: "Greystone College,Greystone Institute",
     category: "Program Additional",
     displayShow: false,
   },
@@ -1840,7 +1855,7 @@ const programInfoArray = [
     inputName: "additional_visa_apply",
     objInputName: "are_you_applying_for_your_visa_outside_or_inside_australia",
     inputAssign: "primary",
-    schoolDependence: "ILSC,Greystone College",
+    schoolDependence: "ILSC,Greystone College,Greystone Institute",
     countryDependence: "Australia",
     category: "Program Additional",
     displayShow: false,
@@ -1850,7 +1865,7 @@ const programInfoArray = [
     inputName: "additional_australia_visa",
     objInputName: "australia_visa",
     inputAssign: "primary",
-    schoolDependence: "ILSC,Greystone College",
+    schoolDependence: "ILSC,Greystone College,Greystone Institute",
     countryDependence: "Australia",
     category: "Program Additional",
     displayShow: false,
@@ -1862,7 +1877,7 @@ const programInfoArray = [
     inputType: "text",
     inputAssign: "primary",
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College",
+    schoolDependence: "ILSC,Greystone College,Greystone Institute",
     category: "Program Additional",
     displayShow: false,
   },
@@ -1875,27 +1890,27 @@ const programInfoArray = [
     inputAssign: "primary",
     displayShow: false,
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College",
+    schoolDependence: "ILSC,Greystone College,Greystone Institute",
   },
   {
     inputLabel: "Are you currently studying at ILSC or Greystone College?",
     inputName: "additional_australia_current_study",
     objInputName: "are_you_currently_ilsc_greystone_college_student_",
     inputAssign: "primary",
-    schoolDependence: "ILSC,Greystone College",
+    schoolDependence: "ILSC,Greystone College,Greystone Institute",
     countryDependence: "Australia",
     category: "Program Additional",
     displayShow: false,
   },
   {
     inputLabel:
-      "Please provide us your current studying campus and student ID numbe",
+      "Please provide us your current studying campus and student ID number",
     inputName: "additional_australia_student_id",
     objInputName: "ilsc_greystone_college_student_id",
     inputType: "text",
     inputAssign: "primary",
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College",
+    schoolDependence: "ILSC,Greystone College,Greystone Institute",
     category: "Program Additional",
     displayShow: false,
   },
@@ -1909,7 +1924,7 @@ const programInfoArray = [
     inputAssign: "primary",
     displayShow: false,
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College",
+    schoolDependence: "ILSC,Greystone College,Greystone Institute",
   },
   {
     inputLabel: "Write the name of the Education Provider",
@@ -1918,7 +1933,7 @@ const programInfoArray = [
     inputType: "text",
     inputAssign: "primary",
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College",
+    schoolDependence: "ILSC,Greystone College,Greystone Institute",
     category: "Program Additional",
     displayShow: false,
   },
@@ -1931,7 +1946,7 @@ const programInfoArray = [
     inputAssign: "primary",
     displayShow: false,
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College",
+    schoolDependence: "ILSC,Greystone College,Greystone Institute",
   },
   {
     inputLabel: "Upload CoE (Confirmation of Enrollment)",
@@ -1942,7 +1957,7 @@ const programInfoArray = [
     inputAssign: "primary",
     displayShow: false,
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College",
+    schoolDependence: "ILSC,Greystone College,Greystone Institute",
   },
   {
     inputLabel: "Are you currently inside Canada?",
@@ -1959,7 +1974,7 @@ const programInfoArray = [
     inputName: "study_additional_information_and_notes",
     objInputName: "study_additional_information_and_notes",
     inputAssign: "primary",
-    schoolDependence: "Greystone College,Language Schools,ELS",
+    schoolDependence: "Greystone College,Language Schools,ELS,Greystone Institute",
     category: "Program Additional",
     displayShow: false,
   },
@@ -1968,7 +1983,7 @@ const programInfoArray = [
     inputName: "study_additional_online_information_and_notes",
     objInputName: "online_additional_information_and_notes",
     inputAssign: "primary",
-    schoolDependence: "Greystone College,Language Schools,ELS",
+    schoolDependence: "Greystone College,Language Schools,ELS,Greystone Institute",
     category: "Program Additional",
     displayShow: false,
   },
@@ -1987,7 +2002,7 @@ const programInfoArray = [
     inputName: "additional_usi_number",
     objInputName: "usi_number",
     inputAssign: "primary",
-    schoolDependence: "Greystone College",
+    schoolDependence: "Greystone College,Greystone Institute",
     countryDependence: "Australia",
     category: "Program Additional",
     displayShow: false,
@@ -1998,7 +2013,7 @@ const programInfoArray = [
     inputName: "additional_visa_refusal",
     objInputName: "australia_visa_refusal_history",
     inputAssign: "primary",
-    schoolDependence: "Greystone College",
+    schoolDependence: "Greystone College,Greystone Institute",
     countryDependence: "Australia",
     category: "Program Additional",
     displayShow: false,
@@ -2792,6 +2807,24 @@ const accommodationAdditionalArray = [
 
 const fileUploadArray = [
   {
+    inputLabel: "Parent's Passport (jpeg,png,pdf; max. size: 1mb)",
+    inputName: "additional_parent_passport_file",
+    objInputName: "parent_passport",
+    category: "Additional-Junior",
+    inputType: "file",
+    required: false,
+    displayShow: false,
+  },
+  {
+    inputLabel: "Copy of the Caregiver's ID",
+    inputName: "additional_caregiver_id_file",
+    objInputName: "copy_of_the_caregiver_id",
+    inputType: "file",
+    category: "Additional-Junior",
+    required: false,
+    displayShow: false,
+  },
+  {
     inputLabel: "Passport Copy or ID (jpeg,png,pdf; max. size: 1mb)",
     inputName: "additional_passport_file",
     objInputName: "passport_copy",
@@ -2801,7 +2834,7 @@ const fileUploadArray = [
     required: false,
     displayShow: true,
     enableMultiple: false,
-    displaySchool: "Language School,Greystone College",
+    displaySchool: "Language School,Greystone College,Greystone Institute",
   },
   {
     inputLabel:
@@ -2826,7 +2859,7 @@ const fileUploadArray = [
     required: false,
     displayShow: true,
     enableMultiple: false,
-    displaySchool: "Greystone College",
+    displaySchool: "Greystone College,Greystone Institute",
   },
   {
     inputLabel:
@@ -2839,7 +2872,7 @@ const fileUploadArray = [
     required: false,
     displayShow: true,
     enableMultiple: false,
-    displaySchool: "Greystone College",
+    displaySchool: "Greystone College,Greystone Institute",
     countryDependence: "Canada",
   },
   {
@@ -2868,7 +2901,7 @@ const fileUploadArray = [
     displayShow: true,
     enableMultiple: false,
     countryDependence: "Australia",
-    displaySchool: "Language School,Greystone College",
+    displaySchool: "Language School,Greystone College,Greystone Institute",
   },
   {
     inputLabel: "2:",
@@ -2881,7 +2914,7 @@ const fileUploadArray = [
     displayShow: true,
     enableMultiple: false,
     countryDependence: "Australia",
-    displaySchool: "Language School,Greystone College",
+    displaySchool: "Language School,Greystone College,Greystone Institute",
   },
   {
     inputLabel: "3:",
@@ -2894,7 +2927,7 @@ const fileUploadArray = [
     displayShow: true,
     enableMultiple: false,
     countryDependence: "Australia",
-    displaySchool: "Language School,Greystone College",
+    displaySchool: "Language School,Greystone College,Greystone Institute",
   },
   {
     inputLabel: "4:",
@@ -2907,7 +2940,7 @@ const fileUploadArray = [
     displayShow: true,
     enableMultiple: false,
     countryDependence: "Australia",
-    displaySchool: "Language School,Greystone College",
+    displaySchool: "Language School,Greystone College,Greystone Institute",
   },
   {
     inputLabel: "5:",
@@ -2920,7 +2953,7 @@ const fileUploadArray = [
     displayShow: true,
     enableMultiple: false,
     countryDependence: "Australia",
-    displaySchool: "Language School,Greystone College",
+    displaySchool: "Language School,Greystone College,Greystone Institute",
   },
   {
     inputLabel: "6:",
@@ -2933,7 +2966,7 @@ const fileUploadArray = [
     displayShow: true,
     enableMultiple: false,
     countryDependence: "Australia",
-    displaySchool: "Language School,Greystone College",
+    displaySchool: "Language School,Greystone College,Greystone Institute",
   },
   {
     inputLabel:
@@ -2950,7 +2983,7 @@ const fileUploadArray = [
     enableMultiple: false,
     countryDependence: "Australia",
     nationalityDependence: "Turkey",
-    displaySchool: "ILSC,Greystone College",
+    displaySchool: "ILSC,Greystone College,Greystone Institute",
   },
   {
     helperHtml:
@@ -3397,6 +3430,7 @@ const additionalInfoArray = [
     inputType: "radio-option",
     required: true,
     category: "Additional",
+    countryDependence: "Canada",
     schoolParentDependence: "ILSC",
     value: "",
     ageMax: "18",
@@ -3446,6 +3480,7 @@ const additionalInfoArray = [
     inputName: "additional_child_disability_specified",
     inputLabel: "If yes, do you (your child) require extra learning support? Please share the details.",
     objInputName: "details_of_extra_learning_support",
+    category: "Additional",
     displayShow: false,
   },
 
@@ -3478,7 +3513,8 @@ const additionalInfoArray = [
                     inputName: "additional_parent_full_name",
                     inputType: "text",
                     required: true,
-                    digitalAuthority: true
+                    digitalAuthority: true,
+                    optionTarget: "parent-no-option"
                   },
                   {
                     inputLabel: "I give authority to ILSC to place my child under the care of a Host Family",
@@ -3498,7 +3534,8 @@ const additionalInfoArray = [
                     inputName: "additional_parent_full_name",
                     inputType: "text",
                     required: true,
-                    digitalAuthority: true
+                    digitalAuthority: true,
+                    optionTarget: "parent-no-option"
                   },
                   {
                     inputLabel: "Caregiver's Full Name",
@@ -3532,13 +3569,13 @@ const additionalInfoArray = [
                   },
                   {
                     inputLabel: "Copy of Caregiver's ID (jpeg,png,pdf; max. size: 1mb)",
-                    inputName: "additional_caregiver_id",
-                    objInputName: "caregiver_id",
+                    inputName: "additional_caregiver_id_file",
+                    objInputName: "copy_of_the_caregiver_id",
                     inputType: "file",
                     required: true
                   },
                   {
-                    inputLabel: "I give authority to ILSC to place my child under the care of the above Caregiver during the course duration.",
+                    inputLabel: "I give permission for the person named below (who must be over 21 years old and an Australian citizen or permanent resident living in Australia during my child's course) during my child's course to act as my child's caregiver for the full duration of the course.",
                     inputName: "additional_caregiver_authority",
                     inputType:"checkbox",
                     value: "I give authority to ILSC to place my child under the care of the above Caregiver during the course duration.",
@@ -3562,7 +3599,8 @@ const additionalInfoArray = [
                 inputName: "additional_parent_full_name",
                 inputType: "text",
                 required: true,
-                digitalAuthority: true
+                digitalAuthority: true,
+                optionTarget: "parent-yes-option"
               },
               {
                 inputLabel: "Parent's Date of Birth",
@@ -3573,7 +3611,8 @@ const additionalInfoArray = [
               {
                 inputLabel: "Parent's Nationality",
                 inputName: "additional_parent_nationality",
-                inputType: "text",
+                inputType: "dropdown",
+                obj: countryList,
                 required: true
               },
               {
@@ -3581,18 +3620,7 @@ const additionalInfoArray = [
                 inputName: "additional_parent_gender",
                 inputType: "dropdown",
                 obj: [
-                  {
-                    optionLabel: "Male",
-                    optionValue: "Male",
-                  },
-                  {
-                    optionLabel: "Female",
-                    optionValue: "Female",
-                  },
-                  {
-                    optionLabel: "Other",
-                    optionValue: "Other",
-                  },
+                  "Male","Female","Other"
                 ],
                 required: true
               },
@@ -3616,7 +3644,7 @@ const additionalInfoArray = [
               },
               {
                 inputLabel: "Parent's Passport (jpeg,png,pdf; max. size: 1mb)",
-                inputName: "additional_parent_passport",
+                inputName: "additional_parent_passport_file",
                 objInputName: "parent_passport",
                 inputType: "file",
                 required: true
@@ -3626,91 +3654,111 @@ const additionalInfoArray = [
     ],
     displayShow: true,
   },
-
   {
-    inputLabel: "E-Signature Digital Confirmation of Parent/Guardian",
+    inputLabel: "Parent's Passport (jpeg,png,pdf; max. size: 1mb)",
+    inputName: "additional_parent_passport_file",
+    objInputName: "parent_passport",
+    category: "Additional-Junior",
+    required: false,
+    displayShow: false,
+  },
+  {
+    inputLabel: "Copy of the Caregiver's ID",
+    inputName: "additional_caregiver_id_file",
+    objInputName: "copy_of_the_caregiver_id",
+    category: "Additional-Junior",
+    required: false,
+    displayShow: false,
+  },
+  {
+    inputLabel: "I reside in Australia and will act as the primary contact and caregiver for the student during their course duration and agree that.",
+    inputName: "jr-parent-reside-confirmation",
+    objInputName: "i_reside_in_australia_and_will_act_as_the_primary_contact_and_caregiver",
+    category: "Additional",
+    displayShow: false,
+  },
+  {
+    inputLabel: "I give authority to ILSC to place my child under the care of a Host Family",
+    inputName: "additional_parent_authority_host_family",
+    objInputName: "i_give_authority_to_ilsc_to_place_my_child_under_the_care_of_a_host_family",
+    displayShow: false,
+    category: "Additional"
+  },
+  {
+    inputLabel: "Yes, I confirm that I have read, understood and agree to the above obligations of caregiver/parent.",
     inputName: "jr-parents-confirmation",
     objInputName: "junior_parent_guardian_esignature_digital_confirmation",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "E-Signature Digital Confirmation of Caregiver",
     inputName: "jr-caregiving-confirmation",
     objInputName: "junior_caregiving_contract_esignature_digital_confirmation",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "E-Signature Digital Confirmation of Parent Obligations",
-    inputName: "jr-obligation-confirmation",
-    objInputName: "jjunior_parent_obligations_esignature_digital_confirmation",
+    inputName: "jr-obligations-confirmation",
+    objInputName: "junior_parent_obligations_esignature_digital_confirmation",
+    category: "Additional",
     displayShow: false,
   },
-  {
-    inputLabel: "Do you (your children) have a disability? ",
-    inputName: "additional_child_disability_specified",
-    objInputName: "do_you_have_a_disability_",
-    displayShow: false,
-  },
-  {
-    inputLabel: "Does the parent reside in Australia and serve as the primary contact and caregiver for the student during their course duration? ",
-    inputName: "additional_parent_caregiver_residence_option",
-    objInputName: "does_the_parent_reside_in_australia_and_serve_as_the_primary_contact_and_caregiver_for_the_student_",
-    displayShow: false,
-  },
-
   {
     inputLabel: "Parent's Full Name",
     inputName: "additional_parent_full_name",
     objInputName: "parent_s_full_name",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "Parent's Date of Birth",
     inputName: "additional_parent_date_of_birth",
     objInputName: "parent_date_of_birth",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "Parent's Nationality",
     inputName: "additional_parent_nationality",
     objInputName: "parent_nationality",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "Parent's Gender",
     inputName: "additional_parent_gender",
     objInputName: "parent_gender",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "Parent's Residential (Hotel) Address",
     inputName: "additional_parent_residential_address",
     objInputName: "parent_esidential_address",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "Parent's Phone Number",
     inputName: "additional_parent_phone_number",
     objInputName: "parent_phone",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "Parent's Email Address",
     inputName: "additional_parent_email_address",
     objInputName: "parent_email_address",
+    category: "Additional",
     displayShow: false,
   },
-  {
-    inputLabel: "Parent's Passport Number",
-    inputName: "additional_parent_passport_number",
-    objInputName: "parent_passport",
-    displayShow: false,
-  },
-
   {
     inputLabel: "Caregiver's Full Name",
     inputName: "additional_caregiver_full_name",
     objInputName: "caregiver_full_name",
+    category: "Additional",
     displayShow: false,
   },
 
@@ -3718,33 +3766,37 @@ const additionalInfoArray = [
     inputLabel: "Caregiver's Relationship to Student",
     inputName: "additional_caregiver_relationship",
     objInputName: "caregiver_relationship_to_the_student",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "Caregiver's Australian Address",
     inputName: "additional_caregiver_residential_address",
     objInputName: "caregiver_address",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "Caregiver's Phone Number",
     inputName: "additional_caregiver_phone_number",
     objInputName: "caregiver_phone",
+    category: "Additional",
     displayShow: false,
   },
   {
     inputLabel: "Caregiver's Email Address",
     inputName: "additional_caregiver_email_address",
     objInputName: "caregiver_email_address",
+    category: "Additional",
     displayShow: false,
   },
   {
-    inputLabel: "Copy of the Caregiver's ID",
-    inputName: "additional_caregiver_id_copy",
-    objInputName: "copy_of_the_caregiver_id",
+    inputLabel: "I give permission for the person named below (who must be over 21 years old and an Australian citizen or permanent resident living in Australia during my child's course) during my child's course to act as my child's caregiver for the full duration of the course.",
+    inputName: "additional_caregiver_authority",
+    objInputName: "i_give_permission_for_the_person_named_to_act_as_my_child_s_caregiver",
+    category: "Additional",
     displayShow: false,
   },
-
   {
     inputLabel: "Have you already been accepted to a US institution?",
     inputName: "additional_accepted_college_option",
@@ -3987,6 +4039,222 @@ const jrWaiverCAArray = [
   },
 ];
 
+const programAdditionalInfoTitle = [
+  'English Proficiency',
+  'Credit Transfer',
+  'Recognition of Prior Learning',
+  'Scholarships',
+  'Supporting Documentation',
+];
+
+const programAdditionalInfoArray = [
+  {
+    inputLabel: "Have you studied at secondary level with English as the language of instruction?",
+    inputName: "additional_english_instruction_option",
+    objInputName: "additional_english_instruction_option",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    category:'Additional-Program',
+    categoryTitle: "English Proficiency",
+    value: "",
+    note: "You may be required to take an English Language program if you do not meet the necessary entry requirements. Your English Proficiency will determine the course duration. Please refer to the website for entry requirements and Language programs with ILSC.",
+    obj: [
+      {
+        label: "Yes",
+        value: "Yes",
+        dependent : [
+          {
+            inputLabel: "If Yes, please provide test number:",
+            inputName: "additional_english_proficiency_score",
+            objInputName: "additional_english_proficiency_score",
+            inputType: "text",
+            required: true,
+            displayShow: false,
+          }
+        ]
+      },
+      {
+        label: "No",
+        value: "No",
+        dependent: [
+          {
+            inputLabel: "Do you have an Official English Language Test Score?",
+            inputName: "additional_english_test_score",
+            objInputName: "additional_english_test_score",
+            inputType: "dropdown",
+            required: true,
+            displayShow: false,
+            obj:[
+              {
+                label: "Yes",
+                value: "Yes",
+                dependent : [
+                  {
+                    inputLabel: "If Yes, please upload a copy of your test result:",
+                    inputName: "additional_english_test_score_file",
+                    objInputName: "additional_english_test_score_file",
+                    inputType: "file",
+                    required: true,
+                    displayShow: false,
+                  }
+                ]
+              },
+              {
+                label: "No",
+                value: "No",
+                dependent : [
+                  {
+                    inputLabel: "Do you wish to apply for an English language course?",
+                    inputName: "additional_english_apply_option",
+                    objInputName: "additional_english_apply_option",
+                    inputType: "dropdown",
+                    obj:[
+                      {
+                        label: "Yes",
+                        value: "Yes",
+                      },
+                      {
+                        label: "No",
+                        value: "No",
+                      }
+                    ],
+                    required: true,
+                    displayShow: false,
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+  },
+  {
+    inputLabel: "Do you wish to apply for a credit transfer?",
+    inputName: "additional_credit_transfer_option",
+    objInputName: "additional_credit_transfer_option",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    category:'Additional-Program',
+    categoryTitle: "Credit Transfer",
+    value: "",
+    obj: [
+        {
+          label: "Yes",
+          value: "Yes",
+          dependent: [
+            {
+              inputLabel: "If yes, please provide the following evidence:",
+              inputName: "additional_credit_transfer_file",
+              objInputName: "additional_credit_transfer_file",
+              inputType: "file",
+              required: true,
+              displayShow: false,
+              placeholder: "Completion of a Greystone College Australia Diploma or Advanced Diploma" 
+            }
+          ]
+        },
+        {
+          label: "No",
+          value: "No"
+        }
+    ]
+  },
+  {
+    inputLabel: "Do you wish to apply for recognition of prior learning?",
+    inputName: "additional_recognition_prior_learning_option",
+    objInputName: "additional_recognition_prior_learning_option",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    category:'Additional-Program',
+    categoryTitle: "Recognition of Prior Learning",
+    value: "",
+    note: "If documents are in a language other than English, please also provide certified translated copies.",
+    obj:[
+      {
+        label: "Yes",
+        value: "Yes",
+        dependent: [
+          {
+            inputLabel: "Copies of subject outlines (information must include: learning outcomes, weekly structure, topic list, assessment details, contact hours/student workload):",
+            inputName: "additional_subject_outlines_file_multiple",
+            objInputName: "additional_subject_outlines_file_multiple",
+            inputType: "file",
+            multiple: true,
+            required: true,
+            displayShow: false,
+          },
+          {
+            inputLabel: "Verified copies of certificates and transcripts.",
+            inputName: "additional_certificate_transcripts_file_multiple",
+            objInputName: "additional_certificate_transcripts_file_multiple",
+            inputType: "file",
+            multiple: true,
+            required: true,
+            displayShow: false,
+          }
+        ]
+      },
+      {
+        label: "No",
+        value: "No",
+      }
+    ],
+  },
+  {
+    inputLabel: "Would you like to apply for a scholarship?",
+    inputName: "additional_scholarship_apply_option",
+    objInputName: "additional_scholarship_apply_option",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    category:'Additional-Program',
+    categoryTitle: "Scholarship",
+    value: "",
+    obj:[
+      {
+        label: "Yes",
+        value: "Yes",
+      },
+      {
+        label: "No",
+        value: "No",
+      }
+    ]
+  },
+  {
+    inputLabel: "Copy of your passport",
+    inputName: "additional_passport_file",
+    objInputName: "additional_passport_file",
+    inputType: "file",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    category:'Additional-Program',
+    categoryTitle: "Supporting Documentation",
+    value: ""
+  },
+  {
+    inputLabel: "Certified copies of your academic transcript(s) and certificate(s)",
+    inputName: "additional_certified_transcripts_file",
+    objInputName: "additional_certified_transcripts_file",
+    inputType: "file",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    category:'Additional-Program',
+    categoryTitle: "Supporting Documentation",
+    value: ""
+  }
+]
+
 const insideCountryHtml =
     '<label for="inside-question-yes">Are you currently inside Canada?<sup>*</sup><span class="footnote">If yes, please submit your Study Permit or your Canadian visa (TRV or eTA) with your flight details that shows your arrival date in Canada. This information it&apos;s required to process your registration.</span></label><div class="form-check"><input class="form-check-input" value="No" type="radio" name="additional_inside_canada" id="inside-question-no" checked required><label class="form-check-label" for="inside-question-no">No</label></div><div class="form-check"><input class="form-check-input" value="Yes" type="radio" name="additional_inside_canada" id="inside-question-yes" required><label class="form-check-label" for="inside-question-yes">Yes</label></div>',
   insidePermitFileHtml =
@@ -4139,6 +4407,8 @@ const createAdvisorInfo = function () {
         ? "Language School"
         : schoolVal == "ELS"
         ? "ELS"
+        : schoolVal == "Greystone Institute"
+        ? "Greystone Institute"
         : "Language School",
     queryParam = "&school__in=" + selectedSchool;
   api_url = api_url =

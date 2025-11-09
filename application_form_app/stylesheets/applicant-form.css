@@ -818,6 +818,7 @@ section.section-application-form .step-container .study-information-form ul.appl
   display: grid;
   font-size: 1.8rem;
   background-color: #0082c2;
+  background-size: cover;
 }
 section.section-application-form .step-container .study-information-form ul.applicant-status-boxes li .box-color.selected {
   color: #FFF;
@@ -842,7 +843,7 @@ section.section-application-form .step-container #study-program-container {
   margin: 0;
 }
 section.section-application-form .step-container .study-box-container, section.section-application-form .step-container .study-box-inner-container {
-  border: 2px solid #cecece;
+  border: 2px solid #eeeeee;
   border-radius: 5px;
   margin: 20px auto;
   overflow: hidden;

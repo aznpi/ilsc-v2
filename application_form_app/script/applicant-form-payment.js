@@ -426,7 +426,7 @@ const printApplicationSummary = function () {
             : studyFormArray[stf].value;
 
           labelValue =
-            schoolSelected == "Greystone College"
+            schoolSelected == "Greystone College" || schoolSelected == "Greystone Institute"
               ? programInfoArray[pa].inputLabel == "Program"
                 ? "Program/Course"
                 : programInfoArray[pa].inputLabel
@@ -475,7 +475,7 @@ const printApplicationSummary = function () {
             }
 
             labelValue =
-              schoolSelected == "Greystone College"
+              schoolSelected == "Greystone College" || schoolSelected == "Greystone Institute"
                 ? programInfoArray[pi].inputLabel == "Program"
                   ? "Program/Course"
                   : programInfoArray[pi].inputLabel
@@ -1572,7 +1572,7 @@ const printOptionForm = function (arr,dependentClass,categoryName,target, option
       formArray = optionCondition ? optionObj[0].obj : arr;
 
   for (let i = 0; i < formArray.length; i++) {
-    digitalAuthority = formArray[i].digitalAuthority ? "data-authority='true'" : "";
+    digitalAuthority = formArray[i].digitalAuthority ? "data-authority='true' data-target='" + formArray[i].optionTarget + "'" : "";
     
     switch (formArray[i].inputType) {
       case "text":
@@ -1589,11 +1589,9 @@ const printOptionForm = function (arr,dependentClass,categoryName,target, option
         for (let i = 0; i < dropArray.length; i++) {
             optionList +=
               "<option value='" +
-              dropArray[i]["optionValue"] +
-              "' data-id='" +
-              dropArray[i]["optionLabel"] +
+              dropArray[i] +
               "'>" +
-              dropArray[i]["optionLabel"] +
+              dropArray[i] +
               "</option>";
           }
         inputItem +=
@@ -1635,7 +1633,7 @@ const printOptionForm = function (arr,dependentClass,categoryName,target, option
               "' data-bind='" +
                 formArray[i].objInputName +
                 "' accept='jpeg,jpg,pdf,png' " +
-              "' required disabled></div>";
+              "' required disabled><input type='hidden' name='" + formArray[i].inputName + "' value='' readonly disabled></div>";
             break;
       case "checkbox":
           digitalAuthorityClassName = formArray[i].digitalAuthority ? "jr-confirmation" : "";
@@ -1750,6 +1748,181 @@ const printStudentForm = function () {
 
   hideShowEnrolmentAdvisorForm(enableEnrolmentAdvisor);
 };
+
+const dependentTemplate = function(arr,dependentClass,categoryName){
+  let optionHtml = "",
+      inputItem = "",
+      dependentList = "";
+
+      switch (arr.inputType) {
+        case "text":
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
+            arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' required disabled></div>";
+          break;
+        case "file":
+          multipleAttribute = arr.multiple ? "multiple" : "";
+            inputItem +=
+              "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='file' class='form-control additional-file-input' data-category='" + categoryName + "' id='" +
+              arr.inputName +
+              "-" + dependentClass + "' name='" +
+              arr.inputName +
+              "' data-bind='" +
+                arr.objInputName +
+                "' accept='jpeg,jpg,pdf,png' " +
+              multipleAttribute +
+              "' required disabled><input type='hidden' name='" + arr.inputName + "' value='' readonly disabled></div>";
+            break;
+        case "dropdown":
+          optionList = "";
+          dropArray = arr.obj;
+          hasDependent = false;
+          
+          for (let i = 0; i < dropArray.length; i++) {
+            optionList +=
+                "<option value='" +
+                dropArray[i].value +
+                "'>" +
+                dropArray[i].label +
+                "</option>";
+              hasDependent = dropArray[i].dependent ? true : false;
+              if (hasDependent) {
+                dependentList += dependentTemplate(dropArray[i].dependent[0], dependentClass + "-" + dropArray[i].value, categoryName);
+              }
+            }
+
+          inputItem +=
+            "<div class='form-group'><label for='" + arr.inputName + "'>" + arr.inputLabel + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
+            arr.inputName + "' name='" +
+            arr.inputName +
+            "' " +
+            " data-parent='true' required><option disabled selected value=''>Choose option</option>" +
+            optionList +
+            "</select></div>";
+        break;
+      }
+  optionHtml = '<div class="dependent-target study-hide" data-target="' + dependentClass + '" style="padding-left:50px;">' + inputItem + '</div>'+ dependentList;
+  return optionHtml;
+}
+
+const printInputDependentForm = function(arr,dependentClass,categoryName){
+  let optionHtml = "",
+      inputItem = "";
+
+  for (let i = 0; i < arr.length; i++) {
+      switch (arr[i].inputType) {
+        case "text":
+          inputItem += dependentTemplate(arr[i],dependentClass+'-'+i,categoryName);
+          break;
+        case "file":
+          inputItem += dependentTemplate(arr[i],dependentClass+'-'+i,categoryName);
+          break;
+        case "dropdown":
+          hasDependent = false;
+          dependentList = "";
+          hasDependent = arr[i].dependent ? true : false;
+          if (hasDependent) {
+            dependentList += dependentTemplate(arr[i].dependent, arr[i].inputName + "-" + arr[i].value, categoryName);
+          }
+          inputItem += dependentTemplate(arr[i],dependentClass+'-'+i,categoryName) + dependentList;
+          break;    
+      }
+  }
+  optionHtml = '<div class="dependent-target study-hide" data-target="' + dependentClass + '" style="padding-left:50px;">' + inputItem + '</div>';
+  return optionHtml;
+};
+
+const printAdditionalInputForm = function(arr,categoryName){
+  let categoryHtml = "",
+      optionHtml = "",
+      titleHtml = "",
+      inputItem = "",
+      printInput = [],
+      schoolProgramSelected = $(".study-information-form input[name=program_school]:checked").val(),
+      formArray = arr.filter(item => item.category == categoryName);
+      groupedArray = Object.groupBy(formArray, item => item.categoryTitle);
+    
+  for (const categoryTitle in groupedArray) {
+    // Check if the property belongs to the object itself
+    if (Object.prototype.hasOwnProperty.call(groupedArray, categoryTitle)) {
+
+        // The key of the object is the Title
+        const items = groupedArray[categoryTitle];
+
+        titleHtml = "<h4>" + categoryTitle + "</h4>";
+        
+        // Loop through the array of items for the current category
+        items.forEach((item, index) => {
+            if (item.schoolDependence) {
+              schoolDependenceList = item.schoolDependence.split(",");
+              schoolDependenceArr = [];
+
+              for (i = 0; i < schoolDependenceList.length; i++) {
+                if (schoolProgramSelected.includes(schoolDependenceList[i])) {
+                  schoolDependenceArr.push(true);
+                }
+              }
+
+              if (!schoolDependenceArr.includes(true)) {
+                printInput.push(false);
+              }
+            }
+            if (!printInput.includes(false)) {
+              switch (item.inputType) {
+                case "text":
+                  inputItem += "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
+                    item.inputName + "' name='" + item.inputName + "' value='' data-parent='true' required></div>";
+                break;
+                case "dropdown":
+                  optionList = "";
+                  dropArray = item.obj;
+                  dependentList = "";
+                  hasDependent = false;
+                  for (let i = 0; i < dropArray.length; i++) {
+                    hasDependent = dropArray[i].dependent ? true : false;
+                    if (hasDependent) {
+                      dependentList += printInputDependentForm(dropArray[i].dependent, item.inputName + "-" + dropArray[i].value, categoryName);
+                    }
+                    optionList +=
+                        "<option value='" +
+                        dropArray[i].value +
+                        "'>" +
+                        dropArray[i].label +
+                        "</option>";
+                    }
+
+                  inputItem +=
+                    "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
+                    item.inputName + "' name='" +
+                    item.inputName +
+                    "' " +
+                    " data-parent='true' required><option disabled selected value=''>Choose option</option>" +
+                    optionList +
+                    "</select></div>" + dependentList;
+                break;
+                case "file":
+                    multipleAttribute = item.multiple ? "multiple" : "";
+                  inputItem +=
+                    "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='file' class='form-control additional-file-input' data-category='" + categoryName + "' id='" +
+                    item.inputName + "' name='" +
+                    item.inputName +
+                    "' data-bind='" +
+                      item.objInputName +
+                      "' accept='jpeg,jpg,pdf,png' " +
+                    "' required disabled><input type='hidden' name='" + item.inputName + "' value='' readonly" + multipleAttribute + " data-parent='true'></div>";
+                  break;
+              }
+            }
+          });
+        optionHtml += "<div class='form-group'>" + inputItem + "</div>";
+    }
+    categoryHtml += "<div class='study-box-container'>" + titleHtml + optionHtml + "</div>";
+    optionHtml = "";
+    titleHtml = "";
+    inputItem = "";
+    printInput = [];
+  }
+  return categoryHtml;
+}
 
 const updateStudentInfoJson = function () {
   let formObject = localStorage.getItem(formJsonName),
@@ -1911,7 +2084,7 @@ const getSchoolCountryList = function () {
       ".study-information-form.dropdown-container ul.drop-country",
     tableId = schoolCountryListTable,
     schoolParentQuery =
-      schoolVal == "ELS" ? "&country__eq=USA" : "&country__neq=USA",
+      schoolVal == "ELS" ? "&school_available__in=ELS" : schoolVal == "Greystone Institute" ? "&school_available__in=Greystone Institute" : "&school_available__in=Language School,Greystone College",
     queryParam =
       schoolParentQuery + "&location_type__in=Country,Online&enable__eq=1",
     api_url = apiUrl + tableId + "/rows?portalId=" + portalId + queryParam;
@@ -2090,9 +2263,12 @@ const resetAdditionalFiles = function () {
   $(".additional-files-container").empty();
 };
 const printWeeksOption = function (selectedProgramArray, element, inputName) {
-  let comboVal = returnComboVal(inputName),
+  let selectedSchool = $("input[name=program_school]:checked").val()
+    comboVal = returnComboVal(inputName),
     dataObject = selectedProgramArray,
-    labelHtml = "<label>Number of Weeks</label>",
+    labelString = selectedSchool == "Greystone Institute" ? "Duration of Program" : "Number of Weeks",
+    durationString = selectedSchool == "Greystone Institute" ? " years" : " weeks",
+    labelHtml = "<label>" + labelString + "</label>",
     optionHtml = "";
   if (dataObject.length > 0) {
     for (let i = 0; i < dataObject.length; i++) {
@@ -2100,8 +2276,8 @@ const printWeeksOption = function (selectedProgramArray, element, inputName) {
         '<div class="form-check"><label class="form-check-label" for="program-weeks-' +
         dataObject[i].program_id +
         '">' +
-        dataObject[i].program_length +
-        " weeks</label></div>";
+        dataObject[i].program_length + durationString +
+        "</label></div>";
     }
     $(
       "#study-program-" +
@@ -2845,9 +3021,12 @@ const printLaSalleOption = function (element, inputName) {
 };
 
 const getScheduleBreak = function (campusId) {
-  let selectedCountry = $("input[name=program_country]").val();
+  let selectedCountry = $("input[name=program_country]").val(),
+    selectedCurrentSchool = $("input[name=program_school]:checked").val();
 
   let queryParam =
+      "&school__in=" +
+      selectedCurrentSchool +
       "&campus__in=" +
       campusId +
       "&country__eq=" +
@@ -2936,6 +3115,8 @@ const printStartDates = function (
           : startDateTableGC
         : selectedParentSchool == "ELS"
         ? startDateTableELS
+        : selectedParentSchool == "Greystone Institute"
+        ? startDateTableGI
         : startDateTableLS,
     scheduleBreakObj = localStorage.getItem("schedule-break-obj"),
     scheduleBreakArr = JSON.parse(scheduleBreakObj);
@@ -3589,6 +3770,23 @@ const printProgramDrop = function (
       (programType = "Program"),
       (group_by = "program_name"),
       (campusType = "study_campus_type");
+  } else if (selectedParentSchool == "Greystone Institute") {
+    tableId = programTableGI;
+    campusProp = "new_campus";
+    (accommObjNum = "enable_accommodations"),
+    (minAgeObjNum = "age_minimum"),
+    (programAreaObjNum = "program_areas"),
+    (coopBool =
+        selectedVal == 1
+          ? "&is_co_op__eq=1"
+          : selectedVal == 0
+          ? "&is_co_op__eq=0"
+          : ""),
+      (addOnQuery = "&add_on_program=0"),
+      (programName = "program_name"),
+      (programType = "Program"),
+      (typeText = "Program"),
+      (group_by = "program_name");
   }
 
   if (element == "alternate-input") {
@@ -3622,7 +3820,6 @@ const printProgramDrop = function (
         selectedSchool +
         "&enable=1" +
         coopBool +
-        "&show_quote_tool=1" +
         addOnQuery +
         affiliateQuery,
       api_url = apiUrl + tableId + "/rows?portalId=" + portalId + queryParam;
@@ -3631,7 +3828,7 @@ const printProgramDrop = function (
       let dataObject = data.results;
 
       if (dataObject.length > 0) {
-        if (selectedParentSchool == "Greystone College") {
+        if (selectedParentSchool == "Greystone College" || selectedParentSchool == "Greystone Institute") {
           laSalleEligibleArr = [];
 
           for (let i = 0; i < dataObject.length; i++) {
@@ -3907,7 +4104,7 @@ const printProgramDrop = function (
         $(
           ".study-program-dropdown select." +
             element +
-            "[name=name=program_name" +
+            "[name=program_name" +
             comboName +
             "]"
         ).html(
@@ -3944,12 +4141,12 @@ const printCampus = function (selected) {
           ? ""
           : initials.join("").toUpperCase();
         thumbNail = dataObject[i].values.thumnail_images
-          ? "style=background:url('" +
+          ? "style=background-image:url('" +
             dataObject[i].values.thumnail_images.url +
             "') no-repeat;"
           : "";
         minAge =
-          schoolVal == "ELS"
+          schoolVal == "ELS" || schoolVal == "Greystone Institute"
             ? dataObject[i].values.min_age
               ? dataObject[i].values.min_age
               : ""
@@ -4027,7 +4224,7 @@ const printSchoolSelection = function () {
     ).val(),
     tableId = schoolTypeListTable,
     countryQuery =
-      schoolVal == "ELS" ? "&parent_school__in=ELS" : "&parent_school__ne=ELS",
+      schoolVal == "ELS" ? "&parent_school__in=ELS" : schoolVal == "Greystone Institute" ? "&parent_school__in=Greystone Institute" : "&parent_school__in=Language School,Greystone College",
     queryParam =
       countryQuery +
       "&location_country__in=" +
@@ -4070,7 +4267,7 @@ const printSchoolSelection = function () {
             ? ""
             : initials.join("").toUpperCase();
           thumbNail = dataObject[i].values.thumbnail_images
-            ? "style=background:url('" +
+            ? "style=background-image:url('" +
               dataObject[i].values.thumbnail_images.url +
               "') no-repeat;"
             : "";
@@ -4143,71 +4340,75 @@ const printAdditionalInfo = function () {
         ? true
         : false;
 
-  if (countrySelected == "Australia") {
-    inputHtml =
-      selectedParentSchool == "Greystone College"
-        ? prolaHtml + usiHtml
-        : prolaHtml;
-    additionalHtml =
-      inputHtml +
-      visaRadioHtml +
-      visaFileHtml +
-      australiaVisaHtml +
-      additionalNotesHtml;
-  } else if (countrySelected == "Canada") {
-    jrFamilyHtml =
-      programCategorySelected == "Family Camps" ||
-      programSelected.includes("Winter Experience")
-        ? jrFamilyMemberButtonHtml
-        : "";
-    shirtHtml =
-      programCategorySelected == "Junior Camps" ||
-      programCategorySelected == "Family Camps"
-        ? shirtRadioHtml
-        : "";
-    insideCountryOption =
-      programCategorySelected == "Junior Camps" ||
-      programCategorySelected == "Family Camps"
-        ? ""
-        : insideCountryHtml;
-    inputHtml =
-      selectedParentSchool == "Greystone College" ||
-      isProla ||
-      $("input[name=is_alternate_apply][value=1]").is(":checked")
-        ? prolaHtml
-        : "";
-    fileInputHtml =
-      programSelected != "French Communication Evening"
-        ? insidePermitFileHtml + insideFlightFileHtml
-        : "";
-    additionalHtml =
-      shirtHtml +
-      jrFamilyHtml +
-      insideCountryOption +
-      fileInputHtml +
-      inputHtml +
-      additionalNotesHtml;
-  } else if (countrySelected == "Ireland") {
-    additionalHtml = govSponsoredHtml + englishLevelHtml + additionalNotesHtml;
-  } else if (countrySelected == "USA") {
-    if (selectedSchoolName != "ELS Youth") {
+  if (schoolVal == "Greystone Institute") {
+    additionalHtml = printAdditionalInputForm(programAdditionalInfoArray,'Additional-Program');
+  } else {
+    if (countrySelected == "Australia") {
+      inputHtml =
+        selectedParentSchool == "Greystone College"
+          ? prolaHtml + usiHtml
+          : prolaHtml;
       additionalHtml =
-        visaFormRadioUsHtml +
-        visaFormAddDependentButtonHtml +
-        visaRadioUsHtml +
-        visaTransferInputUsHtml +
-        visaTransferAttendanceInputUsHtml +
-        collegeRadioUsHtml +
-        collegeAcceptRadioUsHtml +
-        collegeInstituteAccordion +
-        collegeInputUsHtml +
+        inputHtml +
+        visaRadioHtml +
+        visaFileHtml +
+        australiaVisaHtml +
         additionalNotesHtml;
+    } else if (countrySelected == "Canada") {
+      jrFamilyHtml =
+        programCategorySelected == "Family Camps" ||
+        programSelected.includes("Winter Experience")
+          ? jrFamilyMemberButtonHtml
+          : "";
+      shirtHtml =
+        programCategorySelected == "Junior Camps" ||
+        programCategorySelected == "Family Camps"
+          ? shirtRadioHtml
+          : "";
+      insideCountryOption =
+        programCategorySelected == "Junior Camps" ||
+        programCategorySelected == "Family Camps"
+          ? ""
+          : insideCountryHtml;
+      inputHtml =
+        selectedParentSchool == "Greystone College" ||
+        isProla ||
+        $("input[name=is_alternate_apply][value=1]").is(":checked")
+          ? prolaHtml
+          : "";
+      fileInputHtml =
+        programSelected != "French Communication Evening"
+          ? insidePermitFileHtml + insideFlightFileHtml
+          : "";
+      additionalHtml =
+        shirtHtml +
+        jrFamilyHtml +
+        insideCountryOption +
+        fileInputHtml +
+        inputHtml +
+        additionalNotesHtml;
+    } else if (countrySelected == "Ireland") {
+      additionalHtml = govSponsoredHtml + englishLevelHtml + additionalNotesHtml;
+    } else if (countrySelected == "USA") {
+      if (selectedSchoolName != "ELS Youth") {
+        additionalHtml =
+          visaFormRadioUsHtml +
+          visaFormAddDependentButtonHtml +
+          visaRadioUsHtml +
+          visaTransferInputUsHtml +
+          visaTransferAttendanceInputUsHtml +
+          collegeRadioUsHtml +
+          collegeAcceptRadioUsHtml +
+          collegeInstituteAccordion +
+          collegeInputUsHtml +
+          additionalNotesHtml;
+      }
+    } else if (countrySelected == "Online") {
+      additionalHtml =
+        inputHtml +
+        additionalCurrencyPaymentOptionHtml +
+        additionalOnlineNotesHtml;
     }
-  } else if (countrySelected == "Online") {
-    additionalHtml =
-      inputHtml +
-      additionalCurrencyPaymentOptionHtml +
-      additionalOnlineNotesHtml;
   }
 
   if ($(".additional-notes-container .additional-notes-input").is(":empty")) {
@@ -5175,10 +5376,12 @@ const programAction = function (tEl, element, pair) {
   //$('.additional-notes-container .additional-notes-input').empty();
   //resetProgramFormField(element, '.' + element + '.program-option-input,.' + element + '.schedule-input,.' + element + '.date-input,.' + element + '.program-option-duration-input', '.' + element + '.week-input',inputName);
 
-  if (selectedParentSchool == "Greystone College" || pair) {
+  if (selectedParentSchool == "Greystone College" || selectedParentSchool == "Greystone Institute" || pair) {
     let programObject = localStorage.getItem(programObjGC),
       programArray = JSON.parse(programObject),
-      programSelected = programArray.filter(
+      programSelected =  selectedParentSchool == "Greystone Institute" ? programArray.filter(
+        (v) => v.parent_program_id == selected
+      ) : programArray.filter(
         (v) => v.parent_program_id == selected && v.is_coop == coopValue
       );
 
@@ -5614,7 +5817,7 @@ const startDateAction = function (element, thisElement) {
 
   setTimeout(resetProgramComboDate(element, inputName), 500);
 
-  if (selectedParentSchool == "Greystone College") {
+  if (selectedParentSchool == "Greystone College" || selectedParentSchool == "Greystone Institute") {
     printAdditionalInfo();
   } else {
     if ($("input[name=is_alternate_apply][value=1]").is(":checked")) {
