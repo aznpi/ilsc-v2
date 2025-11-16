@@ -557,6 +557,7 @@ section{
                         li{
                             color:#CCC;
                             transition: all .5s;
+                            font-weight:600;
                             &.complete{
                                 color:#00b560
                             }
@@ -572,6 +573,7 @@ section{
                         position:relative;
                         width:fit-content;
                         transition: scale .3s;
+                        font-weight:600;
 
                         
                         &:before{
@@ -623,7 +625,7 @@ section{
             padding-bottom:10px;
             position:relative;
             width: fit-content;
-            
+            font-weight:600;
         }
         h3{
             &:after{
@@ -709,7 +711,43 @@ section{
                 transform: rotate(360deg);
             }
         }
-        form{         
+        form{  
+            
+            /* Styles for the file dropzone upload form */    
+            .drop-zone {
+                border: 2px dashed #ccc;
+                border-radius: 5px;
+                padding: 20px;
+                text-align: center;
+                margin-bottom: 20px;
+                cursor: pointer;
+                transition: background-color 0.3s, border-color 0.3s;
+
+                &:hover {
+                    background-color: #f8f8f8;
+                }
+                &.dragover {
+                    border-color: #007bff;
+                    background-color: #e6f0ff;
+                }
+                p {
+                    margin: 0 0 10px 0;
+                    color: #555;
+                }
+            }
+            
+            .file-list {
+                list-style: none;
+                padding: 0;
+                margin-top: 10px;
+                text-align: left;
+                li {
+                    padding: 5px 0;
+                    border-bottom: 1px dotted #eee;
+                    font-size: 0.9em;
+                    color: #333;
+                }
+            }  
             &#accommodation-form{
                 .study-box-container{
                     position: relative;
@@ -1150,6 +1188,7 @@ section{
                             border-radius: 30px;
                             display: flex;
                             justify-content: center;
+                            font-weight: 700;
                         
                     }
                     &.prev{

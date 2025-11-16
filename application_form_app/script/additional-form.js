@@ -1,13 +1,19 @@
 const printAdditionalForm = function(){
+    let schoolSelected = $('input[name=program_school]:checked').attr('data-school'),
     programCategorySelected = $('select[name*=program_name_] option:selected').attr('data-category');
 
-    printInsuranceInput();
-    printAdditionalInfoInput();
-    printAdditionalFilesInput();
-    if(programCategorySelected == 'Junior Camps' || programCategorySelected == 'Family Camps'){
-        printJuniorWaiver();
+    if(schoolSelected == 'Greystone Institute'){
+        printAdditionalInfoInput();
+        printHubspotFileForm(); 
     }else{
-        hideJuniorWaiver();
+        printInsuranceInput();
+        printAdditionalInfoInput();
+        printAdditionalFilesInput();
+        if(programCategorySelected == 'Junior Camps' || programCategorySelected == 'Family Camps'){
+            printJuniorWaiver();
+        }else{
+            hideJuniorWaiver();
+        }
     }
 };
 
@@ -250,9 +256,16 @@ const printInsuranceInput = function(){
 };
 
 const printAdditionalInfoInput = function(){
-    let additionClassName = 'additional-info-container';
+    let schoolSelected = $('input[name=program_school]:checked').attr('data-school'),
+        additionClassName = 'additional-info-container',
+        additionalHtml = '';
     if($('.'+additionClassName).is(':empty')){
-        printPersonForm(additionalInfoArray,false,'Additional',additionClassName);
+        if(schoolSelected == 'Greystone Institute'){
+            additionalHtml = printAdditionalInputForm(additionalAdditionalV2Array,'Additional');
+            $('.'+additionClassName).html(additionalHtml);
+        }else{
+            printPersonForm(additionalInfoArray,false,'Additional',additionClassName);
+        }
     }
 };
 

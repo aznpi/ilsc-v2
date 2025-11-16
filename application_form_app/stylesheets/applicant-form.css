@@ -488,6 +488,7 @@ section.section-application-form nav .fixed-side-menu-list > li ul {
 section.section-application-form nav .fixed-side-menu-list > li ul li {
   color: #CCC;
   transition: all 0.5s;
+  font-weight: 600;
 }
 section.section-application-form nav .fixed-side-menu-list > li ul li.complete {
   color: #00b560;
@@ -503,6 +504,7 @@ section.section-application-form nav .fixed-side-menu-list > li a {
   width: -moz-fit-content;
   width: fit-content;
   transition: scale 0.3s;
+  font-weight: 600;
 }
 section.section-application-form nav .fixed-side-menu-list > li a:before {
   border-top: 1px solid #FFF;
@@ -553,6 +555,7 @@ section.section-application-form h3, section.section-application-form h2, sectio
   position: relative;
   width: -moz-fit-content;
   width: fit-content;
+  font-weight: 600;
 }
 section.section-application-form h3:after {
   content: "";
@@ -624,6 +627,41 @@ section.section-application-form .loading {
   to {
     transform: rotate(360deg);
   }
+}
+section.section-application-form form {
+  /* Styles for the file dropzone upload form */
+}
+section.section-application-form form .drop-zone {
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+section.section-application-form form .drop-zone:hover {
+  background-color: #f8f8f8;
+}
+section.section-application-form form .drop-zone.dragover {
+  border-color: #007bff;
+  background-color: #e6f0ff;
+}
+section.section-application-form form .drop-zone p {
+  margin: 0 0 10px 0;
+  color: #555;
+}
+section.section-application-form form .file-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  text-align: left;
+}
+section.section-application-form form .file-list li {
+  padding: 5px 0;
+  border-bottom: 1px dotted #eee;
+  font-size: 0.9em;
+  color: #333;
 }
 section.section-application-form form#accommodation-form .study-box-container {
   position: relative;
@@ -1001,6 +1039,7 @@ section.section-application-form .step-container .btn-container button.btn {
   border-radius: 30px;
   display: flex;
   justify-content: center;
+  font-weight: 700;
 }
 section.section-application-form .step-container .btn-container button.prev {
   float: left;

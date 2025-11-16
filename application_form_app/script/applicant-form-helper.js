@@ -1846,7 +1846,7 @@ const programInfoArray = [
     inputName: "additional_prola_taken",
     objInputName: "prola_taken",
     inputAssign: "primary",
-    schoolDependence: "Greystone College,Greystone Institute",
+    schoolDependence: "Greystone College",
     category: "Program Additional",
     displayShow: false,
   },
@@ -1855,7 +1855,7 @@ const programInfoArray = [
     inputName: "additional_visa_apply",
     objInputName: "are_you_applying_for_your_visa_outside_or_inside_australia",
     inputAssign: "primary",
-    schoolDependence: "ILSC,Greystone College,Greystone Institute",
+    schoolDependence: "ILSC,Greystone College",
     countryDependence: "Australia",
     category: "Program Additional",
     displayShow: false,
@@ -1865,7 +1865,7 @@ const programInfoArray = [
     inputName: "additional_australia_visa",
     objInputName: "australia_visa",
     inputAssign: "primary",
-    schoolDependence: "ILSC,Greystone College,Greystone Institute",
+    schoolDependence: "ILSC,Greystone College",
     countryDependence: "Australia",
     category: "Program Additional",
     displayShow: false,
@@ -1877,7 +1877,7 @@ const programInfoArray = [
     inputType: "text",
     inputAssign: "primary",
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College,Greystone Institute",
+    schoolDependence: "ILSC,Greystone College",
     category: "Program Additional",
     displayShow: false,
   },
@@ -1890,14 +1890,14 @@ const programInfoArray = [
     inputAssign: "primary",
     displayShow: false,
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College,Greystone Institute",
+    schoolDependence: "ILSC,Greystone College",
   },
   {
     inputLabel: "Are you currently studying at ILSC or Greystone College?",
     inputName: "additional_australia_current_study",
     objInputName: "are_you_currently_ilsc_greystone_college_student_",
     inputAssign: "primary",
-    schoolDependence: "ILSC,Greystone College,Greystone Institute",
+    schoolDependence: "ILSC,Greystone College",
     countryDependence: "Australia",
     category: "Program Additional",
     displayShow: false,
@@ -1910,7 +1910,7 @@ const programInfoArray = [
     inputType: "text",
     inputAssign: "primary",
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College,Greystone Institute",
+    schoolDependence: "ILSC,Greystone College",
     category: "Program Additional",
     displayShow: false,
   },
@@ -1924,7 +1924,7 @@ const programInfoArray = [
     inputAssign: "primary",
     displayShow: false,
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College,Greystone Institute",
+    schoolDependence: "ILSC,Greystone College",
   },
   {
     inputLabel: "Write the name of the Education Provider",
@@ -1933,20 +1933,20 @@ const programInfoArray = [
     inputType: "text",
     inputAssign: "primary",
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College,Greystone Institute",
+    schoolDependence: "ILSC,Greystone College",
     category: "Program Additional",
     displayShow: false,
   },
   {
     inputLabel: "Upload LoA (Leave of absence)",
-    inputName: "additional_australia_loe_file_upload",
-    objInputName: "loe",
+    inputName: "additional_australia_loa_file_upload",
+    objInputName: "loa",
     inputType: "file",
     category: "Program Additional",
     inputAssign: "primary",
     displayShow: false,
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College,Greystone Institute",
+    schoolDependence: "ILSC,Greystone College",
   },
   {
     inputLabel: "Upload CoE (Confirmation of Enrollment)",
@@ -1957,7 +1957,7 @@ const programInfoArray = [
     inputAssign: "primary",
     displayShow: false,
     countryDependence: "Australia",
-    schoolDependence: "ILSC,Greystone College,Greystone Institute",
+    schoolDependence: "ILSC,Greystone College",
   },
   {
     inputLabel: "Are you currently inside Canada?",
@@ -1974,7 +1974,7 @@ const programInfoArray = [
     inputName: "study_additional_information_and_notes",
     objInputName: "study_additional_information_and_notes",
     inputAssign: "primary",
-    schoolDependence: "Greystone College,Language Schools,ELS,Greystone Institute",
+    schoolDependence: "Greystone College,Language Schools,ELS",
     category: "Program Additional",
     displayShow: false,
   },
@@ -1983,7 +1983,7 @@ const programInfoArray = [
     inputName: "study_additional_online_information_and_notes",
     objInputName: "online_additional_information_and_notes",
     inputAssign: "primary",
-    schoolDependence: "Greystone College,Language Schools,ELS,Greystone Institute",
+    schoolDependence: "Greystone College,Language Schools,ELS",
     category: "Program Additional",
     displayShow: false,
   },
@@ -2002,7 +2002,7 @@ const programInfoArray = [
     inputName: "additional_usi_number",
     objInputName: "usi_number",
     inputAssign: "primary",
-    schoolDependence: "Greystone College,Greystone Institute",
+    schoolDependence: "Greystone College",
     countryDependence: "Australia",
     category: "Program Additional",
     displayShow: false,
@@ -2013,7 +2013,7 @@ const programInfoArray = [
     inputName: "additional_visa_refusal",
     objInputName: "australia_visa_refusal_history",
     inputAssign: "primary",
-    schoolDependence: "Greystone College,Greystone Institute",
+    schoolDependence: "Greystone College",
     countryDependence: "Australia",
     category: "Program Additional",
     displayShow: false,
@@ -2353,6 +2353,53 @@ const accommodationInfoArray = [
 ];
 
 const accommodationAdditionalArray = [
+  {
+    inputLabel: "Do you want to purchase your OSHC (Overseas Student Health Cover) through ILSC/Greystone College?",
+    inputName: "insurance_option",
+    objInputName: "purchase_oshc_through_ilsc_greystone_college_",
+    inputType: "dropdown",
+    required: true,
+    category: "Accommodation-Details",
+    categoryTitle: "Insurance",
+    countryDependence: "Australia",
+    schoolParentDependence: "Greystone Instiute",
+    value: "",
+    obj: [
+      {
+        label: "Yes",
+        value: "Yes",
+        dependent:[
+          { 
+            inputLabel: "Please select which one you would like to purchase",
+            inputName: "insurance_type_option",
+            objInputName: "insurance_type_option",
+            inputType: "dropdown",
+            required: true,
+            obj: [
+              {
+                label: "Single",
+                value: "Single",
+              },
+              {
+                label: "Couple",
+                value: "Couple",
+              },
+              {
+                label: "Family",
+                value: "Family",
+              },
+            ],
+          }
+        ]
+      },
+      {
+        label: "No",
+        value: "No",
+      },
+    ],
+    displayShow: true,
+
+  },
   {
     inputLabel: "Do you take daily medication?",
     inputName: "accommodation_medication_option",
@@ -4039,14 +4086,6 @@ const jrWaiverCAArray = [
   },
 ];
 
-const programAdditionalInfoTitle = [
-  'English Proficiency',
-  'Credit Transfer',
-  'Recognition of Prior Learning',
-  'Scholarships',
-  'Supporting Documentation',
-];
-
 const programAdditionalInfoArray = [
   {
     inputLabel: "Have you studied at secondary level with English as the language of instruction?",
@@ -4058,6 +4097,7 @@ const programAdditionalInfoArray = [
     displayShow: true,
     category:'Additional-Program',
     categoryTitle: "English Proficiency",
+    inputAssign: "primary",
     value: "",
     note: "You may be required to take an English Language program if you do not meet the necessary entry requirements. Your English Proficiency will determine the course duration. Please refer to the website for entry requirements and Language programs with ILSC.",
     obj: [
@@ -4070,6 +4110,7 @@ const programAdditionalInfoArray = [
             inputName: "additional_english_proficiency_score",
             objInputName: "additional_english_proficiency_score",
             inputType: "text",
+            inputAssign: "primary",
             required: true,
             displayShow: false,
           }
@@ -4086,6 +4127,7 @@ const programAdditionalInfoArray = [
             inputType: "dropdown",
             required: true,
             displayShow: false,
+            inputAssign: "primary",
             obj:[
               {
                 label: "Yes",
@@ -4094,10 +4136,11 @@ const programAdditionalInfoArray = [
                   {
                     inputLabel: "If Yes, please upload a copy of your test result:",
                     inputName: "additional_english_test_score_file",
-                    objInputName: "additional_english_test_score_file",
+                    objInputName: "english_test_score_copy",
                     inputType: "file",
                     required: true,
                     displayShow: false,
+                    inputAssign: "primary",
                   }
                 ]
               },
@@ -4110,6 +4153,7 @@ const programAdditionalInfoArray = [
                     inputName: "additional_english_apply_option",
                     objInputName: "additional_english_apply_option",
                     inputType: "dropdown",
+                    inputAssign: "primary",
                     obj:[
                       {
                         label: "Yes",
@@ -4139,6 +4183,7 @@ const programAdditionalInfoArray = [
     required: true,
     schoolParentDependence: "Greystone Institute",
     displayShow: true,
+    inputAssign: "primary",
     category:'Additional-Program',
     categoryTitle: "Credit Transfer",
     value: "",
@@ -4148,12 +4193,13 @@ const programAdditionalInfoArray = [
           value: "Yes",
           dependent: [
             {
-              inputLabel: "If yes, please provide the following evidence:",
+              inputLabel: "If yes, please provide the following evidence (jpeg,png,pdf; max. size: 1mb):",
               inputName: "additional_credit_transfer_file",
-              objInputName: "additional_credit_transfer_file",
+              objInputName: "credit_transfer_file",
               inputType: "file",
               required: true,
               displayShow: false,
+              inputAssign: "primary",
               placeholder: "Completion of a Greystone College Australia Diploma or Advanced Diploma" 
             }
           ]
@@ -4172,6 +4218,7 @@ const programAdditionalInfoArray = [
     required: true,
     schoolParentDependence: "Greystone Institute",
     displayShow: true,
+    inputAssign: "primary",
     category:'Additional-Program',
     categoryTitle: "Recognition of Prior Learning",
     value: "",
@@ -4184,17 +4231,19 @@ const programAdditionalInfoArray = [
           {
             inputLabel: "Copies of subject outlines (information must include: learning outcomes, weekly structure, topic list, assessment details, contact hours/student workload):",
             inputName: "additional_subject_outlines_file_multiple",
-            objInputName: "additional_subject_outlines_file_multiple",
+            objInputName: "copies_of_subject_outline",
             inputType: "file",
+            inputAssign: "primary",
             multiple: true,
             required: true,
             displayShow: false,
           },
           {
-            inputLabel: "Verified copies of certificates and transcripts.",
+            inputLabel: "Verified copies of certificates and transcripts:",
             inputName: "additional_certificate_transcripts_file_multiple",
-            objInputName: "additional_certificate_transcripts_file_multiple",
+            objInputName: "completed_credits_transcripts_file",
             inputType: "file",
+            inputAssign: "primary",
             multiple: true,
             required: true,
             displayShow: false,
@@ -4215,6 +4264,7 @@ const programAdditionalInfoArray = [
     required: true,
     schoolParentDependence: "Greystone Institute",
     displayShow: true,
+    inputAssign: "primary",
     category:'Additional-Program',
     categoryTitle: "Scholarship",
     value: "",
@@ -4230,30 +4280,392 @@ const programAdditionalInfoArray = [
     ]
   },
   {
-    inputLabel: "Copy of your passport",
+    inputLabel: "Copy of your passport (jpeg,png,pdf; max. size: 1mb):",
     inputName: "additional_passport_file",
-    objInputName: "additional_passport_file",
+    objInputName: "passport_copy",
     inputType: "file",
-    required: true,
+    required: false,
     schoolParentDependence: "Greystone Institute",
     displayShow: true,
+    inputAssign: "primary",
     category:'Additional-Program',
     categoryTitle: "Supporting Documentation",
     value: ""
   },
   {
-    inputLabel: "Certified copies of your academic transcript(s) and certificate(s)",
+    inputLabel: "Certified copies of your academic transcript(s) and certificate(s)(jpeg,png,pdf; max. size: 1mb):",
     inputName: "additional_certified_transcripts_file",
-    objInputName: "additional_certified_transcripts_file",
+    objInputName: "official_transcript",
     inputType: "file",
-    required: true,
+    required: false,
     schoolParentDependence: "Greystone Institute",
     displayShow: true,
+    inputAssign: "primary",
     category:'Additional-Program',
     categoryTitle: "Supporting Documentation",
     value: ""
+  },
+  {
+    inputLabel: "Enter any additional notes regarding your program of study:",
+    inputName: "additional_study_additional_information_and_notes",
+    objInputName: "study_additional_information_and_notes",
+    inputType: "text-area",
+    rows: "5",
+    required: false,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    inputAssign: "primary",
+    category:'Additional-Program',
+    categoryTitle: "Additional Notes",
+    value: ""
   }
 ]
+
+const additionalAdditionalV2Array = [
+  {
+    inputLabel:
+      "Have you ever been refused a visa for any country including Australia?",
+    inputName: "additional_visa_refusal",
+    objInputName: "australia_visa_refusal_history",
+    schoolParentDependence: "Greystone Institute",
+    countryDependence: "Australia",
+    category: "Additional",
+    displayShow: false,
+    required: true,
+    inputType: "dropdown",
+    categoryTitle: "Information",
+    obj: [
+      {
+        label: "Yes",
+        value: "Yes",
+        dependent: [
+          {
+            inputLabel:
+              "Genuine Temporary Entrant - Statement of Purpose Copy (jpeg,png,pdf; max. size: 1mb)",
+            inputName: "additional_program_gte_file_upload",
+            objInputName: "gte_copy",
+            inputType: "file",
+            displayShow: false,
+            required: true,
+          }
+        ]
+      },
+      {
+        label: "No",
+        value: "No"
+      }
+    ]
+  },
+  {
+    inputLabel: "USI Number",
+    inputName: "additional_usi_number",
+    objInputName: "usi_number",
+    inputType: "text",
+    choolParentDependence: "Greystone Institute",
+    countryDependence: "Australia",
+    category: "Additional",
+    categoryTitle: "Information",
+    displayShow: false,
+    required: true,
+  },
+  {
+    inputLabel: "Are you applying for your visa outside or inside Australia?",
+    inputName: "additional_visa_apply",
+    objInputName: "are_you_applying_for_your_visa_outside_or_inside_australia",
+    inputType: "dropdown",
+    required: true,
+    displayShow: false,
+    categoryTitle: "Information",
+    category: "Additional",
+    schoolParentDependence: "Greystone Institute",
+    countryDependence: "Australia",
+    obj: [
+            {
+              label: "Inside",
+              value: "Inside",
+              dependent: [
+                {
+                  inputLabel: "What kind of visa you are currently holding?",
+                  inputName: "additional_australia_visa",
+                  objInputName: "australia_visa",
+                  inputType: "dropdown",
+                  obj: [
+                    {
+                      label: "Visitor Visa",
+                      value: "Visitor Visa"
+                    },
+                    {
+                      label: "Student Visa 500",
+                      value: "Student Visa 500"
+                    },
+                    {
+                      label: "Student Visa Dependant",
+                      value: "Student Visa Dependant"
+                    },
+                    {
+                      label: "Working Holiday",
+                      value: "Working Holiday"
+                    },
+                    {
+                      label: "Temporary Work Activity Visa (408 - COVID)",
+                      value: "Temporary Work Activity Visa (408 - COVID)"
+                    },
+                    {
+                      label: "Other type of Visa",
+                      value: "Other type of Visa"
+                    }
+                  ],
+                  required: true,
+                  displayShow: false,
+                },
+                {
+                  inputLabel: "Upload a copy of your current visa letter",
+                  inputName: "additional_australia_visa_letter_file_upload",
+                  objInputName: "australia_current_visa_letter",
+                  inputType: "file",
+                  required: true,
+                  displayShow: false
+                },
+              ]
+            },              
+            {
+              label: "Outside",
+              value: "Outside"
+            }
+      ]
+  },
+  {
+    inputLabel: "Are you currently studying at ILSC or Greystone College?",
+    inputName: "additional_australia_current_study",
+    objInputName: "are_you_currently_ilsc_greystone_college_student_",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    countryDependence: "Australia",
+    category: "Additional",
+    categoryTitle: "Information",
+    displayShow: false,
+    obj: [
+            {
+              label: "Yes",
+              value: "Yes",
+              dependent: [
+                {
+                inputLabel:
+                  "Please provide us your current studying campus and student ID number",
+                inputName: "additional_australia_student_id",
+                objInputName: "ilsc_greystone_college_student_id",
+                inputType: "text",
+                required: true,
+                displayShow: false,
+              }
+              ]
+            },              
+            {
+              label: "No",
+              value: "No"
+            }         
+          ]
+  },
+  {
+    inputLabel: "Are you going to study with another education provider in Australia after you finish your course at ILSC/Greystone College?",
+    inputName: "additional_study_another_provider_option",
+    objInputName: "are_you_going_to_study_with_another_education_provider_in_australia",
+    inputType: "dropdown",
+    inputAssign: "primary",
+    countryDependence: "Australia",
+    schoolParentDependence: "Greystone Institute",
+    required: true,
+    categoryTitle: "Information",
+    category: "Additional",
+    obj: [
+      {
+        label: "Yes",
+        value: "Yes",
+        dependent: [
+          {
+            inputLabel: "Write the name of the Education Provider",
+            inputName: "additional_australia_study_other_provider",
+            objInputName: "australia_educational_provider_name",
+            inputType: "text",
+            required: true,
+            displayShow: false
+          },
+          {
+            inputLabel: "Upload LoA (Leave of absence)",
+            inputName: "additional_australia_loa_file_upload",
+            objInputName: "loa",
+            inputType: "file",
+            displayShow: false,
+            required: true
+          },
+          {
+            inputLabel: "Upload CoE (Confirmation of Enrollment)",
+            inputName: "additional_australia_coe_file_upload",
+            objInputName: "coe",
+            inputType: "file",
+            required: true,
+            displayShow: false
+          },
+        ]
+      },
+      {
+        label: "No",
+        value: "No"
+      }
+    ],
+    category: "Additional",
+    displayShow: false,
+  },
+  {
+    inputLabel: "Emergency Contact",
+    inputName: "additional_emergency_contact_name",
+    objInputName: "name_of_emergency_contact",
+    inputType: "text",
+    required: true,
+    category: "Additional",
+    categoryTitle: "Personal Information",
+    value: "",
+    displayShow: true,
+  },
+  {
+    inputLabel: "Emergency Contact Phone Number",
+    inputName: "additional_emergency_contact_phone",
+    objInputName: "emergency_contact_phone__",
+    categoryTitle: "Personal Information",
+    inputType: "phone",
+    required: true,
+    category: "Additional",
+    schoolParentDependence: "Greystone Institute",
+    value: "",
+    displayShow: true,
+  },
+  {
+    inputLabel: "Emergency Contact Email",
+    inputName: "additional_emergency_contact_email",
+    objInputName: "emergency_contact_email",
+    inputType: "email",
+    required: true,
+    category: "Additional",
+    categoryTitle: "Personal Information",
+    schoolParentDependence: "Greystone Institute",
+    value: "",
+    displayShow: true,
+  },
+  {
+    inputLabel:
+      "Is there any health-related information you would like to share with us?",
+    inputName: "additional_health_condition_option",
+    objInputName: "do_you_have_any_physical_or_mental_medical_conditions_",
+    inputType: "dropdown",
+    required: true,
+    category: "Additional",
+    categoryTitle: "Personal Information",
+    schoolParentDependence: "Greystone Institute",
+    countryDependence: "Australia",
+    value: "",
+    obj: [
+      {
+        label: "No",
+        value: "No",
+      },
+      {
+        label: "Yes",
+        value: "Yes",
+        dependent: [
+          {
+            inputLabel: "Please specify with details",
+            inputName: "additional_health_condition_specified",
+            objInputName: "please_specify_health_condition_details_",
+            inputType:"text",
+            required: true,
+            displayShow: false,
+          }
+        ]
+      },
+    ],
+    displayShow: true,
+  },
+  {
+    inputLabel:
+      "Add additional files that are important for your enrollment process (jpeg,png,pdf; max. size: 1mb)<br> 1:",
+    inputName: "additional_files",
+    objInputName: "additional_files",
+    inputType: "file",
+    category: "Additional",
+    categoryTitle: "Files",
+    value: "",
+    required: false,
+    displayShow: true,
+    schoolParentDependence: "Greystone Institute",
+    countryDependence: "Australia",
+  },
+  {
+    inputLabel: "2:",
+    inputName: "additional_files_2",
+    objInputName: "additional_files_2",
+    inputType: "file",
+    category: "Additional",
+    categoryTitle: "Files",
+    value: "",
+    required: false,
+    displayShow: true,
+    countryDependence: "Australia",
+    schoolParentDependence: "Greystone Institute",
+  },
+  {
+    inputLabel: "3:",
+    inputName: "additional_files_3",
+    objInputName: "additional_files_3",
+    inputType: "file",
+    category: "Additional",
+    categoryTitle: "Files",
+    value: "",
+    required: false,
+    displayShow: true,
+    countryDependence: "Australia",
+    schoolParentDependence: "Greystone Institute",
+  },
+  {
+    inputLabel: "4:",
+    inputName: "additional_files_4",
+    objInputName: "additional_files_4",
+    inputType: "file",
+    category: "Additional",
+    categoryTitle: "Files",
+    value: "",
+    required: false,
+    displayShow: true,
+    countryDependence: "Australia",
+    schoolParentDependence: "Greystone Institute",
+  },
+  {
+    inputLabel: "5:",
+    inputName: "additional_files_5",
+    objInputName: "additional_files_5",
+    inputType: "file",
+    category: "Additional",
+    categoryTitle: "Files",
+    value: "",
+    required: false,
+    displayShow: true,
+    countryDependence: "Australia",
+    schoolParentDependence: "Greystone Institute",
+  },
+  {
+    inputLabel: "6:",
+    inputName: "additional_files_6",
+    objInputName: "additional_files_6",
+    inputType: "file",
+    category: "Additional",
+    categoryTitle: "Files",
+    value: "",
+    required: false,
+    displayShow: true,
+    countryDependence: "Australia",
+    schoolParentDependence: "Greystone Institute",
+  }
+];
 
 const insideCountryHtml =
     '<label for="inside-question-yes">Are you currently inside Canada?<sup>*</sup><span class="footnote">If yes, please submit your Study Permit or your Canadian visa (TRV or eTA) with your flight details that shows your arrival date in Canada. This information it&apos;s required to process your registration.</span></label><div class="form-check"><input class="form-check-input" value="No" type="radio" name="additional_inside_canada" id="inside-question-no" checked required><label class="form-check-label" for="inside-question-no">No</label></div><div class="form-check"><input class="form-check-input" value="Yes" type="radio" name="additional_inside_canada" id="inside-question-yes" required><label class="form-check-label" for="inside-question-yes">Yes</label></div>',
@@ -4317,6 +4729,11 @@ const validateForm = function (dataStepVar, dataFormArr, validCheck) {
     },
     "Please enter a valid email address with a proper dot extension."
   );
+  $.validator.addMethod('filesize', function (value, element, param) {
+        // Check if the element has files and if the first file's size is within the limit
+        return this.optional(element) || (element.files[0].size <= param);
+    }, 'File size must be less than {0} bytes'); // Custom error message
+
   let validArray = [],
     dataForm = dataFormArr.split(",");
 
@@ -4340,6 +4757,20 @@ const validateForm = function (dataStepVar, dataFormArr, validCheck) {
             required: true,
             customEmail: true,
           },
+          /*
+          additional_passport_file: {
+              required: true, // Or optional, depending on your needs
+              filesize: 1048576 // 1MB in bytes (1 * 1024 * 1024)
+          },
+          additional_certified_transcripts_file: {
+              required: true, // Or optional, depending on your needs
+              filesize: 1048576 // 1MB in bytes (1 * 1024 * 1024)
+          },
+          additional_credit_transfer_file: {
+              required: true, // Or optional, depending on your needs
+              filesize: 1048576 // 1MB in bytes (1 * 1024 * 1024)
+          }
+          */
         },
         messages: {
           "program_startdate_primary-input": {
@@ -4351,6 +4782,17 @@ const validateForm = function (dataStepVar, dataFormArr, validCheck) {
             customEmail:
               "Please enter a valid email address (e.g., user@example.com).",
           },
+          /*
+          additional_passport_file: {
+              filesize: 'File size must be less than 1MB.' // Custom message override
+          },
+          additional_certified_transcripts_file: {
+              filesize: 'File size must be less than 1MB.' // Custom message override
+          },
+          additional_credit_transfer_file: {
+              filesize: 'File size must be less than 1MB.' // Custom message override
+          }
+          */
         },
         errorElement: "label",
         focusInvalid: false,
@@ -4911,3 +5353,159 @@ const addSpinner = () => {
 const removeSpinner = () => {
   $(".app-step-container .lds-ring").remove();
 };
+
+const initializeDragAndDrop = function (className) {
+
+  const dropZones = document.querySelectorAll(className);
+  const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1 MB
+
+    // Function to handle the dropped files
+    function handleFiles(dropZoneElement, files) {
+        // Get the hidden file input associated with this drop zone
+        const fileInput = dropZoneElement.querySelector('input[type="file"]');
+        
+        // Get the file list <ul> associated with this drop zone
+        const fileListElement = dropZoneElement.querySelector('.file-list');
+        fileListElement.innerHTML = ''; // Clear existing list
+
+        // Create a new DataTransfer object to hold the files
+        const dataTransfer = new DataTransfer();
+
+        if (files.length > 0) {
+            // Add files to the DataTransfer object and update the list
+            for (let i = 0; i < files.length; i++) {
+
+                fileMessageTxt = files[i].size > MAX_FILE_SIZE ? ' - File is too large. Max size is 1 MB.' : ' (' + (files[i].size / 1024).toFixed(2) + ' KB)';
+                const listItem = document.createElement('li');
+                listItem.textContent = files[i].name + fileMessageTxt;
+                fileListElement.appendChild(listItem);
+
+                if (files[i].size < MAX_FILE_SIZE) {
+                  dataTransfer.items.add(files[i]);
+                }
+            }
+
+            // Assign the files to the hidden input field
+            fileInput.files = dataTransfer.files;
+        } else {
+            const listItem = document.createElement('li');
+            listItem.textContent = 'No files selected.';
+            fileListElement.appendChild(listItem);
+            fileInput.files = new FileList(); // Clear the files
+        }
+    }
+
+    // Attach event listeners to each drop zone
+    dropZones.forEach(dropZone => {
+        // Get the hidden input for click/browse functionality
+        const fileInput = dropZone.querySelector('input[type="file"]');
+
+        // 1. Click to browse
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle file selection via the browse dialog
+        fileInput.addEventListener('change', (event) => {
+            handleFiles(dropZone, event.target.files);
+        });
+
+
+        // DRAG AND DROP HANDLERS
+
+        // Prevent default behavior (which is to open the file)
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // 2. Highlight drop zone when file is dragged over
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.add('dragover');
+            }, false);
+        });
+
+        // 3. Remove highlight when drag leaves
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('dragover');
+            }, false);
+        });
+
+        // 4. Handle the dropped files
+        dropZone.addEventListener('drop', (e) => {
+            // Get the file list from the drop event
+            const droppedFiles = e.dataTransfer.files;
+            handleFiles(dropZone, droppedFiles);
+        }, false);
+    });
+}
+
+const flattenFields = function (inputArray) {
+  const flatFields = [];
+
+  for (const item of inputArray) {
+    // 1. Shallow copy the current item and remove nested/recursive keys
+    // to treat it as a top-level field for the output array.
+    const { obj, dependent, ...topLevelField } = item;
+
+    flatFields.push(topLevelField);
+
+    // 2. Recursively process nested options ('obj' array)
+    if (obj && Array.isArray(obj)) {
+      for (const option of obj) {
+        // 3. Recursively process dependent fields within options
+        if (option.dependent && Array.isArray(option.dependent)) {
+          flatFields.push(...flattenFields(option.dependent));
+        }
+      }
+    }
+
+    // 4. Recursively process dependent fields directly on the item
+    // (This handles the case where 'dependent' is outside the 'obj' array, 
+    // though in your structure, it's typically inside 'obj' elements).
+    if (dependent && Array.isArray(dependent)) {
+       flatFields.push(...flattenFields(dependent));
+    }
+  }
+
+  return flatFields;
+}
+
+// Function to return unique objects based on a property key
+const getUniqueArray = (arr, key) => {
+  // 1. Create a new Map.
+  // The Map key will be the unique property (e.g., 'name'), and the Map value will be the object itself.
+  const map = new Map();
+  
+  // 2. Iterate through the array.
+  // By using Map.set(key, value), any time a key is set a second time, it simply
+  // overwrites the previous value, effectively ensuring we only have one object per 'name'.
+  // NOTE: If you want to keep the FIRST occurrence, iterate the array normally.
+  // If you want to keep the LAST occurrence (as is typical with Map), iterate the array normally.
+  arr.forEach(item => {
+    map.set(item[key], item);
+  });
+  
+  // 3. Convert the Map values back to an array.
+  return Array.from(map.values());
+};
+
+const bindFilesToFileInput = function(fileInput, fileArray) {
+
+    // 1. Create a new DataTransfer object.
+    const dataTransfer = new DataTransfer();
+
+    // 2. Add each File object from the array to the DataTransfer object.
+    fileArray.forEach(file => {
+        dataTransfer.items.add(file);
+    });
+
+    // 3. Assign the DataTransfer's files list (FileList) to the input's files property.
+    fileInput[0].files = dataTransfer.files;
+}

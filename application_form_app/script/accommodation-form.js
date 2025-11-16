@@ -1,8 +1,9 @@
 const printAccomTypeOption = function(){
     let className = 'accommodation-type-option-container',
         campusSelected = $('input[name=program_campus]:checked').val(),
+        schoolSelected = $('input[name=program_school]:checked').attr('data-school'),
         tableId = accommodationTable,
-        queryParam = '&campus__in='+campusSelected+'&enabled__eq=1';
+        queryParam = '&school__in='+schoolSelected+'&campus__in='+campusSelected+'&enabled__eq=1';
         api_url = apiUrl+tableId+'/rows?portalId='+portalId+queryParam;
         api_url = encodeURI(api_url);
 
@@ -354,7 +355,12 @@ $(document).on( 'click', 'input[name=accommodation_option]', function () {
         $('#accommodation-type-option-container').removeClass('study-hide').addClass('study-show');
         $('.accommodation-airport-transfer-details').removeClass('study-hide').addClass('study-show');
         $('.additional-airport-transfer-details').removeClass('study-show').addClass('study-hide');
+        if(selectedParentSchool == 'Greystone Institute'){
+            optionDetailsHtml = printAdditionalInputForm(accommodationAdditionalArray,'Accommodation-Details');
+            $('.accommodation-details .accommodation-additional-details').html(optionDetailsHtml);
+        }
         printAccomTypeOption();
+
         printAirportTransfer('accommodation-form','Accommodation',true);
         $("input,select,textarea","#accommodation-type-option-container").attr('disabled',false);
         $("input,select,textarea",".accommodation-details-container").attr('disabled',false);

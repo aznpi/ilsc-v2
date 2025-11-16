@@ -43,8 +43,10 @@ const schoolVal = 'Greystone Institute',
     greystoneAgentDeclarationHtml = "",
     greystoneIlscStudentDeclarationHtmlCA = "",
     greystoneIlscAgentDeclarationHtmlCA = "",
-    greystoneIlscStudentDeclarationHtmlAU = "",
-    greystoneIlscAgentDeclarationHtmlAU = "",
+    greystoneIlscStudentDeclarationHtmlAU =
+    "<div class='agreement-check'><input type='checkbox' id='greystone-ilsc-student-check' name='greystone_ilsc_student_declaration_checkbox' value='Yes, I certify that I have reviewed and understood the contents of this declaration.' required><label for='greystone-ilsc-student-check'>Yes, by submitting this form, I certify that I have reviewed and understood the contents of this declaration.<sup>*</sup></label></div>",
+  greystoneIlscAgentDeclarationHtmlAU =
+    "<div class='agreement-check'><input type='checkbox' id='greystone-ilsc-agent-check' name='greystone_ilsc_agent_declaration_checkbox' value='Yes, I certify that the student has reviewed and understood the contents of this declaration.' required><label for='greystone-ilsc-agent-check'>Yes, by submitting this form, I certify that the student has reviewed and understood the contents of this declaration.<sup>*</sup></label></div>",
     startDateMessage = "",
     enablePayment = false,
     depositAmt = "350",

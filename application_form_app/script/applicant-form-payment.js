@@ -334,6 +334,7 @@ const printApplicationSummary = function () {
     programPrimaryLabelArray = [],
     programAlternateLabelArray = [],
     programAdditionalArray = [],
+    programAdditionalInfoTempArray = [],
     accommodationLabelArray = [],
     homestayLabelArray = [],
     additionalLabelArray = [],
@@ -395,7 +396,19 @@ const printApplicationSummary = function () {
           });
         }
       }
-    } else if (studyFormArray[stf].name.includes("jr_family_member")) {
+    } else if (studyFormArray[stf].name.includes("additional_")){
+      arr = flattenFields(programAdditionalInfoArray);
+      for (let pa = 0; pa < arr.length; pa++) {
+        if (studyFormArray[stf].name == arr[pa].inputName) {
+          programAdditionalInfoTempArray.push({
+            name: studyFormArray[stf].name,
+            value: studyFormArray[stf].value,
+            label: arr[pa].inputLabel,
+          });
+        }
+      }
+
+    }else if (studyFormArray[stf].name.includes("jr_family_member")) {
       for (let jr = 0; jr < juniorFamilyMembersInputArray.length; jr++) {
         splitName = studyFormArray[stf].name.split("_iterate_");
         iterateVal = splitName[1];
@@ -441,6 +454,7 @@ const printApplicationSummary = function () {
         }
       }
     } else {
+          
       for (let pi = 0; pi < programInfoArray.length; pi++) {
         if (!programInfoArray[pi].hiddenEnable) {
           if (studyFormArray[stf].name == programInfoArray[pi].inputName) {
@@ -533,36 +547,38 @@ const printApplicationSummary = function () {
       accommodationFormArray[acc].name.includes("homestay") ||
       accommodationFormArray[acc].name.includes("residence")
     ) {
-      for (let o = 0; o < accommodationAdditionalArray.length; o++) {
+      arrAccAddInfo = flattenFields(accommodationAdditionalArray);
+      for (let o = 0; o < arrAccAddInfo.length; o++) {
         if (
-          accommodationAdditionalArray[o].countryDependence.includes(
+          arrAccAddInfo[o].countryDependence.includes(
             countrySelected
           )
         ) {
           if (
             accommodationFormArray[acc].name ==
-            accommodationAdditionalArray[o].inputName
+            arrAccAddInfo[o].inputName
           ) {
             homestayLabelArray.push({
               name: accommodationFormArray[acc].name,
-              label: accommodationAdditionalArray[o].inputLabel,
+              label: arrAccAddInfo[o].inputLabel,
               value: accommodationFormArray[acc].value,
             });
           }
         }
       }
     } else {
-      for (let o = 0; o < accommodationInfoArray.length; o++) {
+      arrAccInfo = flattenFields(accommodationInfoArray);
+      for (let o = 0; o < arrAccInfo.length; o++) {
         if (
-          accommodationInfoArray[o].countryDependence.includes(countrySelected)
+          arrAccInfo[o].countryDependence.includes(countrySelected)
         ) {
           if (
             accommodationFormArray[acc].name ==
-            accommodationInfoArray[o].inputName
+            arrAccInfo[o].inputName
           ) {
             accommodationLabelArray.push({
               name: accommodationFormArray[acc].name,
-              label: accommodationInfoArray[o].inputLabel,
+              label: arrAccInfo[o].inputLabel,
               value: accommodationFormArray[acc].value,
             });
           }
@@ -633,26 +649,19 @@ const printApplicationSummary = function () {
         }
       }
     } else {
-      if (additionalFormArray[ad].name.includes("file")) {
-        objUnique = fileUploadArray.reduce((acc, z) => {
-          var exist = acc.find(({ inputName }) => z.inputName === inputName);
-          if (!exist) {
-            acc.push(z);
-          }
-          return acc;
-        }, []);
-      } else {
-        objUnique = additionalInfoArray.reduce((acc, z) => {
-          var exist = acc.find(({ inputName }) => z.inputName === inputName);
-          if (!exist) {
-            acc.push(z);
-          }
-          return acc;
-        }, []);
-      }
+      let arrTarget = schoolVal == 'Greystone Institute' ? flattenFields(additionalAdditionalV2Array) : additionalFormArray[ad].name.includes("file") ? fileUploadArray : additionalInfoArray;
 
-      if (additionalFormArray[ad].name.includes("file")) {
-        for (let ob = 0; ob < objUnique.length; ob++) {
+      objUnique = arrTarget.reduce((acc, z) => {
+        var exist = acc.find(({ inputName }) => z.inputName === inputName);
+        if (!exist) {
+          acc.push(z);
+        }
+        return acc;
+      }, []);
+
+      let arrLabelTarget = additionalFormArray[ad].name.includes("file") ? fileUploadLabelArray : additionalLabelArray;
+
+      for (let ob = 0; ob < objUnique.length; ob++) {
           if (additionalFormArray[ad].name == objUnique[ob].inputName) {
             valueStr =
               additionalFormArray[ad].value == 1
@@ -661,7 +670,7 @@ const printApplicationSummary = function () {
                 ? "No"
                 : "Yes";
             if (additionalFormArray[ad].name != "") {
-              fileUploadLabelArray.push({
+              arrLabelTarget.push({
                 name: additionalFormArray[ad].name,
                 label: objUnique[ob].inputLabel,
                 value: valueStr,
@@ -669,23 +678,6 @@ const printApplicationSummary = function () {
             }
           }
         }
-      } else {
-        for (let ob = 0; ob < objUnique.length; ob++) {
-          if (additionalFormArray[ad].name == objUnique[ob].inputName) {
-            valueStr =
-              additionalFormArray[ad].value == 1
-                ? "Yes"
-                : additionalFormArray[ad].value == 0
-                ? "No"
-                : additionalFormArray[ad].value;
-            additionalLabelArray.push({
-              name: additionalFormArray[ad].name,
-              label: objUnique[ob].inputLabel,
-              value: valueStr,
-            });
-          }
-        }
-      }
     }
   }
   for (let add = 0; add < additionalLabelArray.length; add++) {
@@ -777,6 +769,7 @@ const printApplicationSummary = function () {
     }
   }
 
+
   if (familyArray.length > 0) {
     groupedDependent = groupBy(familyArray, "iterate");
     groupArray = new Object();
@@ -800,6 +793,29 @@ const printApplicationSummary = function () {
       );
     }
   }
+
+  if (programAdditionalInfoTempArray.length > 0) {
+
+    $(".study-info-program-additional-info-summary-container .summary-container").empty();
+    addProgramAdditionalInfoLabelHtml = "",
+    headerLabel = "";
+
+    for (let pa = 0; pa < programAdditionalInfoTempArray.length; pa++) {
+     
+        addProgramAdditionalInfoLabelHtml +=
+          '<tr><td><span class="bold">' +
+          programAdditionalInfoTempArray[pa].label +
+          '</span></td><td><span class="value-input">' +
+          programAdditionalInfoTempArray[pa].value +
+          "</span></td></tr>";
+          headerLabel = pa == 0 ? "<h5>Program Additional Information</h5>" : "";
+    }
+    
+    $(".study-info-program-additional-info-summary-container.summary-container").append(
+      headerLabel + "<table>" + addProgramAdditionalInfoLabelHtml + "</table>"
+    );
+  }
+
 
   $(".step-breadcrumb-container").hide();
   getPolicyTxt();
@@ -1752,17 +1768,32 @@ const printStudentForm = function () {
 const dependentTemplate = function(arr,dependentClass,categoryName){
   let optionHtml = "",
       inputItem = "",
-      dependentList = "";
+      depList = "",
+      optList = "",
+      dropArray = arr.obj,
+      hasDep = false,
+      depAttr = "";
 
       switch (arr.inputType) {
         case "text":
           inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
             arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' required disabled></div>";
           break;
+        case "phone":
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
+          arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' placeholder='example: +1 123 123 12345' required disabled></div>";
+              
+          break;
+        case "email":
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
+          arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' required disabled></div>";
+          
+        break;
         case "file":
-          multipleAttribute = arr.multiple ? "multiple" : "";
-            inputItem +=
-              "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='file' class='form-control additional-file-input' data-category='" + categoryName + "' id='" +
+          multipleAttribute = arr.multiple ? "multiple hidden" : "";
+          fileClassName = arr.multiple ? "multiple-file-input" : "single-file-input";
+          labelHtml= "<label for='fileInput-" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label>";
+          inputFileHtml="<input type='file' class='form-control additional-file-input " + fileClassName + "' data-category='" + categoryName + "' id='fileInput-" +
               arr.inputName +
               "-" + dependentClass + "' name='" +
               arr.inputName +
@@ -1770,61 +1801,62 @@ const dependentTemplate = function(arr,dependentClass,categoryName){
                 arr.objInputName +
                 "' accept='jpeg,jpg,pdf,png' " +
               multipleAttribute +
-              "' required disabled><input type='hidden' name='" + arr.inputName + "' value='' readonly disabled></div>";
+              " required disabled><input type='hidden' name='" + arr.inputName + "' value='' readonly disabled>";
+          if(arr.multiple){
+            inputItem +=
+              "<div class='form-group'>" + labelHtml + "<div class='additional-program-info-drop-zone drop-zone' id='dropZone-"+arr.inputName+"-"+dependentClass+"'><p>Drop files here or click to browse<br><span class='footnote'>(jpeg,png,pdf; max. size: 1mb)</span></p>" + inputFileHtml + "<ul class='file-list'></ul></div></div>";
+          }else{
+            inputItem +=
+              "<div class='form-group'>" + labelHtml + inputFileHtml + "</div>";
+          }
             break;
         case "dropdown":
-          optionList = "";
-          dropArray = arr.obj;
-          hasDependent = false;
-          
+                   
           for (let i = 0; i < dropArray.length; i++) {
-            optionList +=
+            optList +=
                 "<option value='" +
                 dropArray[i].value +
                 "'>" +
                 dropArray[i].label +
                 "</option>";
-              hasDependent = dropArray[i].dependent ? true : false;
-              if (hasDependent) {
-                dependentList += dependentTemplate(dropArray[i].dependent[0], dependentClass + "-" + dropArray[i].value, categoryName);
-              }
-            }
-
+            hasDep = dropArray[i].dependent ? true : false;
+            depAttr = hasDep ? "data-dependent='true'" : "";         
+            if (hasDep) {
+              depList += dependentTemplate(dropArray[i].dependent[0], dependentClass + "-" + dropArray[i].value, categoryName);
+            }  
+          }
+          
           inputItem +=
             "<div class='form-group'><label for='" + arr.inputName + "'>" + arr.inputLabel + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
             arr.inputName + "' name='" +
-            arr.inputName +
-            "' " +
-            " data-parent='true' required><option disabled selected value=''>Choose option</option>" +
-            optionList +
+            arr.inputName + "' " +
+            " data-parent='true' data-target='" + dependentClass + "' " + depAttr + " required><option disabled selected value=''>Choose option</option>" +
+            optList +
             "</select></div>";
         break;
       }
-  optionHtml = '<div class="dependent-target study-hide" data-target="' + dependentClass + '" style="padding-left:50px;">' + inputItem + '</div>'+ dependentList;
+  optionHtml = '<div class="dependent-target study-hide" data-target="' + dependentClass + '" style="padding-left:50px;">' + inputItem + '</div>'+ depList;
   return optionHtml;
 }
 
 const printInputDependentForm = function(arr,dependentClass,categoryName){
   let optionHtml = "",
-      inputItem = "";
+      inputItem = "",
+      hasDependent = false,
+      dependentList = "";
 
   for (let i = 0; i < arr.length; i++) {
       switch (arr[i].inputType) {
-        case "text":
-          inputItem += dependentTemplate(arr[i],dependentClass+'-'+i,categoryName);
-          break;
-        case "file":
-          inputItem += dependentTemplate(arr[i],dependentClass+'-'+i,categoryName);
-          break;
         case "dropdown":
-          hasDependent = false;
-          dependentList = "";
           hasDependent = arr[i].dependent ? true : false;
           if (hasDependent) {
             dependentList += dependentTemplate(arr[i].dependent, arr[i].inputName + "-" + arr[i].value, categoryName);
           }
           inputItem += dependentTemplate(arr[i],dependentClass+'-'+i,categoryName) + dependentList;
-          break;    
+          break; 
+        default:
+          inputItem += dependentTemplate(arr[i],dependentClass+'-'+i,categoryName);
+          break;   
       }
   }
   optionHtml = '<div class="dependent-target study-hide" data-target="' + dependentClass + '" style="padding-left:50px;">' + inputItem + '</div>';
@@ -1852,6 +1884,13 @@ const printAdditionalInputForm = function(arr,categoryName){
         
         // Loop through the array of items for the current category
         items.forEach((item, index) => {
+          let optionList = "";
+              dropArray = item.obj,
+              dependentList = "",
+              dependentAttr = "",
+              multipleAttribute = "",
+              hasDependent = false;
+
             if (item.schoolDependence) {
               schoolDependenceList = item.schoolDependence.split(",");
               schoolDependenceArr = [];
@@ -1872,14 +1911,22 @@ const printAdditionalInputForm = function(arr,categoryName){
                   inputItem += "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
                     item.inputName + "' name='" + item.inputName + "' value='' data-parent='true' required></div>";
                 break;
+                case "phone":
+                  inputItem += "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
+                  item.inputName + "' name='" + item.inputName + "' value='' placeholder='example: +1 123 123 12345' required></div>";
+
+                  break;
+                case "email":
+                  inputItem += "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
+                  item.inputName + "' name='" + item.inputName + "' value='' required></div>";
+
+                break;
                 case "dropdown":
-                  optionList = "";
-                  dropArray = item.obj;
-                  dependentList = "";
-                  hasDependent = false;
+                  dependentArray = [];
                   for (let i = 0; i < dropArray.length; i++) {
                     hasDependent = dropArray[i].dependent ? true : false;
                     if (hasDependent) {
+                      dependentArray.push(true);
                       dependentList += printInputDependentForm(dropArray[i].dependent, item.inputName + "-" + dropArray[i].value, categoryName);
                     }
                     optionList +=
@@ -1888,28 +1935,43 @@ const printAdditionalInputForm = function(arr,categoryName){
                         "'>" +
                         dropArray[i].label +
                         "</option>";
-                    }
-
+                  }
+                  dependentAttr = dependentArray.includes(true) ? "data-dependent='true'" : "";
                   inputItem +=
                     "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
                     item.inputName + "' name='" +
                     item.inputName +
                     "' " +
-                    " data-parent='true' required><option disabled selected value=''>Choose option</option>" +
+                    " data-parent='true' " + dependentAttr + " required><option disabled selected value=''>Choose option</option>" +
                     optionList +
                     "</select></div>" + dependentList;
                 break;
                 case "file":
-                    multipleAttribute = item.multiple ? "multiple" : "";
-                  inputItem +=
-                    "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='file' class='form-control additional-file-input' data-category='" + categoryName + "' id='" +
+                    multipleAttribute = item.multiple ? "multiple hidden" : "";
+                    fileClassName = item.multiple ? "multiple-file-input" : "single-file-input";
+                    inputFileHtml = "<input type='file' class='form-control additional-file-input " + fileClassName + "' data-category='" +   categoryName + "' id='fileInput-" +
                     item.inputName + "' name='" +
                     item.inputName +
                     "' data-bind='" +
                       item.objInputName +
                       "' accept='jpeg,jpg,pdf,png' " +
-                    "' required disabled><input type='hidden' name='" + item.inputName + "' value='' readonly" + multipleAttribute + " data-parent='true'></div>";
+                     multipleAttribute + "><input type='hidden' name='" + item.inputName + "' value='' readonly" + multipleAttribute + " data-parent='true'>";
+                    labelHtml = "<label for='fileInput-" + item.inputName + "'>" + item.inputLabel + "</label>";
+                  if(item.multiple){
+                    inputItem +=
+                      "<div class='form-group'>" + labelHtml + "<div class='additional-program-info-drop-zone drop-zone' id='dropZone-"+item.inputName+"'><p>Drop files here or click to browse<br><span class='footnote'>(jpeg,png,pdf; max. size: 1mb)</span></p>" + inputFileHtml + "<ul class='file-list'></ul></div></div>";
+                  }else{
+                     inputItem += "<div class='form-group'>" + labelHtml + inputFileHtml + "</div>";
+                  }
                   break;
+                case "text-area":
+                  inputItem += "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
+                    item.inputName + "' name='" +
+                    item.inputName +
+                    "' rows='" + item.rows + "' " + (item.required ? "required" : "") + "></textarea></div>";
+                default:
+                  inputItem += "";
+                break;
               }
             }
           });
@@ -4342,6 +4404,7 @@ const printAdditionalInfo = function () {
 
   if (schoolVal == "Greystone Institute") {
     additionalHtml = printAdditionalInputForm(programAdditionalInfoArray,'Additional-Program');
+    printProgramHubspotFileForm();
   } else {
     if (countrySelected == "Australia") {
       inputHtml =
@@ -4428,6 +4491,7 @@ const printAdditionalInfo = function () {
       hideShowIForm(programSelected, durationSelectedVal);
     }
   }
+  initializeDragAndDrop('.additional-program-info-drop-zone');
 };
 const hideShowIForm = function (programName, duration) {
   if (programName == "American Explorer") {
@@ -4505,11 +4569,21 @@ const uploadFile = function (dataStep) {
       $("#" + formName + " input[type=file]:not(:disabled)").each(function () {
         fileName = $(this).attr("name");
         dataBind = $(this).attr("data-bind");
-        fileVar = $(this)[0].files;
-        $("#" + targetId + " input[name=" + dataBind + "]")[0].files = fileVar;
+        fileList = $(this)[0].files;
+        fileVar = [];
+
+        if (fileList.length > 0) {
+            $.each(fileList, function(index, fileObject) {             
+              fileVar.push(fileObject);
+          });
+        
+          fileInput = $("#" + targetId + " input[name=" + dataBind + "]");
+          bindFilesToFileInput(fileInput, fileVar);
+        }
       });
+      
       $("#" + targetId + " input[name=email]").val(emailVar);
-      $("form#hsForm_" + hsFormId).submit();
+      //$("form#hsForm_" + hsFormId).submit();
     }
   }
 };
@@ -4527,9 +4601,7 @@ const submitForm = function (dataStep) {
   let emailVar = $("input[name=student_email]").val();
 
   switch (dataStep) {
-    case "status-select":
-      (formName = "form-status"), (guid = ""), (arr = "");
-      break;
+    
     case "student-info-select":
       guid = studentGuid;
       formName = "form-student";
@@ -4543,6 +4615,7 @@ const submitForm = function (dataStep) {
       guid = studyGuid;
       formName = "study-form";
       arr = programInfoArray;
+      arrAdditionalInfoProgram = flattenFields(programAdditionalInfoArray);
       arrDependent = dependentInputArray;
       arrJrFamilyMembers = juniorFamilyMembersInputArray;
       uploadFile("study-program-select");
@@ -4558,7 +4631,7 @@ const submitForm = function (dataStep) {
 
     case "additional-select":
       guid = additionalGuid;
-      arr = additionalInfoArray;
+      arr = schoolVal ==  "Greystone Institute" ? flattenFields(additionalAdditionalV2Array) :  additionalInfoArray;
       arrFamily = familyMemberInfoArray;
       formName = "additional-form";
       uploadFile("additional-select");
@@ -4572,7 +4645,7 @@ const submitForm = function (dataStep) {
       break;
   }
 
-  if (typeof formName !== "undefined" && formName == "form-status") {
+  if (typeof formName !== "undefined") {
     formTempArray = $(
       "input[type!=file],select,textarea",
       "form#" + formName
@@ -4642,7 +4715,8 @@ const submitForm = function (dataStep) {
       familyArray = [],
       additionalProgramTempArray = [],
       jrFamilyMemberArray = [],
-      programAdditionalArray = [];
+      programAdditionalArray = [],
+      programAdditionalInfoArray = [];
 
     for (let i = 0; i < formTempArray.length; i++) {
       if (!formTempArray[i].name.includes("combo")) {
@@ -4994,6 +5068,26 @@ const submitForm = function (dataStep) {
       }
     }
 
+    if(typeof arrAdditionalInfoProgram !== "undefined" && dataStep == "study-program-select"){
+      
+      //Additional-Program
+      for (let i = 0; i < formTempArray.length; i++) {
+        for (let x = 0; x < arrAdditionalInfoProgram.length; x++) {
+          if (formTempArray[i].name == arrAdditionalInfoProgram[x].inputName) {
+            if (arrAdditionalInfoProgram[x].objInputName) {
+              tempArray.push({
+                objName: arrAdditionalInfoProgram[x].objInputName,
+                value: formTempArray[i].value,
+              });
+            }
+          }
+        }
+      }
+    }
+  
+
+    let valueTemp = "";
+
     formFieldsArray.push({
       objectTypeId: "0-1",
       name: "email",
@@ -5008,8 +5102,10 @@ const submitForm = function (dataStep) {
       });
     }
 
+    const uniqueArray = getUniqueArray(formFieldsArray, 'name');
+
     let formArray = {
-      fields: formFieldsArray,
+      fields: uniqueArray,
       context: {
         pageUri: "www.ilsc.com/online-application",
         pageName: "Online Application - Student Info",
@@ -5023,6 +5119,8 @@ const submitForm = function (dataStep) {
         },
       },
     };
+
+    console.log("formArray:", formArray);
 
     if (!formSubmit) {
       /*$.ajax({
@@ -5044,10 +5142,9 @@ const submitForm = function (dataStep) {
                 });
                 */
 
-      actionFormSubmitSuccess(formName, dataStep, true);
+      $("form#" + formName).attr("data-submit", true);
+
     }
-  } else {
-    actionFormSubmitSuccess(formName, dataStep, true);
   }
 };
 
@@ -5970,8 +6067,6 @@ const printUasInstitutionDrop = function () {
   $.get(api_url).done(function (data) {
     let dataObject = data.list;
 
-    console.log(dataObject);
-
     if (dataObject.length > 0) {
       for (let i = 0; i < dataObject.length; i++) {
         instituteArray.push({
@@ -6003,9 +6098,7 @@ const printUasInstitutionDrop = function () {
         let data = { "list": [{ "institutionName": "Barry University", "checked": true }, { "institutionName": "Berkeley College [Midtown Manhattan Campus]", "checked": true }, { "institutionName": "Berkeley College [Newark]", "checked": true }, { "institutionName": "Berkeley College [Woodbridge]", "checked": true }, { "institutionName": "Berkeley College [Woodland Park Campus]", "checked": true }, { "institutionName": "Bunker Hill Community College", "checked": true }, { "institutionName": "California College of the Arts", "checked": true }, { "institutionName": "California Lutheran University", "checked": true }, { "institutionName": "Canada College", "checked": true }, { "institutionName": "Case Western Reserve University", "checked": true }, { "institutionName": "City University of Seattle", "checked": true }, { "institutionName": "Clark University", "checked": true }, { "institutionName": "Clemson University", "checked": true }, { "institutionName": "College of San Mateo", "checked": true }, { "institutionName": "Columbia College Chicago", "checked": true }, { "institutionName": "De Anza College", "checked": true }, { "institutionName": "Diablo Valley College", "checked": true }, { "institutionName": "Dominican University", "checked": true }, { "institutionName": "Dominican University of California", "checked": true }, { "institutionName": "East Tennessee State University", "checked": true }, { "institutionName": "Eastern Kentucky University", "checked": true }, { "institutionName": "Eckerd College", "checked": true }, { "institutionName": "Edmonds College", "checked": true }, { "institutionName": "El Camino College", "checked": true }, { "institutionName": "Fairleigh Dickinson University [Metropolitan Campus]", "checked": true }, { "institutionName": "Florida Institute of Technology", "checked": true }, { "institutionName": "Foothill College", "checked": true }, { "institutionName": "Fulton-Montgomery Community College (at Johnstown) [SUNY]", "checked": true }, { "institutionName": "Glendale Community College [California]", "checked": true }, { "institutionName": "Governors State University", "checked": true }, { "institutionName": "Grand Valley State University", "checked": true }, { "institutionName": "Green River College", "checked": true }, { "institutionName": "Hillsborough Community College", "checked": true }, { "institutionName": "Indiana University - Indianapolis", "checked": true }, { "institutionName": "Irvine Valley College", "checked": true }, { "institutionName": "Johnson \u0026 Wales University - Providence", "checked": true }, { "institutionName": "Kent State University", "checked": true }, { "institutionName": "Lewis University", "checked": true }, { "institutionName": "Marquette University", "checked": true }, { "institutionName": "Marymount University", "checked": true }, { "institutionName": "Miami University [Oxford]", "checked": true }, { "institutionName": "Middle Tennessee State University", "checked": true }, { "institutionName": "MiraCosta College", "checked": true }, { "institutionName": "Nova Southeastern University", "checked": true }, { "institutionName": "Ohio Dominican University", "checked": true }, { "institutionName": "Oklahoma City University", "checked": true }, { "institutionName": "Orange Coast College", "checked": true }, { "institutionName": "Otis College of Art and Design", "checked": true }, { "institutionName": "Pasadena City College", "checked": true }, { "institutionName": "Robert Morris University", "checked": true }, { "institutionName": "Rowan University", "checked": true }, { "institutionName": "Rutgers University - Camden", "checked": true }, { "institutionName": "Saint Joseph\u0027s University", "checked": true }, { "institutionName": "Santa Monica College", "checked": true }, { "institutionName": "Santa Rosa Junior College", "checked": true }, { "institutionName": "Santiago Canyon College", "checked": true }, { "institutionName": "Seattle Central College", "checked": true }, { "institutionName": "Shoreline Community College", "checked": true }, { "institutionName": "Skyline College", "checked": true }, { "institutionName": "South Seattle College", "checked": true }, { "institutionName": "South University \u2013 Tampa", "checked": true }, { "institutionName": "Stockton University", "checked": true }, { "institutionName": "Texas Tech University", "checked": true }, { "institutionName": "The Culinary Institute of America", "checked": true }, { "institutionName": "The Culinary Institute of America at Greystone", "checked": true }, { "institutionName": "The University of Scranton", "checked": true }, { "institutionName": "The University of Tampa", "checked": true }, { "institutionName": "University of Cincinnati", "checked": true }, { "institutionName": "University of Houston - Clear Lake", "checked": true }, { "institutionName": "University of La Verne", "checked": true }, { "institutionName": "University of Massachusetts Dartmouth", "checked": true }, { "institutionName": "University of Missouri - St. Louis", "checked": true }, { "institutionName": "University of Nevada Las Vegas", "checked": true }, { "institutionName": "University of St. Thomas - Houston", "checked": true }, { "institutionName": "University of St. Thomas - Minnesota", "checked": true }, { "institutionName": "Valparaiso University", "checked": true }, { "institutionName": "Western Michigan University", "checked": true }] };
     
         dataObject = data.list;
-    
-        console.log(dataObject)
-    
+        
         if (dataObject.length > 0) {
             for (let i = 0; i < dataObject.length; i++) {
     
@@ -6047,6 +6140,59 @@ $(document).on(
       ? "alternate-input"
       : "primary-input";
     coopAction(this, element);
+  }
+);
+$(document).on(
+  "change",
+  'div:not(.dependent-target) select[data-dependent="true"]',
+  function () {
+    let selectedVal = $(this).val(),
+      inputName = $(this).attr("name");
+
+    parentClass = ".dependent-target[data-target=" + inputName + "-" + selectedVal + "]";
+    childLengthArray = [];
+    $(parentClass).children().each(function () {
+      dTarg = $(this).attr("data-target");
+      dTardArray = dTarg.split("-");
+      if (dTardArray.length == 3) {
+        childLengthArray.push(true);
+      }
+    });
+    childClass = "";
+    if (childLengthArray.length > 0) {
+      for (let i = 0; i < childLengthArray.length; i++) {
+      childClass += ",.dependent-target[data-target=" + inputName + "-" + selectedVal + "-"+i+"]";
+      }
+    }
+    familyClass = parentClass + childClass;
+    parentElement = $(familyClass);
+    inputElement = $("[id=" + inputName + "-" + selectedVal + "]");
+
+    //reset fields
+    $(".dependent-target[data-target^=" + inputName + "]").removeClass("study-show").addClass("study-hide");
+    $("select,input",".dependent-target[data-target^=" + inputName + "]").attr('disabled', true);
+
+
+    parentElement.removeClass("study-hide").addClass("study-show");
+    $('select,input', parentElement).attr('disabled', false);
+  }
+);
+$(document).on(
+  "change",
+  'div.dependent-target select[data-dependent="true"]',
+  function () {
+    let selectedVal = $(this).val(),
+      dependentClass = $(this).attr("data-target");
+
+    targetVal = dependentClass + "-" + selectedVal;
+    parentElement = $('.dependent-target[data-target="' + targetVal + '"]');
+
+    //reset fields
+    $(this).parents(".dependent-target[data-target^=" + dependentClass + "]").siblings().removeClass("study-show").addClass("study-hide");
+    $("select,input",".dependent-target[data-target^=" + dependentClass + "-]").attr('disabled', true);
+
+    parentElement.removeClass("study-hide").addClass("study-show");
+    $('select,input', parentElement).attr('disabled', false);
   }
 );
 
