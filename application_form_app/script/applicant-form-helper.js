@@ -2356,7 +2356,7 @@ const accommodationAdditionalArray = [
   {
     inputLabel: "Do you want to purchase your OSHC (Overseas Student Health Cover) through ILSC/Greystone College?",
     inputName: "insurance_option",
-    objInputName: "purchase_oshc_through_ilsc_greystone_college_",
+    objInputName: "medical_insurance",
     inputType: "dropdown",
     required: true,
     category: "Accommodation-Details",
@@ -2373,6 +2373,7 @@ const accommodationAdditionalArray = [
             inputLabel: "Please select which one you would like to purchase",
             inputName: "insurance_type_option",
             objInputName: "insurance_type_option",
+            countryDependence: "Australia",
             inputType: "dropdown",
             required: true,
             obj: [
@@ -3471,6 +3472,18 @@ const additionalInfoArray = [
     displayShow: false,
   },
   {
+    inputLabel: "Have you already been accepted to a US institution?",
+    inputName: "additional_accepted_college_option",
+    objInputName: "has_the_student_already_been_accepted_to_a_us_institution_",
+    displayShow: false,
+  },
+  {
+    inputName: "accommodation_accepted_college_specified",
+    inputLabel: "Name of the US Institution.",
+    objInputName: "name_of_the_us_institution",
+    displayShow: false,
+  },
+  {
     inputLabel: "Do you need a custodian letter or a minor consent form?",
     inputName: "additional_minor_consent_form_option",
     objInputName: "custodian_letter",
@@ -3532,7 +3545,7 @@ const additionalInfoArray = [
   },
 
   {
-    inputLabel: "Does the parent reside in Australia and serve as the primary contact and caregiver for the student during their course duration?",
+    inputLabel: "Does the parent reside in Australia and serve as the primary contact and guardian for the student during their course duration?",
     inputName: "additional_parent_caregiver_residence_option",
     objInputName: "additional_parent_caregiver_residence_option",
     inputType: "radio-option",
@@ -3585,47 +3598,47 @@ const additionalInfoArray = [
                     optionTarget: "parent-no-option"
                   },
                   {
-                    inputLabel: "Caregiver's Full Name",
+                    inputLabel: "Guardian's Full Name",
                     inputName: "additional_caregiver_full_name",
                     inputType: "text",
                     required: true
                   },
                   {
-                    inputLabel: "Caregiver's Relationship to Student",
+                    inputLabel: "Guardian's Relationship to Student",
                     inputName: "additional_caregiver_relationship",
                     inputType: "text",
                     required: true
                   },
                   {
-                    inputLabel: "Caregiver's Australian Address",
+                    inputLabel: "Guardian's Australian Address",
                     inputName: "additional_caregiver_residential_address",
                     inputType: "text",
                     required: true
                   },
                   {
-                    inputLabel: "Caregiver's Phone Number",
+                    inputLabel: "Guardian's Phone Number",
                     inputName: "additional_caregiver_phone_number",
                     inputType: "text-phone",
                     required: true
                   },
                   {
-                    inputLabel: "Caregiver's Email Address",
+                    inputLabel: "Guardian's Email Address",
                     inputName: "additional_caregiver_email_address",
                     inputType: "text-email",
                     required: true
                   },
                   {
-                    inputLabel: "Copy of Caregiver's ID (jpeg,png,pdf; max. size: 1mb)",
+                    inputLabel: "Copy of Guardian's ID (jpeg,png,pdf; max. size: 1mb)",
                     inputName: "additional_caregiver_id_file",
                     objInputName: "copy_of_the_caregiver_id",
                     inputType: "file",
                     required: true
                   },
                   {
-                    inputLabel: "I give permission for the person named below (who must be over 21 years old and an Australian citizen or permanent resident living in Australia during my child's course) during my child's course to act as my child's caregiver for the full duration of the course.",
+                    inputLabel: "I give permission for the person named below (who must be over 21 years old and an Australian citizen or permanent resident living in Australia during my child's course) during my child's course to act as my child's guardian for the full duration of the course.",
                     inputName: "additional_caregiver_authority",
                     inputType:"checkbox",
-                    value: "I give authority to ILSC to place my child under the care of the above Caregiver during the course duration.",
+                    value: "I give authority to ILSC to place my child under the care of the above Guardian during the course duration.",
                     digitalAuthority: true,
                     digitalAuthorityClassName: "jr-confirmation"
                   }
@@ -3718,7 +3731,7 @@ const additionalInfoArray = [
     displayShow: false,
   },
   {
-    inputLabel: "I reside in Australia and will act as the primary contact and caregiver for the student during their course duration and agree that.",
+    inputLabel: "I reside in Australia and will act as the primary contact and guardian for the student during their course duration and agree that.",
     inputName: "jr-parent-reside-confirmation",
     objInputName: "i_reside_in_australia_and_will_act_as_the_primary_contact_and_caregiver",
     category: "Additional",
@@ -3817,7 +3830,7 @@ const additionalInfoArray = [
     displayShow: false,
   },
   {
-    inputLabel: "Caregiver's Australian Address",
+    inputLabel: "Guardian's Australian Address",
     inputName: "additional_caregiver_residential_address",
     objInputName: "caregiver_address",
     category: "Additional",
@@ -4088,9 +4101,138 @@ const jrWaiverCAArray = [
 
 const programAdditionalInfoArray = [
   {
-    inputLabel: "Have you studied at secondary level with English as the language of instruction?",
+    inputLabel: "Do you intend to meet the program admission criteria based on educational qualifications?",
+    inputName: "additional_program_admission_criteria_option",
+    objInputName: "program_admission_criteria_option",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    inputAssign: "primary",
+    category:'Additional-Program',
+    title: "EDUCATIONAL QUALIFICATIONS OR WORK EXPERIENCE REQUIREMENTS",
+    categoryTitle: "Program Admission",
+    categorySubtitle: "You may apply for admission to the program based on educational qualifications, work experience, or special consideration.",
+    value: "",
+    obj: [
+        {
+          label: "Yes",
+          value: "Yes",
+          dependent: [
+            {
+              inputLabel: "If yes, have you completed one of the following:",
+              inputSubtitle:"<ul><li>Recent (within the last 2 years) secondary education (equivalent to Year 12 in Australia, with a minimum ATAR score of 60) ; OR</li><li>Vocational Education and Training (VET) study in Australia - Certificate IV (AQF 4) or higher; OR</li><li>Higher education study - recognised Foundation Studies course.</li></ul>",
+              inputName: "additional_program_admission_criteria_completed_option",
+              objInputName: "program_admission_criteria_completed_option",
+              inputType: "dropdown",
+              required: true,
+              displayShow: false,
+              obj:[
+                {
+                  label: "Yes",
+                  value: "Yes",
+                  dependent: [
+                    {
+                      inputLabel: "If Yes, please provide evidence:",
+                      inputName: "additional_program_admission_criteria_file",
+                      objInputName: "program_admission_criteria_file",
+                      inputType: "file",
+                      multiple: true,
+                      required: true,
+                      displayShow: false
+                    }
+                  ]
+                },
+                {
+                  label: "No",
+                  value: "No",
+                  dependent: [
+                    {
+                      inputLabel: "Do you intend to meet the program admission criteria based on work experience?",
+                      inputName: "additional_work_experience_option",
+                      objInputName: "work_experience_option",
+                      inputType: "dropdown",
+                      required: true,
+                      displayShow: false,
+                      note: "For mature applicants aged 21+ who have finished secondary education more than 2 years ago.",
+                      obj:[
+                        {
+                          label: "Yes",
+                          value: "Yes",
+                          dependent: [
+                            {
+                              inputLabel: "If Yes, please provide the following evidence:",
+                              labelSubtitle: " <ul><li>ppropriate, relevant work experience, and/or</li><li>ormal, informal or non-formal study, completed or partially completed, and/or</li><li>pecial Tertiary Admission Test (STAT) percentile rank or equivalent</li></ul>",
+                              inputName: "additional_work_experience_file_multiple",
+                              objInputName: "work_experience_file",
+                              inputType: "file",
+                              multiple: true,
+                              required: true,
+                              displayShow: false
+                            }
+                          ]
+                        },
+                        {
+                          label: "No",
+                          value: "No",
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ], 
+            }
+          ]
+        },
+        {
+          label: "No",
+          value: "No"
+        }
+    ]
+  },
+  {
+    inputLabel: "Do you wish to apply for admission with special consideration?",
+    inputName: "additional_admission_special_consideration_option",
+    objInputName: "admission_special_consideration_option",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    inputAssign: "primary",
+    category:'Additional-Program',
+    categoryTitle: "Program Admission",
+    title: "SPECIAL CONSIDERATION",
+    subTitle: "If you are Aboriginal and/or Torres Strait Islander, if you are an individual with a disability, or if you have experienced educational disadvantage, you may apply for admission with special consideration.",
+    value: "",
+    obj: [
+        {
+          label: "Yes",
+          value: "Yes",
+          dependent: [
+            {
+              inputLabel: "If Yes, please submit a written statement explaining the disadvantages you have experienced and how these may impact your educational performance, and provide relevant supporting evidence.",
+              inputName: "additional_admission_special_consideration_statement",
+              objInputName: "admission_special_consideration_statement",
+              inputType: "text-area",
+              rows: "5",
+              required: true,
+              displayShow: false,
+              inputAssign: "primary",
+              placeholder: "Write statement explaining the disadvantages you have experienced and how these may impact your educational performance, and provide relevant supporting evidence.",
+              value: "",
+            }
+          ]
+        },
+        {
+          label: "No",
+          value: "No"
+        }
+    ]
+  },
+  {
+    inputLabel: "Did you complete secondary school where all classes were taught and all assessments were completed in English? (within the last 2 years) *",
     inputName: "additional_english_instruction_option",
-    objInputName: "additional_english_instruction_option",
+    objInputName: "secondary_study_english_instruction_option",
     inputType: "dropdown",
     required: true,
     schoolParentDependence: "Greystone Institute",
@@ -4099,7 +4241,40 @@ const programAdditionalInfoArray = [
     categoryTitle: "English Proficiency",
     inputAssign: "primary",
     value: "",
-    note: "You may be required to take an English Language program if you do not meet the necessary entry requirements. Your English Proficiency will determine the course duration. Please refer to the website for entry requirements and Language programs with ILSC.",
+    obj: [
+      {
+        label: "Yes",
+        value: "Yes",
+        dependent : [
+          {
+            inputLabel: "If Yes, please provide evidence:",
+            inputName: "additional_english_instruction_file",
+            objInputName: "english_instruction_file",
+            inputType: "file",
+            required: true,
+            displayShow: false         
+          }
+        ]
+      },
+      {
+        label: "No",
+        value: "No",
+      }
+    ],
+  },
+  {
+    inputLabel: "Have you taken an ILSC ACADEMIC English Placement Test? (within the last 2 years)",
+    inputName: "additional_placement_test_option",
+    objInputName: "prola_taken",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    category:'Additional-Program',
+    categoryTitle: "English Proficiency",
+    inputAssign: "primary",
+    value: "",
+    note:"In all instances, Greystone Institute reserves the right to ask a prospective student to provide an English language test result.",
     obj: [
       {
         label: "Yes",
@@ -4108,7 +4283,7 @@ const programAdditionalInfoArray = [
           {
             inputLabel: "If Yes, please provide test number:",
             inputName: "additional_english_proficiency_score",
-            objInputName: "additional_english_proficiency_score",
+            objInputName: "english_test_score",
             inputType: "text",
             inputAssign: "primary",
             required: true,
@@ -4123,7 +4298,7 @@ const programAdditionalInfoArray = [
           {
             inputLabel: "Do you have an Official English Language Test Score?",
             inputName: "additional_english_test_score",
-            objInputName: "additional_english_test_score",
+            objInputName: "english_test_score_option",
             inputType: "dropdown",
             required: true,
             displayShow: false,
@@ -4134,10 +4309,10 @@ const programAdditionalInfoArray = [
                 value: "Yes",
                 dependent : [
                   {
-                    inputLabel: "If Yes, please upload a copy of your test result:",
-                    inputName: "additional_english_test_score_file",
-                    objInputName: "english_test_score_copy",
-                    inputType: "file",
+                    inputLabel: "If Yes, please provide test number:",
+                    inputName: "additional_english_test_score",
+                    objInputName: "english_test_score",
+                    inputType: "text",
                     required: true,
                     displayShow: false,
                     inputAssign: "primary",
@@ -4149,19 +4324,32 @@ const programAdditionalInfoArray = [
                 value: "No",
                 dependent : [
                   {
-                    inputLabel: "Do you wish to apply for an English language course?",
-                    inputName: "additional_english_apply_option",
-                    objInputName: "additional_english_apply_option",
+                    inputLabel: "Do you have an Official English Language Test Score? (within the last 2 years) ",
+                    inputName: "additional_english_test_score_option",
+                    objInputName: "english_test_score_option",
                     inputType: "dropdown",
                     inputAssign: "primary",
                     obj:[
                       {
                         label: "Yes",
                         value: "Yes",
+                        dependent : [
+                          {
+                            inputLabel: "If Yes, please provide evidence of successful completion of one or more of the following:",
+                            labelSubtitle: "<ul><li>AQF level 5 program or higher at an Australian RTO or higher education provider</li><li>one year of higher education study in Australia/li><li>a Foundation Studies program in Australia   </li><li>Senior secondary study undertaken in English</li><li>an English for Academic Purposes program at ILSC or other recognised ELICOS provider</li></ul>",
+                            inputName: "additional_english_test_score_file_multiple",
+                            objInputName: "english_test_score_file",
+                            inputType: "file",
+                            multiple: true,
+                            required: true,
+                            displayShow: false,
+                            inputAssign: "primary",
+                          }
+                        ]
                       },
                       {
                         label: "No",
-                        value: "No",
+                        value: "No"
                       }
                     ],
                     required: true,
@@ -4176,31 +4364,110 @@ const programAdditionalInfoArray = [
     ],
   },
   {
-    inputLabel: "Do you wish to apply for a credit transfer?",
-    inputName: "additional_credit_transfer_option",
-    objInputName: "additional_credit_transfer_option",
+    inputLabel: "Do you wish to apply for an English language course?",
+    inputName: "additional_english_language_course_option",
+    objInputName: "english_language_course_option",
     inputType: "dropdown",
     required: true,
     schoolParentDependence: "Greystone Institute",
     displayShow: true,
     inputAssign: "primary",
     category:'Additional-Program',
-    categoryTitle: "Credit Transfer",
+    categoryTitle: "English Proficiency",
+    note: "You may be required to take an English Language program if you do not meet the necessary entry requirements. Your English Proficiency will determine the course duration. Please refer to the website for entry requirements and language programs with ILSC.",
     value: "",
+    obj: [
+        {
+          label: "Yes",
+          value: "Yes",
+        },
+        {
+          label: "No",
+          value: "No"
+        }
+    ]
+  },
+  {
+    inputLabel: "Do you wish to apply for advanced standing in the form of credit and/or recognition of prior learnin (RPL)? ",
+    inputName: "additional_apply_credit_prior_learning_option",
+    objInputName: "apply_credit_prior_learning_option",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    inputAssign: "primary",
+    category:'Additional-Program',
+    categoryTitle: "Recognition of Advanced Standing",
+    value: "",
+    note: "Please refer to Greystone Institute's Academic Credit and Prior Learning Policy and Procedures on our website <a href='http://www.greystoneinstitute.com' target='_blank'>www.greystoneinstitute.com</a>.",
     obj: [
         {
           label: "Yes",
           value: "Yes",
           dependent: [
             {
-              inputLabel: "If yes, please provide the following evidence (jpeg,png,pdf; max. size: 1mb):",
-              inputName: "additional_credit_transfer_file",
-              objInputName: "credit_transfer_file",
-              inputType: "file",
+              inputLabel: "Are you applying through one of Greystone Institute's approved pathway partners? ",
+              inputName: "additional_apply_approved_pathway_partner_option",
+              objInputName: "apply_approved_pathway_partner_option",
+              inputType: "dropdown",
               required: true,
               displayShow: false,
-              inputAssign: "primary",
-              placeholder: "Completion of a Greystone College Australia Diploma or Advanced Diploma" 
+              obj: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                  dependent : [
+                    {
+                      inputLabel: "If Yes, please provide evidence:",
+                      inputName: "additional_approved_pathway_partner_file",
+                      objInputName: "approved_pathway_partner_file",
+                      inputType: "file",
+                      required: true,
+                      displayShow: false,
+                      inputAssign: "primary",
+                      note: "Please refer to Greystone Institute's Pathway Partners on our website <a href='http://www.greystoneinstitute.com' target='_blank'>www.greystoneinstitute.com</a>."
+                    }
+                  ]
+                },
+                {
+                  label: "No",
+                  value: "No",
+                  dependent : [
+                    {
+                      titleLabel: "If No, please provide the following evidence:",
+                      inputLabel: "Copies of subject outlines (information must include: learning outcomes, weekly structure, topic list, assessment details, contact hours/student workload):",
+                      inputName: "additional_subject_outlines_file_multiple",
+                      objInputName: "copies_of_subject_outline",
+                      inputType: "file",
+                      inputAssign: "primary",
+                      multiple: true,
+                      required: true,
+                      displayShow: false,
+                    },
+                    {
+                      inputLabel: "Verified copies of certificates and transcripts:",
+                      inputName: "additional_certificate_transcripts_file_multiple",
+                      objInputName: "completed_credits_transcripts_file",
+                      inputType: "file",
+                      inputAssign: "primary",
+                      multiple: true,
+                      required: true,
+                      displayShow: false,
+                    },
+                    {
+                      inputLabel: "If based on work experience: Current CV, position description for relevant previous roles, proof of employment in each role, indicating dates and length of employment:",
+                      inputName: "additional_cv_employment_file_multiple",
+                      objInputName: "cv_employment_file",
+                      inputType: "file",
+                      inputAssign: "primary",
+                      multiple: true,
+                      required: true,
+                      displayShow: false,
+                      note: "If documents are in a language other than English, please also provide certified translated copies. There may be costs associated with this application."
+                    }
+                  ]
+                },
+              ]
             }
           ]
         },
@@ -4211,42 +4478,34 @@ const programAdditionalInfoArray = [
     ]
   },
   {
-    inputLabel: "Do you wish to apply for recognition of prior learning?",
-    inputName: "additional_recognition_prior_learning_option",
-    objInputName: "additional_recognition_prior_learning_option",
+    inputLabel: "Do you have a disability which may affect your learning and for which you may need accessibility adjustments? For example: vision, hearing, mobility, learning difficulties, medical or other circumstances.",
+    inputName: "additional_disability_option",
+    objInputName: "disability_option",
     inputType: "dropdown",
     required: true,
     schoolParentDependence: "Greystone Institute",
     displayShow: true,
     inputAssign: "primary",
     category:'Additional-Program',
-    categoryTitle: "Recognition of Prior Learning",
+    categoryTitle: "Disability Assistance",
     value: "",
-    note: "If documents are in a language other than English, please also provide certified translated copies.",
+    note: "The response to this question will not affect the outcome of the application. The information provided will assist us in assessing how we can best cater for your needs.",
     obj:[
       {
         label: "Yes",
         value: "Yes",
         dependent: [
           {
-            inputLabel: "Copies of subject outlines (information must include: learning outcomes, weekly structure, topic list, assessment details, contact hours/student workload):",
-            inputName: "additional_subject_outlines_file_multiple",
-            objInputName: "copies_of_subject_outline",
-            inputType: "file",
-            inputAssign: "primary",
-            multiple: true,
+            inputLabel: "If Yes, please provide details below:",
+            inputName: "additional_disability_details",
+            objInputName: "disability_details",
+            inputType: "text-area",
+            rows: "5",
             required: true,
             displayShow: false,
-          },
-          {
-            inputLabel: "Verified copies of certificates and transcripts:",
-            inputName: "additional_certificate_transcripts_file_multiple",
-            objInputName: "completed_credits_transcripts_file",
-            inputType: "file",
             inputAssign: "primary",
-            multiple: true,
-            required: true,
-            displayShow: false,
+            placeholder: "Provide details of the disability and any accessibility adjustments you may require.",
+            value: "",
           }
         ]
       },
@@ -4254,12 +4513,36 @@ const programAdditionalInfoArray = [
         label: "No",
         value: "No",
       }
-    ],
+    ]
+  },
+  {
+    inputLabel: "Do you feel confident in your ability to use digital tools and technology (such as a laptop, smartphone, and online learning platforms) to successfully complete coursework and assignments?",
+    inputName: "additional_digital_competence_option",
+    objInputName: "digital_competence_option",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Greystone Institute",
+    displayShow: true,
+    inputAssign: "primary",
+    category:'Additional-Program',
+    categoryTitle: "Digital Literacy and Technology Access",
+    categorySubtitle: "We highly recommend that students have access to both a laptop and a smartphone to fully participate in coursework.",
+    value: "",
+    obj:[
+      {
+        label: "Yes",
+        value: "Yes",
+      },
+      {
+        label: "No",
+        value: "No",
+      }
+    ]
   },
   {
     inputLabel: "Would you like to apply for a scholarship?",
     inputName: "additional_scholarship_apply_option",
-    objInputName: "additional_scholarship_apply_option",
+    objInputName: "scholarship_apply_option",
     inputType: "dropdown",
     required: true,
     schoolParentDependence: "Greystone Institute",
@@ -4957,26 +5240,19 @@ $(".section-application-form .step-container .btn-container .btn.prev").on(
     if (!affiliateEnable) {
       if (dataStep == "additional-select") {
         let schoolNameSelected = $("input[name=program_school]:checked").val(),
+          programSelected = $('select[name=program_name_primary-input] option:selected').attr('data-category'),
+          programNameSelected = $('select[name=program_name_primary-input] option:selected').val(),
           countrySelected = $("input[name=program_country]").val(),
           currentSlide = $(".application-step-form-slide").slick(
             "slickCurrentSlide"
           );
 
-        if (schoolNameSelected == "ELS Youth") {
-          $(".application-step-form-slide").slick(
+          slideGoStep = schoolNameSelected == "ELS Youth" ? 2 : countrySelected == "Australia" && programSelected == "Junior Camps" && programNameSelected.includes("Day Only") ? 2 : countrySelected == "Online" ? 2 : 1;
+
+        $(".application-step-form-slide").slick(
             "slickGoTo",
-            currentSlide - 2
+            currentSlide - slideGoStep
           );
-        } else {
-          if (countrySelected == "Online") {
-            $(".application-step-form-slide").slick(
-              "slickGoTo",
-              currentSlide - 2
-            );
-          } else {
-            $(".application-step-form-slide").slick("slickPrev");
-          }
-        }
       } else {
         $(".application-step-form-slide").slick("slickPrev");
       }

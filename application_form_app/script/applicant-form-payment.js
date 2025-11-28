@@ -73,7 +73,7 @@ const getSchoolPayment = function (selected) {
       $("input[name=program_country_currency]").val() != ""
         ? $("input[name=program_country_currency]").val()
         : currencyVal,
-    queryParam = "&currency__in=" + currencyValue + "&schools__in=" + selected,
+    queryParam = "&currency__in=" + currencyValue + "&schools__in=" + selected + "&limit=1",
     tableId = paymentTable;
   api_url = apiUrl + tableId + "/rows?portalId=" + portalId + queryParam;
   api_url = encodeURI(api_url);
@@ -399,12 +399,22 @@ const printApplicationSummary = function () {
     } else if (studyFormArray[stf].name.includes("additional_")){
       arr = flattenFields(programAdditionalInfoArray);
       for (let pa = 0; pa < arr.length; pa++) {
-        if (studyFormArray[stf].name == arr[pa].inputName) {
-          programAdditionalInfoTempArray.push({
-            name: studyFormArray[stf].name,
-            value: studyFormArray[stf].value,
-            label: arr[pa].inputLabel,
-          });
+        if(studyFormArray[stf].name != ''){
+          valueStr = studyFormArray[stf].value;
+          if(studyFormArray[stf].name.includes('_file')){
+            if(studyFormArray[stf].name.includes('_multiple')){
+              fileNum = $("input[name="+studyFormArray[stf].name+"][type=file]").get(0).files.length;
+              valueStr = fileNum > 1 ? fileNum + " files" : studyFormArray[stf].value;
+            }
+          }
+            if (studyFormArray[stf].name == arr[pa].inputName) {
+                programAdditionalInfoTempArray.push({
+                  name: studyFormArray[stf].name,
+                  value: valueStr,
+                  label: arr[pa].inputLabel,
+                });
+            }
+          
         }
       }
 
@@ -492,8 +502,8 @@ const printApplicationSummary = function () {
               schoolSelected == "Greystone College" || schoolSelected == "Greystone Institute"
                 ? programInfoArray[pi].inputLabel == "Program"
                   ? "Program/Course"
-                  : programInfoArray[pi].inputLabel
-                : programInfoArray[pi].inputLabel;
+                  : schoolSelected == "Greystone Institute" ? programInfoArray[pi].inputLabel == "Number of Weeks" ? "Duration" : programInfoArray[pi].inputLabel
+                : programInfoArray[pi].inputLabel : programInfoArray[pi].inputLabel;
 
             if (programInfoArray[pi].inputAssign == "primary") {
               programPrimaryLabelArray.push({
@@ -550,9 +560,7 @@ const printApplicationSummary = function () {
       arrAccAddInfo = flattenFields(accommodationAdditionalArray);
       for (let o = 0; o < arrAccAddInfo.length; o++) {
         if (
-          arrAccAddInfo[o].countryDependence.includes(
-            countrySelected
-          )
+          arrAccAddInfo[o].countryDependence !== undefined && arrAccAddInfo[o].countryDependence.includes(countrySelected)
         ) {
           if (
             accommodationFormArray[acc].name ==
@@ -567,10 +575,10 @@ const printApplicationSummary = function () {
         }
       }
     } else {
-      arrAccInfo = flattenFields(accommodationInfoArray);
+      arrAccInfo = [...flattenFields(accommodationInfoArray), ...flattenFields(accommodationAdditionalArray)];
       for (let o = 0; o < arrAccInfo.length; o++) {
         if (
-          arrAccInfo[o].countryDependence.includes(countrySelected)
+          arrAccInfo[o].countryDependence !== undefined && arrAccInfo[o].countryDependence.includes(countrySelected)
         ) {
           if (
             accommodationFormArray[acc].name ==
@@ -796,10 +804,9 @@ const printApplicationSummary = function () {
 
   if (programAdditionalInfoTempArray.length > 0) {
 
-    $(".study-info-program-additional-info-summary-container .summary-container").empty();
+    $(".study-info-program-additional-info-summary-container.summary-container").empty();
     addProgramAdditionalInfoLabelHtml = "",
-    headerLabel = "";
-
+    headerLabel = "<h5>Additional Information</h5>";
     for (let pa = 0; pa < programAdditionalInfoTempArray.length; pa++) {
      
         addProgramAdditionalInfoLabelHtml +=
@@ -808,7 +815,6 @@ const printApplicationSummary = function () {
           '</span></td><td><span class="value-input">' +
           programAdditionalInfoTempArray[pa].value +
           "</span></td></tr>";
-          headerLabel = pa == 0 ? "<h5>Program Additional Information</h5>" : "";
     }
     
     $(".study-info-program-additional-info-summary-container.summary-container").append(
@@ -1790,6 +1796,7 @@ const dependentTemplate = function(arr,dependentClass,categoryName){
           
         break;
         case "file":
+          changeEvent = "onChange=\"checkSize('fileInput-" + arr.inputName + "-" + dependentClass + "')\"";
           multipleAttribute = arr.multiple ? "multiple hidden" : "";
           fileClassName = arr.multiple ? "multiple-file-input" : "single-file-input";
           labelHtml= "<label for='fileInput-" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label>";
@@ -1801,6 +1808,8 @@ const dependentTemplate = function(arr,dependentClass,categoryName){
                 arr.objInputName +
                 "' accept='jpeg,jpg,pdf,png' " +
               multipleAttribute +
+              " " +
+              changeEvent +
               " required disabled><input type='hidden' name='" + arr.inputName + "' value='' readonly disabled>";
           if(arr.multiple){
             inputItem +=
@@ -1813,10 +1822,11 @@ const dependentTemplate = function(arr,dependentClass,categoryName){
         case "dropdown":
                    
           for (let i = 0; i < dropArray.length; i++) {
+            noteEnabled = dropArray[i].note ? "data-note='" + dropArray[i].note + "'" : "";
             optList +=
                 "<option value='" +
                 dropArray[i].value +
-                "'>" +
+                "' " + noteEnabled + ">" +
                 dropArray[i].label +
                 "</option>";
             hasDep = dropArray[i].dependent ? true : false;
@@ -1947,6 +1957,7 @@ const printAdditionalInputForm = function(arr,categoryName){
                     "</select></div>" + dependentList;
                 break;
                 case "file":
+                    changeEvent = "onChange=\"checkSize('fileInput-" + item.inputName + "')\"";
                     multipleAttribute = item.multiple ? "multiple hidden" : "";
                     fileClassName = item.multiple ? "multiple-file-input" : "single-file-input";
                     inputFileHtml = "<input type='file' class='form-control additional-file-input " + fileClassName + "' data-category='" +   categoryName + "' id='fileInput-" +
@@ -1955,7 +1966,7 @@ const printAdditionalInputForm = function(arr,categoryName){
                     "' data-bind='" +
                       item.objInputName +
                       "' accept='jpeg,jpg,pdf,png' " +
-                     multipleAttribute + "><input type='hidden' name='" + item.inputName + "' value='' readonly" + multipleAttribute + " data-parent='true'>";
+                     multipleAttribute + " " + changeEvent + "><input type='hidden' name='" + item.inputName + "' value='' readonly" + multipleAttribute + " data-parent='true'>";
                     labelHtml = "<label for='fileInput-" + item.inputName + "'>" + item.inputLabel + "</label>";
                   if(item.multiple){
                     inputItem +=
@@ -2325,7 +2336,7 @@ const resetAdditionalFiles = function () {
   $(".additional-files-container").empty();
 };
 const printWeeksOption = function (selectedProgramArray, element, inputName) {
-  let selectedSchool = $("input[name=program_school]:checked").val()
+  let selectedSchool = $("input[name=program_school]:checked").val(),
     comboVal = returnComboVal(inputName),
     dataObject = selectedProgramArray,
     labelString = selectedSchool == "Greystone Institute" ? "Duration of Program" : "Number of Weeks",
@@ -2918,6 +2929,7 @@ const printProgramOption = function (
           schedule_id: scheduleName.replace(/\s/g, ""),
           group_id: dataObject[i].values[13][0].id,
           campus_country: dataObject[i].values[26].name,
+          notes: dataObject[i].values[42] ? dataObject[i].values[42] : false,
         });
       }
 
@@ -2943,14 +2955,16 @@ const printProgramOption = function (
               item_name: values[i][x].item_name,
               schedule_id: values[i][x].schedule_id,
               schedule_name: values[i][x].schedule_name,
+              notes: values[i][x].notes,
             });
           }
         }
       }
       singleOptionChek = programGroupedArray.length == 1 ? "checked" : "";
-
+      notes = "";
       if (programGroupedArray.length > 0) {
         for (let i = 0; i < programGroupedArray.length; i++) {
+          notes += programGroupedArray[i].notes ? "<p style='margin-top:10px'><sup>*</sup>" + programGroupedArray[i].notes + "</p>" : '';
           optionProgramHtml +=
             '<div class="form-check"><input class="form-check-input ' +
             element +
@@ -2986,7 +3000,7 @@ const printProgramOption = function (
             ".study-program-selection .input-container.program-option-input." +
             element +
             " .program-schedule-input"
-        ).html(labelHtml + optionProgramHtml + optionLink);
+        ).html(labelHtml + optionProgramHtml + optionLink + notes);
         $(
           "#study-program-" +
             comboVal +
@@ -3086,17 +3100,16 @@ const getScheduleBreak = function (campusId) {
   let selectedCountry = $("input[name=program_country]").val(),
     selectedCurrentSchool = $("input[name=program_school]:checked").val();
 
-  let queryParam =
-      "&school__in=" +
-      selectedCurrentSchool +
-      "&campus__in=" +
+  let schoolParam = "&school__in=" +
+      selectedCurrentSchool,
+      queryParam ="&campus__in=" +
       campusId +
       "&country__eq=" +
       selectedCountry +
       "&enable__eq=1",
     api_url =
       apiUrl + scheduleBreakTable + "/rows?portalId=" + portalId + queryParam;
-  api_url = encodeURI(api_url);
+  api_url = encodeURI(api_url)+encodeURIComponent(schoolParam);
 
   $.get(api_url).done(function (data) {
     let dataObject = data.results,
@@ -3313,7 +3326,7 @@ const printStartDates = function (
           selectedScheduleItem +
           "&schedule_option__in=" +
           selectedScheduleName
-        : "";
+        : "";    
 
     let queryParam =
         "&" +
@@ -3882,6 +3895,7 @@ const printProgramDrop = function (
         selectedSchool +
         "&enable=1" +
         coopBool +
+        "&show_quote_tool=1" +
         addOnQuery +
         affiliateQuery,
       api_url = apiUrl + tableId + "/rows?portalId=" + portalId + queryParam;
@@ -4408,9 +4422,9 @@ const printAdditionalInfo = function () {
   } else {
     if (countrySelected == "Australia") {
       inputHtml =
-        selectedParentSchool == "Greystone College"
-          ? prolaHtml + usiHtml
-          : prolaHtml;
+          selectedParentSchool == "Greystone College"
+        ? prolaHtml + usiHtml
+        : programCategorySelected != "Junior Camps" && programCategorySelected != "Family Camps" ? prolaHtml : "";
       additionalHtml =
         inputHtml +
         visaRadioHtml +
@@ -4625,7 +4639,7 @@ const submitForm = function (dataStep) {
       guid = accommodationGuid;
       formName = "accommodation-form";
       arr = accommodationInfoArray;
-      arrAdditional = accommodationAdditionalArray;
+      arrAdditional = flattenFields(accommodationAdditionalArray);
 
       break;
 
@@ -5107,7 +5121,7 @@ const submitForm = function (dataStep) {
     let formArray = {
       fields: uniqueArray,
       context: {
-        pageUri: "www.ilsc.com/online-application",
+        pageUri: pageUri,
         pageName: "Online Application - Student Info",
         hutk: getCookie("hubspotutk"),
       },
@@ -5115,7 +5129,7 @@ const submitForm = function (dataStep) {
         consent: {
           // Include this object when GDPR options are enabled
           consentToProcess: true,
-          text: "I agree to allow ILSC to store and process my personal data.",
+          text: consentAgreeTxt,
         },
       },
     };
@@ -5328,6 +5342,10 @@ $(document).on(
               moveAirportTransfer(true);
             } else {
               autoHomestaySelect(true);
+            }
+            if(countrySelected == "Australia"){
+                $( "[class*='-airport-transfer-details']" ).addClass("study-hide").removeClass("study-show");
+                $('.airport-transfer-details').empty()
             }
           } else {
             showInsurance();
@@ -6193,6 +6211,20 @@ $(document).on(
 
     parentElement.removeClass("study-hide").addClass("study-show");
     $('select,input', parentElement).attr('disabled', false);
+  }
+);
+
+$(document).on(
+  "change",
+  'div.dependent-target select[data-parent="true"]',
+  function () {
+    let selectedNote = $('option:selected',this).attr("data-note");
+    $(this).parent().find(".note-message").remove();
+    if (selectedNote) {
+      if($(this).parent().find(".note-message").length == 0){
+        $(this).parent().append("<div class='note-message'><p><sup>*</sup>" + selectedNote + "</p></div>");
+      }
+    }
   }
 );
 
