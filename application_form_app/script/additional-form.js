@@ -4,7 +4,8 @@ const printAdditionalForm = function(){
 
     if(schoolSelected == 'Greystone Institute'){
         printAdditionalInfoInput();
-        printHubspotFileForm(); 
+        printHubspotFileForm(additionalUploadFormId, "#additional-hs-file-form"); 
+        initializeDragAndDrop('.additional-info-drop-zone');
     }else{
         printInsuranceInput();
         printAdditionalInfoInput();
@@ -274,18 +275,9 @@ const printAdditionalFilesInput = function(){
     if($('.'+additionClassName).is(':empty')){
         printFilesForm(fileUploadArray,false,'Additional',additionClassName);
     }
-    printHubspotFileForm(); 
+    printHubspotFileForm(additionalUploadFormId, "#additional-hs-file-form"); 
 };
-
-const printHubspotFileForm = function(){
-    hbspt.forms.create({
-        region: "na1",
-        portalId: "5020112",
-        formId: additionalUploadFormId,
-        target:"#additional-hs-file-form"
-    });
-}
-   
+ 
 
 const printFilesForm = function(formArray,enabled,categoryName,className){
     let result = formArray.filter(formArray => formArray.category == categoryName),

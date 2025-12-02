@@ -1771,19 +1771,25 @@ const printStudentForm = function () {
   hideShowEnrolmentAdvisorForm(enableEnrolmentAdvisor);
 };
 
-const dependentTemplate = function(arr,dependentClass,categoryName){
+const dependentTemplate = function(arr,dependentClass,categoryName) {
   let optionHtml = "",
       inputItem = "",
       depList = "",
       optList = "",
       dropArray = arr.obj,
-      hasDep = false,
+      inputTitleLabelHtml = "",
       depAttr = "";
 
       switch (arr.inputType) {
         case "text":
           inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
-            arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' required disabled></div>";
+            arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' required disabled>"+noteHtml+"</div>";
+          break;
+        case "text-area":
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
+            arr.inputName + "-" + dependentClass + "' name='" +
+            arr.inputName +
+            "' rows='" + arr.rows + "' " + (arr.required ? "required" : "") + " placeholder='" + (arr.placeholder ? arr.placeholder : "") + "' disabled></textarea></div>";
           break;
         case "phone":
           inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
@@ -1796,10 +1802,13 @@ const dependentTemplate = function(arr,dependentClass,categoryName){
           
         break;
         case "file":
+          subTitleHtml = arr.labelSubtitle ? arr.labelSubtitle : "";
+          inputTitleLabelHtml = arr.titleLabel ? arr.titleLabel + "<br>" : "";
+          noteHtml = arr.note ? "<p><sup>*</sup>" + arr.note + "</p>" : "";
           changeEvent = "onChange=\"checkSize('fileInput-" + arr.inputName + "-" + dependentClass + "')\"";
           multipleAttribute = arr.multiple ? "multiple hidden" : "";
           fileClassName = arr.multiple ? "multiple-file-input" : "single-file-input";
-          labelHtml= "<label for='fileInput-" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label>";
+          labelHtml= "<label for='fileInput-" + arr.inputName + "-" + dependentClass + "'>" + inputTitleLabelHtml + arr.inputLabel + subTitleHtml + "</label>";
           inputFileHtml="<input type='file' class='form-control additional-file-input " + fileClassName + "' data-category='" + categoryName + "' id='fileInput-" +
               arr.inputName +
               "-" + dependentClass + "' name='" +
@@ -1813,14 +1822,14 @@ const dependentTemplate = function(arr,dependentClass,categoryName){
               " required disabled><input type='hidden' name='" + arr.inputName + "' value='' readonly disabled>";
           if(arr.multiple){
             inputItem +=
-              "<div class='form-group'>" + labelHtml + "<div class='additional-program-info-drop-zone drop-zone' id='dropZone-"+arr.inputName+"-"+dependentClass+"'><p>Drop files here or click to browse<br><span class='footnote'>(jpeg,png,pdf; max. size: 1mb)</span></p>" + inputFileHtml + "<ul class='file-list'></ul></div></div>";
+              "<div class='form-group'>" + labelHtml + "<div class='" + categoryName.replace(/ /g, "-").toLowerCase() + "-info-drop-zone drop-zone' id='dropZone-"+arr.inputName+"-"+dependentClass+"'><p>Drop files here or click to browse<br><span class='footnote'>(jpeg,png,pdf; max number of files: 5; max. size: 1mb)</span></p>" + inputFileHtml + "<ul class='file-list'></ul></div>"+ noteHtml +"</div>";
           }else{
             inputItem +=
-              "<div class='form-group'>" + labelHtml + inputFileHtml + "</div>";
+              "<div class='form-group'>" + labelHtml + inputFileHtml + noteHtml + "</div>";
           }
             break;
         case "dropdown":
-                   
+          subTitleHtml = "";
           for (let i = 0; i < dropArray.length; i++) {
             noteEnabled = dropArray[i].note ? "data-note='" + dropArray[i].note + "'" : "";
             optList +=
@@ -1832,17 +1841,24 @@ const dependentTemplate = function(arr,dependentClass,categoryName){
             hasDep = dropArray[i].dependent ? true : false;
             depAttr = hasDep ? "data-dependent='true'" : "";         
             if (hasDep) {
-              depList += dependentTemplate(dropArray[i].dependent[0], dependentClass + "-" + dropArray[i].value, categoryName);
+              if(dropArray[i].dependent.length > 0){
+                dependentVal = '';
+                for(let x = 0; x < dropArray[i].dependent.length; x++) {
+                  dependentVal = dropArray[i].value.replace(/[^a-zA-Z0-9\s]/g, '');
+                  depList += dependentTemplate(dropArray[i].dependent[x], dependentClass + "-" + dependentVal, categoryName);
+                }
+              }
             }  
           }
-          
+          subTitleHtml = arr.labelSubtitle ? arr.labelSubtitle : "";
+          noteHtml = arr.note ? "<p><sup>*</sup>" + arr.note + "</p>" : "";
           inputItem +=
-            "<div class='form-group'><label for='" + arr.inputName + "'>" + arr.inputLabel + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
+            "<div class='form-group'><label for='" + arr.inputName + "'>" + arr.inputLabel + subTitleHtml + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
             arr.inputName + "' name='" +
             arr.inputName + "' " +
             " data-parent='true' data-target='" + dependentClass + "' " + depAttr + " required><option disabled selected value=''>Choose option</option>" +
             optList +
-            "</select></div>";
+            "</select>" + noteHtml + "</div>";
         break;
       }
   optionHtml = '<div class="dependent-target study-hide" data-target="' + dependentClass + '" style="padding-left:50px;">' + inputItem + '</div>'+ depList;
@@ -1854,7 +1870,6 @@ const printInputDependentForm = function(arr,dependentClass,categoryName){
       inputItem = "",
       hasDependent = false,
       dependentList = "";
-
   for (let i = 0; i < arr.length; i++) {
       switch (arr[i].inputType) {
         case "dropdown":
@@ -1891,6 +1906,9 @@ const printAdditionalInputForm = function(arr,categoryName){
         const items = groupedArray[categoryTitle];
 
         titleHtml = "<h4>" + categoryTitle + "</h4>";
+        categorySubTitleHtml = "";
+        inputTitleHtml = "";
+        inputSubTitleHtml = "";
         
         // Loop through the array of items for the current category
         items.forEach((item, index) => {
@@ -1899,7 +1917,11 @@ const printAdditionalInputForm = function(arr,categoryName){
               dependentList = "",
               dependentAttr = "",
               multipleAttribute = "",
-              hasDependent = false;
+              noteHtml = item.note ? "<p><sup>*</sup>" + item.note + "</p>" : "",
+              hasDependent = false,
+              categorySubTitleHtml += item.categorySubtitle ? "<p>" + item.categorySubtitle + "</p>" : "";
+              inputTitleHtml = item.title ? "<h5>" + item.title + "</h5>" : "";
+              inputSubTitleHtml = item.subTitle ? "<p>" + item.subTitle + "</p>" : "";
 
             if (item.schoolDependence) {
               schoolDependenceList = item.schoolDependence.split(",");
@@ -1918,16 +1940,16 @@ const printAdditionalInputForm = function(arr,categoryName){
             if (!printInput.includes(false)) {
               switch (item.inputType) {
                 case "text":
-                  inputItem += "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
+                  inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
                     item.inputName + "' name='" + item.inputName + "' value='' data-parent='true' required></div>";
                 break;
                 case "phone":
-                  inputItem += "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
+                  inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
                   item.inputName + "' name='" + item.inputName + "' value='' placeholder='example: +1 123 123 12345' required></div>";
 
                   break;
                 case "email":
-                  inputItem += "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
+                  inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
                   item.inputName + "' name='" + item.inputName + "' value='' required></div>";
 
                 break;
@@ -1948,13 +1970,13 @@ const printAdditionalInputForm = function(arr,categoryName){
                   }
                   dependentAttr = dependentArray.includes(true) ? "data-dependent='true'" : "";
                   inputItem +=
-                    "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
+                    "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
                     item.inputName + "' name='" +
                     item.inputName +
                     "' " +
                     " data-parent='true' " + dependentAttr + " required><option disabled selected value=''>Choose option</option>" +
                     optionList +
-                    "</select></div>" + dependentList;
+                    "</select>"+noteHtml+"</div>" + dependentList;
                 break;
                 case "file":
                     changeEvent = "onChange=\"checkSize('fileInput-" + item.inputName + "')\"";
@@ -1970,13 +1992,13 @@ const printAdditionalInputForm = function(arr,categoryName){
                     labelHtml = "<label for='fileInput-" + item.inputName + "'>" + item.inputLabel + "</label>";
                   if(item.multiple){
                     inputItem +=
-                      "<div class='form-group'>" + labelHtml + "<div class='additional-program-info-drop-zone drop-zone' id='dropZone-"+item.inputName+"'><p>Drop files here or click to browse<br><span class='footnote'>(jpeg,png,pdf; max. size: 1mb)</span></p>" + inputFileHtml + "<ul class='file-list'></ul></div></div>";
+                      "<div class='form-group'>" + inputTitleHtml + inputSubTitleHtml + labelHtml + "<div class='" + categoryName.replace(/ /g, "-").toLowerCase() + "-info-drop-zone drop-zone' id='dropZone-"+item.inputName+"'><p>Drop files here or click to browse<br><span class='footnote'>(jpeg,png,pdf; max number of files: 5; max. size: 1mb)</span></p>" + inputFileHtml + "<ul class='file-list'></ul></div></div>";
                   }else{
-                     inputItem += "<div class='form-group'>" + labelHtml + inputFileHtml + "</div>";
+                     inputItem += "<div class='form-group'>" + inputTitleHtml + inputSubTitleHtml + labelHtml + inputFileHtml + "</div>";
                   }
                   break;
                 case "text-area":
-                  inputItem += "<div class='form-group'><label for='" + item.inputName + "'>" + item.inputLabel + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
+                  inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
                     item.inputName + "' name='" +
                     item.inputName +
                     "' rows='" + item.rows + "' " + (item.required ? "required" : "") + "></textarea></div>";
@@ -1988,7 +2010,7 @@ const printAdditionalInputForm = function(arr,categoryName){
           });
         optionHtml += "<div class='form-group'>" + inputItem + "</div>";
     }
-    categoryHtml += "<div class='study-box-container'>" + titleHtml + optionHtml + "</div>";
+    categoryHtml += "<div class='study-box-container'>" + titleHtml + categorySubTitleHtml + optionHtml + "</div>";
     optionHtml = "";
     titleHtml = "";
     inputItem = "";
@@ -2410,7 +2432,7 @@ const printSkillPlusFileForm = function () {
   if ($(".skills-class-file-form", className).is(":empty")) {
     $(".skills-class-file-form", className).html(optionHtml);
   }
-  printProgramHubspotFileForm();
+  printHubspotFileForm(programUploadFormId, "#program-hs-file-form");
   $(className).removeClass("study-hide").addClass("study-show");
   $("input", className).attr("disabled", false);
 };
@@ -4379,14 +4401,6 @@ const printSchoolSelection = function () {
   });
 };
 
-const printProgramHubspotFileForm = function () {
-  hbspt.forms.create({
-    region: "na1",
-    portalId: "5020112",
-    formId: programUploadFormId,
-    target: "#program-hs-file-form",
-  });
-};
 const printAdditionalInfo = function () {
   let countrySelected = $("input[name=program_country]").val(),
     selectedParentSchool = $("input[name=program_school]:checked").attr(
@@ -4418,14 +4432,20 @@ const printAdditionalInfo = function () {
 
   if (schoolVal == "Greystone Institute") {
     additionalHtml = printAdditionalInputForm(programAdditionalInfoArray,'Additional-Program');
-    printProgramHubspotFileForm();
+    printHubspotFileForm(programUploadFormId, "#program-hs-file-form");
   } else {
     if (countrySelected == "Australia") {
       inputHtml =
           selectedParentSchool == "Greystone College"
         ? prolaHtml + usiHtml
         : programCategorySelected != "Junior Camps" && programCategorySelected != "Family Camps" ? prolaHtml : "";
+      shirtHtml =
+        programCategorySelected == "Junior Camps" ||
+        programCategorySelected == "Family Camps"
+          ? shirtRadioHtml
+          : "";
       additionalHtml =
+        shirtHtml +
         inputHtml +
         visaRadioHtml +
         visaFileHtml +
@@ -6188,29 +6208,31 @@ $(document).on(
 
     //reset fields
     $(".dependent-target[data-target^=" + inputName + "]").removeClass("study-show").addClass("study-hide");
-    $("select,input",".dependent-target[data-target^=" + inputName + "]").attr('disabled', true);
+    $("select,input,textarea",".dependent-target[data-target^=" + inputName + "]").attr('disabled', true).val('');
 
 
     parentElement.removeClass("study-hide").addClass("study-show");
-    $('select,input', parentElement).attr('disabled', false);
+    $('select,input,textarea', parentElement).attr('disabled', false);
   }
 );
 $(document).on(
   "change",
-  'div.dependent-target select[data-dependent="true"]',
+  'div.dependent-target select[data-parent="true"]',
   function () {
     let selectedVal = $(this).val(),
       dependentClass = $(this).attr("data-target");
+    selectedVal = selectedVal.replace(/[^a-zA-Z0-9\s]/g, '');
 
     targetVal = dependentClass + "-" + selectedVal;
     parentElement = $('.dependent-target[data-target="' + targetVal + '"]');
 
     //reset fields
-    $(this).parents(".dependent-target[data-target^=" + dependentClass + "]").siblings().removeClass("study-show").addClass("study-hide");
-    $("select,input",".dependent-target[data-target^=" + dependentClass + "-]").attr('disabled', true);
+    $(this).parents(".dependent-target[data-target^=" + dependentClass + "]").nextAll(".dependent-target[data-target^=" + dependentClass + "]").removeClass("study-show").addClass("study-hide");
+    $("select,input,textarea",".dependent-target[data-target^=" + dependentClass + "-]").attr('disabled', true).val('');
 
     parentElement.removeClass("study-hide").addClass("study-show");
-    $('select,input', parentElement).attr('disabled', false);
+    $('select,input,textarea', parentElement).attr('disabled', false);
+
   }
 );
 
@@ -6378,7 +6400,7 @@ $(document).on("click", "input[name=additional_visa_refusal]", function () {
   if ($(this).val() == "Yes") {
     $(el).removeClass("study-hide").addClass("study-show");
     $("input", el).attr("required", true).attr("disabled", false);
-    printProgramHubspotFileForm();
+    printHubspotFileForm(programUploadFormId, "#program-hs-file-form");
   } else {
     $(el).removeClass("study-show").addClass("study-hide");
     $("input", el).attr("required", false).attr("disabled", true);
@@ -6390,7 +6412,7 @@ $(document).on("click", "input[name=additional_inside_canada]", function () {
   if ($(this).val() == "Yes") {
     $(el).removeClass("study-hide").addClass("study-show");
     $("input", el).attr("required", true).attr("disabled", false);
-    printProgramHubspotFileForm();
+    printHubspotFileForm(programUploadFormId, "#program-hs-file-form");
   } else {
     $(el).removeClass("study-show").addClass("study-hide");
     $("input", el).attr("required", false).attr("disabled", true);
@@ -6414,7 +6436,7 @@ $(document).on("click", "input[name=additional_visa_apply]", function () {
   if ($(this).val() == "Inside") {
     $(el).removeClass("study-hide").addClass("study-show");
     $("input", el).attr("disabled", false);
-    printProgramHubspotFileForm();
+    printHubspotFileForm(programUploadFormId, "#program-hs-file-form");
   } else {
     $(el).removeClass("study-show").addClass("study-hide");
     $("input", el).attr("disabled", true);

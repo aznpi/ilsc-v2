@@ -123,9 +123,11 @@ const  printAccomLocationOption = function(){
 };
 const printAccommodationName = function(){
     let schoolSelected = $('input[name=program_school]:checked').val(),
-        schoolDomain = schoolSelected != 'ELS' ? 'https://www.accommodations.ilsc.com' : '',
+        parentSchoolSelected = $('input[name=program_school]:checked').attr('data-school'),
+        countrySelected = $('input[name=program_country]').val(),
         campusSelected = $('select[name=accommodation_location] option:selected').attr('data-id'),
         accomTypeSelected = $('input[name=accommodation_type]:checked').val(),
+        schoolDomain = schoolSelected != 'ELS' ? accomTypeSelected == 'Homestay' ? 'https://www.accommodations.ilsc.com/homestay/'+countrySelected.toLowerCase() : 'https://www.accommodations.ilsc.com' : '',
         table2Id = accomTypeSelected == 'Homestay' ? homestayTable : residenceTable,
         tableId = accommodationTable,
         accommInt = accomTypeSelected == 'Homestay' ? 'type_name' : 'name',
@@ -134,7 +136,7 @@ const printAccommodationName = function(){
         dateBirthTime = dateBirth.getTime(),
         checkInDate = new Date($('input[name=accommodation_checkin_datepicker]').val()),
         checkInTime = checkInDate.getTime(),
-        queryParam = '&campus__in='+campusSelected+'&accommodation_type__eq='+accomTypeSelected+'&enabled__eq=1',
+        queryParam = '&school__in='+parentSchoolSelected+'&campus__in='+campusSelected+'&accommodation_type__eq='+accomTypeSelected+'&enabled__eq=1',
         api_url = apiUrl+tableId+'/rows?portalId='+portalId+queryParam;
         api_url = encodeURI(api_url);
         accommArray = [];
@@ -191,7 +193,7 @@ const printAccommodationName = function(){
                             accommNameArray.push({
                                 'id':dataObjectName[i].id,
                                 'name':dataObjectName[i].values[accommInt],
-                                'page_link':dataObjectName[i].values.page_link
+                                'page_link':dataObjectName[i].values.page_link ? dataObjectName[i].values.page_link : '',
                             })
                         }
                     }
@@ -203,7 +205,7 @@ const printAccommodationName = function(){
                         optionNameHtml = '<label for="accommodation-name-select">Choose accommodation<sup>*</sup></label>';
                         for (let i = 0; i < accommodationName.length; i++){
                             optionValue = accomTypeSelected == 'Homestay' ? accommodationName[i].name : accommodationName[i].name+' - '+accommodationName[i].room_description;
-                            optionNameHtml += '<div class="form-check"><input class="form-check-input" value="'+optionValue+'" type="radio" name="accommodation_name" id="'+accommodationName[i].parent_id+'" required><label class="form-check-label" for="'+accommodationName[i].parent_id+'">'+accommodationName[i].name+' - <span style="font-size:18px">'+accommodationName[i].room_description+'</span> <a href="'+schoolDomain+accommodationName[i].page_link+'" target="_blank" style="font-size:12px;">more info</a></label></div>';
+                            optionNameHtml += '<div class="form-check"><input class="form-check-input" value="'+optionValue+'" type="radio" name="accommodation_name" id="'+accommodationName[i].parent_id+'" required><label class="form-check-label" for="'+accommodationName[i].parent_id+'">'+accommodationName[i].name+'<span style="font-size:18px">'+ (accommodationName[i].room_description ? " - "+accommodationName[i].room_description : "") +'</span> <a href="'+(accommodationName[i].page_link != '' ? schoolDomain+accommodationName[i].page_link : schoolDomain)+'" target="_blank" style="font-size:12px;">more info</a></label></div>';
                         }
 
                         $('.accommodation-name-option').html(optionNameHtml);
@@ -251,6 +253,7 @@ const printAccommodationNameOption = function(){
 
 const printAirportTransfer = function(stepForm,categoryName,enableForm){
     let campusSelected = $('input[name=program_campus]:checked').val(),
+        parentSchoolSelected = $('input[name=program_school]:checked').attr('data-school'),
         countrySelected = $('.study-information-form.dropdown-container button.country-select').attr('data-selected'),
         programSelected = $('select[name=program_name_primary-input] option:selected').attr('data-category'),
         stepName = '.'+stepForm;
@@ -269,7 +272,7 @@ const printAirportTransfer = function(stepForm,categoryName,enableForm){
 
             inputDepartHtml = '<div class="form-check" data-category="'+categoryName+'"><input class="form-check-input" type="radio" name="accommodation_airport_transfer_option" id="accommodationAirportTransferDropOff" value="Yes, I need airport drop off when departing only." required disable="false" data-category="'+categoryName+'"><label class="form-check-label" for="accommodationAirportTransferDropOff">Yes, I need airport drop off when departing only.'+melbourneTip+'</label></div>';
 
-            airportTransferInputHtml = countrySelected == 'USA' ? inputNoHtml+inputArrivalHtml+inputBothHtml : inputNoHtml+inputBothHtml+inputArrivalHtml+inputDepartHtml;
+            airportTransferInputHtml = countrySelected == 'USA' ? inputNoHtml+inputArrivalHtml+inputBothHtml : parentSchoolSelected == 'Greystone Institute' ? inputNoHtml+inputArrivalHtml : inputNoHtml+inputBothHtml+inputArrivalHtml+inputDepartHtml;
 
             noHelp = countrySelected == 'USA' ? '<sup>*</sup>(If you have selected Homestay and do not need an airport transfer, students must provide their arrival details to ELS central admissions at least one week prior to their rival)' : '';
             optionHtml = '<div class="form-group"><legend>Do you need an airport transfer?<sup>*</sup><br>'+noHelp+'</legend><div class="valid-feedback"></div>'+airportTransferInputHtml+'</div>';
@@ -461,7 +464,8 @@ $(document).on( 'click', 'input[name=accommodation_type]', function () {
         studyWeeks = $('select[name=program_option_duration_primary-input]:not(:disabled) option:selected').val(),
         studyWeeks2 = $('input[name=program_schedule_primary-input]:not(:disabled):checked').attr('data-weeks'),
         programCategorySelected = $('select[name*=program_name_] option:selected').attr('data-category'),
-        campusTypeSelected = $('select[name*=program_name_] option:selected').attr('data-campus-type');
+        campusTypeSelected = $('select[name*=program_name_] option:selected').attr('data-campus-type'),
+        minWeeks = selectedParentSchool == 'Greystone Institute' ? 4 : 1;
     
     $('.accommodation-name-option').empty();
     printAccomLocationOption();
@@ -470,7 +474,7 @@ $(document).on( 'click', 'input[name=accommodation_type]', function () {
     
     $('.accommodation-duration select').empty();
     $('.accommodation-duration select').append('<option disabled>Choose Duration</option>')
-    for (let i = 1; i < 73; i++) {
+    for (let i = minWeeks; i < 73; i++) {
         weekText = i == 1 ? 'week' : 'weeks';
         weekStr = i+" "+weekText;
         selectedWeek = studyWeeks ? studyWeeks == weekStr ? 'selected' : '' : studyWeeks2 ? studyWeeks2 == i ? 'selected' : '' : '';

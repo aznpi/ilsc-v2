@@ -2354,7 +2354,7 @@ const accommodationInfoArray = [
 
 const accommodationAdditionalArray = [
   {
-    inputLabel: "Do you want to purchase your OSHC (Overseas Student Health Cover) through ILSC/Greystone College?",
+    inputLabel: "Do you wish to purchase Overseas Student Health Cover (OSHC) through Greystone Institute? We offer this covering through our partner, Bupa.",
     inputName: "insurance_option",
     objInputName: "medical_insurance",
     inputType: "dropdown",
@@ -2378,17 +2378,36 @@ const accommodationAdditionalArray = [
             required: true,
             obj: [
               {
-                label: "Single",
+                label: "For Single",
                 value: "Single",
+                dependent:[
+                  {
+                    inputLabel: "Upload a Partner Passport (jpeg,png,pdf; max. size: 1mb)",
+                    inputName: "accommodation_partner_passport_file",
+                    objInputName: "partner_passport_copy",
+                    inputType: "file",
+                    category: "Accommodation-Details",
+                    displayShow: false,
+                    required: true,
+                  }
+                ],
               },
               {
-                label: "Couple",
-                value: "Couple",
-              },
-              {
-                label: "Family",
+                label: "For Family",
                 value: "Family",
-              },
+                dependent:[
+                  {
+                    inputLabel: "Upload All Your Family Members' Passports",
+                    inputName: "accommodation_family_passport_file",
+                    objInputName: "family_passport_copy",
+                    inputType: "file",
+                    category: "Accommodation-Details",
+                    displayShow: false,
+                    required: true,
+                    multiple: true,
+                  }
+                ]
+              }
             ],
           }
         ]
@@ -2910,6 +2929,19 @@ const fileUploadArray = [
     displaySchool: "Greystone College,Greystone Institute",
   },
   {
+    inputLabel: "Please upload a copy of your test result. (jpeg,png,pdf; max. size: 1mb)",
+    inputName: "additional_english_test_score_file",
+    objInputName: "english_test_score_copy",
+    inputType: "file",
+    category: "Additional",
+    value: "",
+    required: false,
+    displayShow: true,
+    enableMultiple: false,
+    displaySchool: "Greystone Institute",
+    countryDependence: "Australia",
+  },
+  {
     inputLabel:
       "Please upload a proficiency test result (other than Prola) - ex: IELTS, TOEFL, Duolingo, etc. (jpeg,png,pdf; max. size: 1mb)",
     inputName: "additional_proficiency_file",
@@ -2920,7 +2952,7 @@ const fileUploadArray = [
     required: false,
     displayShow: true,
     enableMultiple: false,
-    displaySchool: "Greystone College,Greystone Institute",
+    displaySchool: "Greystone College",
     countryDependence: "Canada",
   },
   {
@@ -4121,7 +4153,7 @@ const programAdditionalInfoArray = [
           dependent: [
             {
               inputLabel: "If yes, have you completed one of the following:",
-              inputSubtitle:"<ul><li>Recent (within the last 2 years) secondary education (equivalent to Year 12 in Australia, with a minimum ATAR score of 60) ; OR</li><li>Vocational Education and Training (VET) study in Australia - Certificate IV (AQF 4) or higher; OR</li><li>Higher education study - recognised Foundation Studies course.</li></ul>",
+              labelSubtitle:"<ul><li>Recent (within the last 2 years) secondary education (equivalent to Year 12 in Australia, with a minimum ATAR score of 60) ; OR</li><li>Vocational Education and Training (VET) study in Australia - Certificate IV (AQF 4) or higher; OR</li><li>Higher education study - recognised Foundation Studies course.</li></ul>",
               inputName: "additional_program_admission_criteria_completed_option",
               objInputName: "program_admission_criteria_completed_option",
               inputType: "dropdown",
@@ -4133,7 +4165,7 @@ const programAdditionalInfoArray = [
                   value: "Yes",
                   dependent: [
                     {
-                      inputLabel: "If Yes, please provide evidence:",
+                      inputLabel: "If Yes, please provide evidence (jpeg,png,pdf; max. size: 1mb):",
                       inputName: "additional_program_admission_criteria_file",
                       objInputName: "program_admission_criteria_file",
                       inputType: "file",
@@ -4149,8 +4181,8 @@ const programAdditionalInfoArray = [
                   dependent: [
                     {
                       inputLabel: "Do you intend to meet the program admission criteria based on work experience?",
-                      inputName: "additional_work_experience_option",
-                      objInputName: "work_experience_option",
+                      inputName: "additional_admission_criteria_work_experience_option",
+                      objInputName: "admission_criteria_work_experience_option",
                       inputType: "dropdown",
                       required: true,
                       displayShow: false,
@@ -4162,7 +4194,7 @@ const programAdditionalInfoArray = [
                           dependent: [
                             {
                               inputLabel: "If Yes, please provide the following evidence:",
-                              labelSubtitle: " <ul><li>ppropriate, relevant work experience, and/or</li><li>ormal, informal or non-formal study, completed or partially completed, and/or</li><li>pecial Tertiary Admission Test (STAT) percentile rank or equivalent</li></ul>",
+                              labelSubtitle: " <ul><li>Appropriate, relevant work experience, and/or</li><li>Formal, informal or non-formal study, completed or partially completed, and/or</li><li>Special Tertiary Admission Test (STAT) percentile rank or equivalent</li></ul>",
                               inputName: "additional_work_experience_file_multiple",
                               objInputName: "work_experience_file",
                               inputType: "file",
@@ -4247,7 +4279,7 @@ const programAdditionalInfoArray = [
         value: "Yes",
         dependent : [
           {
-            inputLabel: "If Yes, please provide evidence:",
+            inputLabel: "If Yes, please provide evidence (jpeg,png,pdf; max. size: 1mb):",
             inputName: "additional_english_instruction_file",
             objInputName: "english_instruction_file",
             inputType: "file",
@@ -4265,7 +4297,7 @@ const programAdditionalInfoArray = [
   {
     inputLabel: "Have you taken an ILSC ACADEMIC English Placement Test? (within the last 2 years)",
     inputName: "additional_placement_test_option",
-    objInputName: "prola_taken",
+    objInputName: "academic_english_placement_test_option",
     inputType: "dropdown",
     required: true,
     schoolParentDependence: "Greystone Institute",
@@ -4296,7 +4328,7 @@ const programAdditionalInfoArray = [
         value: "No",
         dependent: [
           {
-            inputLabel: "Do you have an Official English Language Test Score?",
+            inputLabel: "Do you have an Official English Language Test Score? (within the last 2 years)",
             inputName: "additional_english_test_score",
             objInputName: "english_test_score_option",
             inputType: "dropdown",
@@ -4309,13 +4341,12 @@ const programAdditionalInfoArray = [
                 value: "Yes",
                 dependent : [
                   {
-                    inputLabel: "If Yes, please provide test number:",
-                    inputName: "additional_english_test_score",
-                    objInputName: "english_test_score",
-                    inputType: "text",
+                    inputLabel: "If Yes, please upload a copy of your test result:",
+                    inputName: "additional_english_test_score_file",
+                    objInputName: "english_test_score_copy",
+                    inputType: "file",
                     required: true,
-                    displayShow: false,
-                    inputAssign: "primary",
+                    displayShow: false                  
                   }
                 ]
               },
@@ -4324,9 +4355,9 @@ const programAdditionalInfoArray = [
                 value: "No",
                 dependent : [
                   {
-                    inputLabel: "Do you have an Official English Language Test Score? (within the last 2 years) ",
-                    inputName: "additional_english_test_score_option",
-                    objInputName: "english_test_score_option",
+                    inputLabel: "Do you wish to apply to meet the required English language proficiency level through other means?",
+                    inputName: "additional_apply_requirement_english_proficiency_option",
+                    objInputName: "apply_requirement_english_proficiency_option",
                     inputType: "dropdown",
                     inputAssign: "primary",
                     obj:[
@@ -4336,7 +4367,7 @@ const programAdditionalInfoArray = [
                         dependent : [
                           {
                             inputLabel: "If Yes, please provide evidence of successful completion of one or more of the following:",
-                            labelSubtitle: "<ul><li>AQF level 5 program or higher at an Australian RTO or higher education provider</li><li>one year of higher education study in Australia/li><li>a Foundation Studies program in Australia   </li><li>Senior secondary study undertaken in English</li><li>an English for Academic Purposes program at ILSC or other recognised ELICOS provider</li></ul>",
+                            labelSubtitle: "<ul><li>AQF level 5 program or higher at an Australian RTO or higher education provider</li><li>one year of higher education study in Australia</li><li>a Foundation Studies program in Australia</li><li>Senior secondary study undertaken in English</li><li>an English for Academic Purposes program at ILSC or other recognised ELICOS provider</li></ul>",
                             inputName: "additional_english_test_score_file_multiple",
                             objInputName: "english_test_score_file",
                             inputType: "file",
@@ -4366,7 +4397,7 @@ const programAdditionalInfoArray = [
   {
     inputLabel: "Do you wish to apply for an English language course?",
     inputName: "additional_english_language_course_option",
-    objInputName: "english_language_course_option",
+    objInputName: "english_apply_course_option",
     inputType: "dropdown",
     required: true,
     schoolParentDependence: "Greystone Institute",
@@ -4388,7 +4419,7 @@ const programAdditionalInfoArray = [
     ]
   },
   {
-    inputLabel: "Do you wish to apply for advanced standing in the form of credit and/or recognition of prior learnin (RPL)? ",
+    inputLabel: "Do you wish to apply for advanced standing in the form of credit and/or recognition of prior learning (RPL)?",
     inputName: "additional_apply_credit_prior_learning_option",
     objInputName: "apply_credit_prior_learning_option",
     inputType: "dropdown",
@@ -4418,7 +4449,7 @@ const programAdditionalInfoArray = [
                   value: "Yes",
                   dependent : [
                     {
-                      inputLabel: "If Yes, please provide evidence:",
+                      inputLabel: "If Yes, please provide evidence (jpeg,png,pdf; max. size: 1mb):",
                       inputName: "additional_approved_pathway_partner_file",
                       objInputName: "approved_pathway_partner_file",
                       inputType: "file",
@@ -4457,7 +4488,7 @@ const programAdditionalInfoArray = [
                     {
                       inputLabel: "If based on work experience: Current CV, position description for relevant previous roles, proof of employment in each role, indicating dates and length of employment:",
                       inputName: "additional_cv_employment_file_multiple",
-                      objInputName: "cv_employment_file",
+                      objInputName: "resume",
                       inputType: "file",
                       inputAssign: "primary",
                       multiple: true,
@@ -4480,7 +4511,7 @@ const programAdditionalInfoArray = [
   {
     inputLabel: "Do you have a disability which may affect your learning and for which you may need accessibility adjustments? For example: vision, hearing, mobility, learning difficulties, medical or other circumstances.",
     inputName: "additional_disability_option",
-    objInputName: "disability_option",
+    objInputName: "disability_accessibility_option",
     inputType: "dropdown",
     required: true,
     schoolParentDependence: "Greystone Institute",
@@ -4576,20 +4607,7 @@ const programAdditionalInfoArray = [
     value: ""
   },
   {
-    inputLabel: "Certified copies of your academic transcript(s) and certificate(s)(jpeg,png,pdf; max. size: 1mb):",
-    inputName: "additional_certified_transcripts_file",
-    objInputName: "official_transcript",
-    inputType: "file",
-    required: false,
-    schoolParentDependence: "Greystone Institute",
-    displayShow: true,
-    inputAssign: "primary",
-    category:'Additional-Program',
-    categoryTitle: "Supporting Documentation",
-    value: ""
-  },
-  {
-    inputLabel: "Enter any additional notes regarding your program of study:",
+    inputLabel: "Additional notes regarding your program of studies or your ability to progress or complete the course:",
     inputName: "additional_study_additional_information_and_notes",
     objInputName: "study_additional_information_and_notes",
     inputType: "text-area",
@@ -4599,7 +4617,7 @@ const programAdditionalInfoArray = [
     displayShow: true,
     inputAssign: "primary",
     category:'Additional-Program',
-    categoryTitle: "Additional Notes",
+    categoryTitle: "Supporting Documentation",
     value: ""
   }
 ]
@@ -4616,17 +4634,26 @@ const additionalAdditionalV2Array = [
     displayShow: false,
     required: true,
     inputType: "dropdown",
-    categoryTitle: "Information",
+    categoryTitle: "Additional Information",
     obj: [
       {
         label: "Yes",
         value: "Yes",
         dependent: [
           {
-            inputLabel:
-              "Genuine Temporary Entrant - Statement of Purpose Copy (jpeg,png,pdf; max. size: 1mb)",
-            inputName: "additional_program_gte_file_upload",
+            inputLabel: "Upload Genuine Temporary Entrant - Statement of Purpose Copy",
+            inputName: "additional_program_gte_file_multiple_upload",
             objInputName: "gte_copy",
+            inputType: "file",
+            displayShow: false,
+            required: true,
+            multiple: true,
+          },
+          {
+            inputLabel:
+              "Upload Visa Refusal Letter (jpeg,png,pdf; max. size: 1mb)",
+            inputName: "additional_refusal_visa_letter_file",
+            objInputName: "refusal_visa_letter",
             inputType: "file",
             displayShow: false,
             required: true,
@@ -4640,16 +4667,36 @@ const additionalAdditionalV2Array = [
     ]
   },
   {
-    inputLabel: "USI Number",
-    inputName: "additional_usi_number",
-    objInputName: "usi_number",
-    inputType: "text",
-    choolParentDependence: "Greystone Institute",
+    inputLabel: "Do you have a USI (Unique Student Identifier) from the Australian Government?",
+    inputName: "additional_usi_number_option",
+    objInputName: "usi_number_option",
+    inputType: "dropdown",
+    schoolParentDependence: "Greystone Institute",
     countryDependence: "Australia",
     category: "Additional",
-    categoryTitle: "Information",
+    categoryTitle: "Additional Information",
     displayShow: false,
     required: true,
+    obj: [
+      {
+        label: "Yes",
+        value: "Yes",
+        dependent: [
+          {
+            inputLabel: "Please provide your USI number:",
+            inputName: "additional_usi_number",
+            objInputName: "usi_number",
+            inputType: "text",
+            required: true,
+            displayShow: false,
+          }
+        ]
+      },
+      {
+        label: "No", 
+        value: "No"
+      }
+    ]
   },
   {
     inputLabel: "Are you applying for your visa outside or inside Australia?",
@@ -4658,7 +4705,7 @@ const additionalAdditionalV2Array = [
     inputType: "dropdown",
     required: true,
     displayShow: false,
-    categoryTitle: "Information",
+    categoryTitle: "Additional Information",
     category: "Additional",
     schoolParentDependence: "Greystone Institute",
     countryDependence: "Australia",
@@ -4726,7 +4773,7 @@ const additionalAdditionalV2Array = [
     schoolParentDependence: "Greystone Institute",
     countryDependence: "Australia",
     category: "Additional",
-    categoryTitle: "Information",
+    categoryTitle: "Additional Information",
     displayShow: false,
     obj: [
             {
@@ -4751,54 +4798,17 @@ const additionalAdditionalV2Array = [
           ]
   },
   {
-    inputLabel: "Are you going to study with another education provider in Australia after you finish your course at ILSC/Greystone College?",
-    inputName: "additional_study_another_provider_option",
-    objInputName: "are_you_going_to_study_with_another_education_provider_in_australia",
-    inputType: "dropdown",
-    inputAssign: "primary",
-    countryDependence: "Australia",
+    inputLabel: "Upload copies of all the visa(s) you previously held since arriving in Australia",
+    inputName: "additional_visa_history_file_multiple",
+    objInputName: "visa_history_file",
     schoolParentDependence: "Greystone Institute",
-    required: true,
-    categoryTitle: "Information",
+    countryDependence: "Australia",
     category: "Additional",
-    obj: [
-      {
-        label: "Yes",
-        value: "Yes",
-        dependent: [
-          {
-            inputLabel: "Write the name of the Education Provider",
-            inputName: "additional_australia_study_other_provider",
-            objInputName: "australia_educational_provider_name",
-            inputType: "text",
-            required: true,
-            displayShow: false
-          },
-          {
-            inputLabel: "Upload LoA (Leave of absence)",
-            inputName: "additional_australia_loa_file_upload",
-            objInputName: "loa",
-            inputType: "file",
-            displayShow: false,
-            required: true
-          },
-          {
-            inputLabel: "Upload CoE (Confirmation of Enrollment)",
-            inputName: "additional_australia_coe_file_upload",
-            objInputName: "coe",
-            inputType: "file",
-            required: true,
-            displayShow: false
-          },
-        ]
-      },
-      {
-        label: "No",
-        value: "No"
-      }
-    ],
-    category: "Additional",
+    categoryTitle: "Additional Information",
+    inputType: "file",
     displayShow: false,
+    required: true,
+    multiple: true,
   },
   {
     inputLabel: "Emergency Contact",
@@ -4812,18 +4822,6 @@ const additionalAdditionalV2Array = [
     displayShow: true,
   },
   {
-    inputLabel: "Emergency Contact Phone Number",
-    inputName: "additional_emergency_contact_phone",
-    objInputName: "emergency_contact_phone__",
-    categoryTitle: "Personal Information",
-    inputType: "phone",
-    required: true,
-    category: "Additional",
-    schoolParentDependence: "Greystone Institute",
-    value: "",
-    displayShow: true,
-  },
-  {
     inputLabel: "Emergency Contact Email",
     inputName: "additional_emergency_contact_email",
     objInputName: "emergency_contact_email",
@@ -4831,6 +4829,18 @@ const additionalAdditionalV2Array = [
     required: true,
     category: "Additional",
     categoryTitle: "Personal Information",
+    schoolParentDependence: "Greystone Institute",
+    value: "",
+    displayShow: true,
+  },
+  {
+    inputLabel: "Emergency Contact Phone Number",
+    inputName: "additional_emergency_contact_phone",
+    objInputName: "emergency_contact_phone__",
+    categoryTitle: "Personal Information",
+    inputType: "phone",
+    required: true,
+    category: "Additional",
     schoolParentDependence: "Greystone Institute",
     value: "",
     displayShow: true,
@@ -4859,8 +4869,9 @@ const additionalAdditionalV2Array = [
           {
             inputLabel: "Please specify with details",
             inputName: "additional_health_condition_specified",
-            objInputName: "please_specify_health_condition_details_",
-            inputType:"text",
+            objInputName: "student_s_physical_or_mental_medical_conditions",
+            inputType:"text-area",
+            rows: "5",
             required: true,
             displayShow: false,
           }
@@ -5629,6 +5640,15 @@ const addSpinner = () => {
 const removeSpinner = () => {
   $(".app-step-container .lds-ring").remove();
 };
+
+const printHubspotFileForm = function(formId,targetId){
+    hbspt.forms.create({
+        region: "na1",
+        portalId: "5020112",
+        formId: formId,
+        target: targetId
+    });
+}
 
 const initializeDragAndDrop = function (className) {
 

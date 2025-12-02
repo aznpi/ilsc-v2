@@ -334,6 +334,9 @@ section.section-application-form {
   min-height: 850px;
   position: relative;
 }
+section.section-application-form .dependent-target ul {
+  list-style-type: disc;
+}
 section.section-application-form .age-message {
   margin-top: 0;
 }
