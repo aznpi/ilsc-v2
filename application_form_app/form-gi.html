@@ -71,13 +71,13 @@
                     <a href="#">Accommodation Information</a>
                     <ul>
                         <li>Details</li>
+                        <li id="step-insurance">Insurance</li>
                         <li>Airport Transfer</li>
                     </ul>
                   </li>
                   <li class="menu-additional step-5 additional-select" data-step="5">
                     <a href="#">Additional Information</a>
                     <ul>
-                        <li id="step-insurance">Insurance</li>
                         <li>Additional Information</li>
                         <li>Additional Files</li>
                     </ul>
@@ -464,18 +464,19 @@
                                             </div>
                                         </div>
                                         <div class="study-info-container">
-                                            <div class="additional-notes-container study-box-container study-hide disabled">
-                                                <h3>Additional Information<sup>*</sup></h3>
+                                            <div class="additional-notes-container study-hide disabled">
+                                                
                                                 <div class="additional-notes-input"></div>
                                             </div>
                                         </div>
                                         
-                                        <div class="btn-container">
-                                            <button type="button" class="btn btn-orange-outline bold prev">Back</button>
-                                            <button type="button" class="btn btn-orange bold next enable" data-step="study-program-select" data-form="study-form" data-check="true" tabindex="0">Next</button>
-                                        </div>
+                                        
                                     </form>
-                                    <div id="program-hs-file-form"></div>
+                                    <div class="btn-container">
+                                        <button type="button" class="btn btn-orange-outline bold prev">Back</button>
+                                        <button type="button" class="btn btn-orange bold next enable" data-step="study-program-select" data-form="study-form" data-check="true" tabindex="0">Next</button>
+                                    </div>
+                                    <div id="program-hs-file-form" class="study-hide"></div>
                                 </div>
                                 
                                
@@ -517,7 +518,6 @@
                                             <h3>Accommodation Details<sup>*</sup></h3>
                                             <div class="form-group">     
                                                 <div id="accommodation-type-option-container" class="radio-container input-container study-hide"></div>
-                                                <div class="accommodation-additional-details"></div>
                                             </div>
                                             <div class="form-group accommodation-details">
                                                 
@@ -568,13 +568,16 @@
                                                 <h3>Additional Details<sup>*</sup></h3>
                                             <div class="homestay-details"></div>
                                         </div>
+                                        <div class="accommodation-insurance-details study-hide">
+                                            <div class="accommodation-insurance-container"></div>
+                                        </div>
                                         <div class="study-box-container accommodation-airport-transfer-details study-hide">
                                             <h3>Airport Transfer<sup>*</sup></h3>
                                             <div class="airport-transfer-details"></div>
                                         </div>
                                     </form>
 
-                                    
+                                    <div id="accommodation-hs-file-form" class="study-hide"></div>
                                     <div class="btn-container">
                                         <button type="button" class="btn btn-orange-outline bold prev">Back</button>
                                         <button class="btn btn-orange bold next enable" data-step="accommodation-select" data-form="accommodation-form" data-check="true" tabindex="0">Next</button>
@@ -618,7 +621,7 @@
                                         </div> 
                                     </form>
                                     <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
-                                    <div id="additional-hs-file-form"></div>
+                                    <div id="additional-hs-file-form" class="study-hide"></div>
                                     <div class="btn-container">
                                         <button type="button" data-step="additional-select" class="btn btn-orange-outline bold prev">Back</button>
                                         <button class="btn btn-orange bold next enable" data-step="additional-select" data-form="additional-form" data-check="true" tabindex="0">Next</button>
@@ -719,7 +722,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div id="contract-hs-file-form"></div>
+                                    <div id="contract-hs-file-form" class="study-hide"></div>
                                     
                                     <div class="btn-container center">                                   
                                         <button class="btn btn-orange bold next enable" data-form="submit-complete" data-step="submit-select" data-check="true" tabindex="0">Confirm</button>

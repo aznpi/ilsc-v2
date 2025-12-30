@@ -1448,7 +1448,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,Greystone Institute",
+    schoolParentDependence: "ILSC",
     simpleDisable: true,
     obj: [
       {
@@ -1464,6 +1464,33 @@ const studentInfoArray = [
       {
         optionLabel: "Working Holiday",
         optionValue: "Working Holiday",
+        optionType: "strict",
+      },
+      {
+        optionLabel: "Other",
+        optionValue: "Other",
+        optionType: "option-other",
+        optionName: "student_visa_option_other_specified",
+        dependentClass: "student_visa_option",
+        placeholder: "Specify Other",
+      },
+    ],
+    displayShow: true,
+  },
+  {
+    inputLabel: "What Visa will you apply for?",
+    inputName: "student_visa_option",
+    objInputName: "visa_status_in_your_country_of_study",
+    inputType: "radio-option",
+    required: true,
+    category: "Student",
+    value: "",
+    schoolParentDependence: "Greystone Institute",
+    simpleDisable: true,
+    obj: [
+      {
+        optionLabel: "Student",
+        optionValue: "Student",
         optionType: "strict",
       },
       {
@@ -2378,8 +2405,12 @@ const accommodationAdditionalArray = [
             required: true,
             obj: [
               {
-                label: "For Single",
+                label: "Single",
                 value: "Single",
+              },
+              {
+                label: "Couple",
+                value: "Couple",
                 dependent:[
                   {
                     inputLabel: "Upload a Partner Passport (jpeg,png,pdf; max. size: 1mb)",
@@ -2393,7 +2424,7 @@ const accommodationAdditionalArray = [
                 ],
               },
               {
-                label: "For Family",
+                label: "Family",
                 value: "Family",
                 dependent:[
                   {
@@ -3233,7 +3264,7 @@ const additionalInfoArray = [
     countryDependence: "Canada,Australia,India,USA,Ireland",
   },
   {
-    inputLabel: "Airline and Flight Number (if applicable)",
+    inputLabel: "Airline/Flight Number and Time (if applicable)",
     inputName: "airpirort_airline_flight",
     objInputName: "airline_and_flight_number",
     category: "Additional",
@@ -3579,7 +3610,7 @@ const additionalInfoArray = [
   {
     inputLabel: "Does the parent reside in Australia and serve as the primary contact and guardian for the student during their course duration?",
     inputName: "additional_parent_caregiver_residence_option",
-    objInputName: "additional_parent_caregiver_residence_option",
+    objInputName: "does_the_parent_reside_in_australia_and_serve_as_the_primary_contact_and_caregiver_for_the_student_",
     inputType: "radio-option",
     required: true,
     category: "Additional",
@@ -4178,7 +4209,16 @@ const programAdditionalInfoArray = [
                 {
                   label: "No",
                   value: "No",
-                  dependent: [
+                  
+                }
+              ], 
+            }
+          ]
+        },
+        {
+          label: "No",
+          value: "No",
+          dependent: [
                     {
                       inputLabel: "Do you intend to meet the program admission criteria based on work experience?",
                       inputName: "additional_admission_criteria_work_experience_option",
@@ -4186,7 +4226,6 @@ const programAdditionalInfoArray = [
                       inputType: "dropdown",
                       required: true,
                       displayShow: false,
-                      note: "For mature applicants aged 21+ who have finished secondary education more than 2 years ago.",
                       obj:[
                         {
                           label: "Yes",
@@ -4194,13 +4233,14 @@ const programAdditionalInfoArray = [
                           dependent: [
                             {
                               inputLabel: "If Yes, please provide the following evidence:",
-                              labelSubtitle: " <ul><li>Appropriate, relevant work experience, and/or</li><li>Formal, informal or non-formal study, completed or partially completed, and/or</li><li>Special Tertiary Admission Test (STAT) percentile rank or equivalent</li></ul>",
+                              labelSubtitle: "<ul><li>Appropriate, relevant work experience, and/or</li><li>Formal, informal or non-formal study, completed or partially completed, and/or</li><li>Special Tertiary Admission Test (STAT) percentile rank or equivalent</li></ul>",
                               inputName: "additional_work_experience_file_multiple",
                               objInputName: "work_experience_file",
                               inputType: "file",
                               multiple: true,
                               required: true,
-                              displayShow: false
+                              displayShow: false,
+                              preNote : "For mature applicants aged 21+ who completed secondary education more than 2 years ago."
                             }
                           ]
                         },
@@ -4211,14 +4251,6 @@ const programAdditionalInfoArray = [
                       ]
                     }
                   ]
-                }
-              ], 
-            }
-          ]
-        },
-        {
-          label: "No",
-          value: "No"
         }
     ]
   },
@@ -4306,7 +4338,6 @@ const programAdditionalInfoArray = [
     categoryTitle: "English Proficiency",
     inputAssign: "primary",
     value: "",
-    note:"In all instances, Greystone Institute reserves the right to ask a prospective student to provide an English language test result.",
     obj: [
       {
         label: "Yes",
@@ -4319,7 +4350,7 @@ const programAdditionalInfoArray = [
             inputType: "text",
             inputAssign: "primary",
             required: true,
-            displayShow: false,
+            displayShow: false
           }
         ]
       },
@@ -4346,7 +4377,7 @@ const programAdditionalInfoArray = [
                     objInputName: "english_test_score_copy",
                     inputType: "file",
                     required: true,
-                    displayShow: false                  
+                    displayShow: false              
                   }
                 ]
               },
@@ -4367,7 +4398,7 @@ const programAdditionalInfoArray = [
                         dependent : [
                           {
                             inputLabel: "If Yes, please provide evidence of successful completion of one or more of the following:",
-                            labelSubtitle: "<ul><li>AQF level 5 program or higher at an Australian RTO or higher education provider</li><li>one year of higher education study in Australia</li><li>a Foundation Studies program in Australia</li><li>Senior secondary study undertaken in English</li><li>an English for Academic Purposes program at ILSC or other recognised ELICOS provider</li></ul>",
+                            labelSubtitle: "<ul><li>AQF level 5 program or higher at an Australian RTO or higher education provider</li><li>one year of higher education study in Australia</li><li>a Foundation Studies program in Australia</li><li>Senior secondary study undertaken in English</li><li>an English for Academic Purposes program at ILSC or other recognised ELICOS provider</li></ul><p><sup>*</sup>In all instances, Greystone Institute reserves the right to ask a prospective student to provide an English language test result.</p>",
                             inputName: "additional_english_test_score_file_multiple",
                             objInputName: "english_test_score_file",
                             inputType: "file",
@@ -4641,15 +4672,6 @@ const additionalAdditionalV2Array = [
         value: "Yes",
         dependent: [
           {
-            inputLabel: "Upload Genuine Temporary Entrant - Statement of Purpose Copy",
-            inputName: "additional_program_gte_file_multiple_upload",
-            objInputName: "gte_copy",
-            inputType: "file",
-            displayShow: false,
-            required: true,
-            multiple: true,
-          },
-          {
             inputLabel:
               "Upload Visa Refusal Letter (jpeg,png,pdf; max. size: 1mb)",
             inputName: "additional_refusal_visa_letter_file",
@@ -4796,6 +4818,19 @@ const additionalAdditionalV2Array = [
               value: "No"
             }         
           ]
+  },
+  {
+    inputLabel: "Upload Genuine Student (GS) Statement",
+    inputName: "additional_program_gte_file_multiple_upload",
+    objInputName: "gte_copy",
+    inputType: "file",
+    displayShow: false,
+    required: false,
+    multiple: true,
+    schoolParentDependence: "Greystone Institute",
+    countryDependence: "Australia",
+    category: "Additional",
+    categoryTitle: "Additional Information",
   },
   {
     inputLabel: "Upload copies of all the visa(s) you previously held since arriving in Australia",
@@ -5117,6 +5152,10 @@ const validateForm = function (dataStepVar, dataFormArr, validCheck) {
   if (!validArray.includes(false)) {
     updateLocalJson(dataStepVar);
     submitForm(dataStepVar);
+    $(".fixed-side-menu ." + dataStepVar).addClass("complete");
+    if (dataStepVar == "additional-select") {
+      $(".fixed-side-menu .submit-select").addClass("complete");
+    }
 
     return true;
   } else {
@@ -5433,7 +5472,7 @@ $(document).on("click", ".fixed-side-menu ul li.complete a", function () {
   if (submitVar) {
     step = $(this).parent().attr("data-step");
     if (step == 5) {
-      printHubspotFileForm();
+      printHubspotFileForm(additionalUploadFormId, "#additional-hs-file-form");
     } else if (step == 6) {
       printApplicationSummary();
     }
@@ -5456,7 +5495,7 @@ const round = function (value, precision) {
 $(document).on("click", ".edit-form", function () {
   step = $(this).attr("data-step");
   if (step == 5) {
-    printHubspotFileForm();
+    printHubspotFileForm(additionalUploadFormId, "#additional-hs-file-form");
   }
   $(".application-step-form-slide").slick("slickGoTo", step - 1);
   window.scrollTo(0, 0);

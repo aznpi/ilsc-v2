@@ -31,6 +31,7 @@ const schoolVal = "ILSC",
   additionalGuid = "f679dd33-6d93-4af4-b6b6-385535220d77",
   completeGuid = "3caf5847-65c4-4652-bbfe-c6294dd25c95",
   programUploadFormId = "7cc79f9b-9384-41ca-ad93-8b68e3e63401",
+  accommodationUploadFormId = '3cae08d8-5810-43eb-81ee-931038ccd3dd',
   additionalUploadFormId = "f9eb2779-0273-4eb2-aad0-82784887f01f",
   contractUploadFormId = "372ae45f-db14-48ea-955e-f078bb8ea22a",
   privacyAgreementLabel =

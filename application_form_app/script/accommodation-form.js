@@ -301,7 +301,7 @@ const printAirportTransferDetails = function(stepForm){
     brisbaneInput = campusSelected == 'Brisbane' ? brisbaneField : '';
     arrivalInput = '<div class="input-container accommodation-airport-transfer-arrival-date study-show"><label for="airport-arrival-datePicker">Arrival Date<sup>'+requiredLabel+'</sup></label><input type="text" value="" class="form-control airport-transfer-date-picker  accommodation-airport-transfer-arrival-date-picker" id="airport-arrival-datePicker" name="airport_arrival_datepicker" placeholder="YYY-MM-DD" '+requiredDates+'></div>';
     departureInput = selectedParentSchool != 'Greystone Institute' ? '<div class="input-container accommodation-airport-transfer-departure-date study-show"><label for="airport-departure-datePicker">Departure Date<sup>'+requiredLabel+'</sup></label><input type="text" value="" class="form-control airport-transfer-date-picker accommodation-airport-transfer-departure-date-picker" id="airport-departure-datePicker" name="airport_departure_datepicker" placeholder="YYYY-MM-DD" '+requiredDates+'></div>' : '';
-    airlineInput = '<div class="form-group form-show "><label for="airlineFlight">Airline and Flight Number (if applicable)</label><input type="text" class="form-control" id="airlineFlight" name="airpirort_airline_flight" data-category="Accommodation" tabindex="0"><div class="valid-feedback"></div>'+flightInfoTxt+'</div>';
+    airlineInput = '<div class="form-group form-show "><label for="airlineFlight">Airline/Flight Number and Time (if applicable)</label><input type="text" class="form-control" id="airlineFlight" name="airpirort_airline_flight" data-category="Accommodation" tabindex="0"><div class="valid-feedback"></div>'+flightInfoTxt+'</div>';
     minorInputField = '<div class="form-group"><legend>Will you be booking unaccompanied minor service through your airline?<sup>*</sup></legend><div class="form-check" data-category="Accommodation"><input class="form-check-input" type="radio" name="accommodation_airport_book_minor_option" id="accommodationAirportBookMinorNo" value="No" required disable="false"><label class="form-check-label" for="accommodationAirportBookMinorNo">No</label></div><div class="form-check" data-category="Accommodation"><input class="form-check-input" type="radio" name="accommodation_airport_book_minor_option" id="accommodationAirportBookMinorYes" value="Yes" required disable="false"><label class="form-check-label" for="accommodationAirportBookMinorYes">Yes</label></div><div class="form-group full-width"><label for="accommodationAirportMinorComments">Additional information and comments*</sup></label><textarea class="form-control" rows="15" cols="60" id="accommodationAirportMinorComments" name="accommodation_airport_minor_comments" data-category="Accommodation"></textarea><div class="valid-feedback"></div></div>';
     minorInput = age < 18 ? minorInputField :'';
     inputHtml = brisbaneInput+arrivalInput+departureInput+airlineInput+minorInput;
@@ -355,15 +355,14 @@ $(document).on( 'click', '.accommodation-form input[name=accommodation_airport_t
 $(document).on( 'click', 'input[name=accommodation_option]', function () {
     let selectedParentSchool = $('input[name=program_school]:checked').attr('data-school');
     
+    $('.accommodation-insurance-details').removeClass('study-show').addClass('study-hide');
+    $("input,select,textarea",".accommodation-insurance-details").attr('disabled',true);
+
     if($(this).val() == '1'){
         $('.accommodation-details:not(.form-group)').removeClass('study-hide').addClass('study-show');
         $('#accommodation-type-option-container').removeClass('study-hide').addClass('study-show');
         $('.accommodation-airport-transfer-details').removeClass('study-hide').addClass('study-show');
         $('.additional-airport-transfer-details').removeClass('study-show').addClass('study-hide');
-        if(selectedParentSchool == 'Greystone Institute'){
-            optionDetailsHtml = printAdditionalInputForm(accommodationAdditionalArray,'Accommodation-Details');
-            $('.accommodation-details .accommodation-additional-details').html(optionDetailsHtml);
-        }
         printAccomTypeOption();
 
         printAirportTransfer('accommodation-form','Accommodation',true);
@@ -372,6 +371,8 @@ $(document).on( 'click', 'input[name=accommodation_option]', function () {
         $("input,select,textarea",".accommodation-homestay-details").attr('disabled',false);
         $("input,select,textarea",".accommodation-airport-transfer-details").attr('disabled',false);
         $("input,select,textarea",".additional-airport-transfer-details").attr('disabled',true);
+        calcAccomCheckOutDate();
+        showAccommodationDetailsOption('Residence');
         if(selectedParentSchool == 'ELS'){
             $('input[name=accommodation_checkout_datepicker]').attr('disabled',true);
         }
@@ -390,23 +391,33 @@ $(document).on( 'click', 'input[name=accommodation_option]', function () {
             $("input,select,textarea",".additional-airport-transfer-details").attr('disabled',false);
         }
     }
+    if(selectedParentSchool == 'Greystone Institute'){
+        $('.accommodation-insurance-details').removeClass('study-hide').addClass('study-show');
+        optionDetailsHtml = printAdditionalInputForm(accommodationAdditionalArray,'Accommodation-Details');
+        $('.accommodation-insurance-details .accommodation-insurance-container').html(optionDetailsHtml);
+        $("input,select,textarea",".accommodation-insurance-details").attr('disabled',false);
+    }
+    initializeDragAndDrop('.accommodation-details-info-drop-zone');
+    printHubspotFileForm(accommodationUploadFormId, "#accommodation-hs-file-form");
 });
 
 const calcAccomCheckOutDate = function(){
     let checkInDateVal = $('input[name=accommodation_checkin_datepicker]').attr('data-value'),
         durationWeek = $('select[name=accommodation_duration] option:selected').val(),
-        durationVal = parseInt(durationWeek.slice(0,2)),
-        checkOutDate = addWeeks(new Date(parseInt(checkInDateVal)),durationVal);
-        $('input[name=accommodation_checkout_datepicker]').attr('data-value',checkOutDate.getTime());
-        year = checkOutDate.getUTCFullYear();
-        month = checkOutDate.getUTCMonth() + 1;
-        month = month.toString();
-        month = month.length < 2 ? '0'+month : month;
-        day = checkOutDate.getUTCDate();
-        day = day.toString();
-        day = day.length < 2 ? '0'+day : day;
-        checkOutStr = year+'-'+month+'-'+day;
-        $('input[name=accommodation_checkout_datepicker]').attr('value',checkOutStr);
+        durationVal = durationWeek ? parseInt(durationWeek.slice(0,2)) : false;
+        if(!checkInDateVal && !durationVal){
+            checkOutDate = addWeeks(new Date(parseInt(checkInDateVal)),durationVal);
+            $('input[name=accommodation_checkout_datepicker]').attr('data-value',checkOutDate.getTime());
+            year = checkOutDate.getUTCFullYear();
+            month = checkOutDate.getUTCMonth() + 1;
+            month = month.toString();
+            month = month.length < 2 ? '0'+month : month;
+            day = checkOutDate.getUTCDate();
+            day = day.toString();
+            day = day.length < 2 ? '0'+day : day;
+            checkOutStr = year+'-'+month+'-'+day;
+            $('input[name=accommodation_checkout_datepicker]').attr('value',checkOutStr);
+        }
         
 }
 
