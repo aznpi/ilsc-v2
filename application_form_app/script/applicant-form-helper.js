@@ -5726,7 +5726,7 @@ const initializeDragAndDrop = function (className) {
             const listItem = document.createElement('li');
             listItem.textContent = 'No files selected.';
             fileListElement.appendChild(listItem);
-            fileInput.files = new FileList(); // Clear the files
+            fileInput.value = ''; // Clear the files
         }
     }
 
