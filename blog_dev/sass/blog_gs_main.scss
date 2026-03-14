@@ -10,9 +10,15 @@
 
       a {
         color: #81b1cc;
+        &.blog-link{
+          color: #81b1cc !important;
+        }
       }
       .section {
         &.bg-blue-canvas {
+          a{
+            color: #fff;
+          }
           .feature-box-container {
             .post-description-container {
               background-color: #fff;

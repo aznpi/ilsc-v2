@@ -1240,7 +1240,7 @@ const studentInfoArray = [
     displayShow: true,
   },
   {
-    inputLabel: "Current Address",
+    inputLabel: "Permanent Home Country Address",
     inputName: "student_address",
     objInputName: "student_complete_address",
     inputType: "text-area",
@@ -1248,19 +1248,7 @@ const studentInfoArray = [
     required: true,
     category: "Student",
     value: "",
-    schoolParentDependence: "ILSC,Greystone Institute",
-    displayShow: true,
-  },
-  {
-    inputLabel: "Foreign Address",
-    inputName: "student_address",
-    objInputName: "student_complete_address",
-    inputType: "text-area",
-    rows: "1",
-    required: true,
-    category: "Student",
-    value: "",
-    schoolParentDependence: "ELS",
+    schoolParentDependence: "ILSC,Greystone Institute,ELS",
     displayShow: true,
   },
   {
@@ -1317,6 +1305,108 @@ const studentInfoArray = [
     value: "",
     schoolParentDependence: "ILSC,ELS,Greystone Institute",
     obj: countryList,
+    displayShow: true,
+  },
+  {
+    inputLabel: "Are you currently living in the country where you plan to study?",
+    objInputName: "are_you_currently_inside_the_country_you_study",
+    inputName: "are_you_currently_inside_the_country_you_study",
+    inputType: "dropdown-list",
+    category: "Student",
+    schoolParentDependence: "ILSC,Greystone Institute,ELS",
+    value: "",
+    omitLabel: true,
+    required: true,
+    obj: [
+        {
+          label: "Yes",
+          value: "Yes",
+          dependent: [
+            {
+              inputLabel: "Current Residential Address",
+              inputName: "study_country_street_address",
+              objInputName: "study_country_street_address",
+              dependentTargetId: "study_country_address",
+              schoolParentDependence: "ILSC,Greystone Institute,ELS",
+              inputType: "text",
+              required: true,
+              displayShow: false,
+              value: "",
+            },
+            {
+              inputLabel: "Current Residential City",
+              inputName: "study_country_city",
+              objInputName: "study_country_city",
+              dependentTargetId: "study_country_address",
+              schoolParentDependence: "ILSC,Greystone Institute,ELS",
+              inputType: "text",
+              required: true,
+              displayShow: false,
+              value: "",
+            },
+            {
+              inputLabel: "Current Residential State/Province",
+              inputName: "study_country_stateregion",
+              objInputName: "study_country_stateregion",
+              dependentTargetId: "study_country_address",
+              schoolParentDependence: "ILSC,Greystone Institute,ELS",
+              inputType: "text",
+              required: true,
+              displayShow: false,
+              value: "",
+            },
+            {
+              inputLabel: "Current Residential Postal/Zip Code",
+              inputName: "study_country_postal_code",
+              objInputName: "study_country_postal_code",
+              dependentTargetId: "study_country_address",
+              schoolParentDependence: "ILSC,Greystone Institute,ELS",
+              inputType: "text",
+              required: true,
+              displayShow: false,
+              value: "",
+            },
+            {
+              inputLabel: "Current Residential Country",
+              inputName: "current_residential_country",
+              objInputName: "current_residential_country",
+              dependentTargetId: "study_country_address",
+              schoolParentDependence: "ILSC,Greystone Institute,ELS",
+              inputType: "dropdown",
+              required: true,
+              displayShow: false,
+              value: "",
+              obj: [
+                {
+                 label: "Australia", 
+                 value: "Australia"
+                },
+                {
+                  label:"Canada",
+                  value:"Canada"
+                 },
+                 {
+                  label:"USA",
+                  value:"USA"
+                },
+                {
+                  label:"India",
+                  value:"India"
+                 },
+                 {
+                  label:"Ireland",
+                  value:"Ireland"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          label: "No",
+          value: "No"
+        },
+        
+    ],
     displayShow: true,
   },
   {
@@ -3352,6 +3442,177 @@ const additionalInfoArray = [
     displayShow: true,
   },
   {
+    inputLabel: "Guardian's Full Name",
+    objInputName: "parent_or_guardian_full_name",
+    inputName: "additional_guardian_full_name",
+    inputType: "text",
+    category: "Additional",
+    countryDependence: "Canada",
+    schoolParentDependence: "ILSC",
+    required: true,
+    value: "",
+    ageMax: [
+      {
+        age:18,
+        campus:"Montréal"
+      },
+      {
+      age:18,
+      campus:"Toronto"
+      },
+      {
+        age:19,
+        campus:"Vancouver"
+      }
+    ],
+    obj: [
+      {
+        optionLabel: "No",
+        optionValue: "No",
+        optionType: "strict",
+      },
+      {
+        optionLabel: "Yes",
+        optionValue: "Yes",
+        optionType: "strict",
+      },
+    ],
+    displayShow: true,
+  },
+  {
+    inputLabel: "Guardian's Relationship to Student",
+    objInputName: "guardians_relationship_with_the_student",
+    inputName: "additional_guardian_relationship",
+    inputType: "dropdown-list",
+    category: "Additional",
+    countryDependence: "Canada",
+    required: true,
+    schoolParentDependence: "ILSC",
+    value: "",
+    obj: [
+        {
+          label: "Parent",
+          value: "Parent"
+        },
+        {
+          label: "Grandparent",
+          value: "Grandparent"
+        },
+        {
+          label: "Siblings",
+          value: "Siblings"
+        },
+        {
+          label: "Other",
+          value: "Other",
+          dependent: [
+            {
+              inputLabel: "If other, please specify",
+              inputName: "additional_guardian_relationship_specified",
+              objInputName: "guardians_relationship_to_the_student_specify",
+              dependentTargetId: "additional_guardian_relationship_specified",
+              inputType: "text",
+              required: true,
+              displayShow: false,
+              placeholder: "Please specify the relationship",
+              value: "",
+            }
+          ]
+        }
+    ],
+    ageMax: [
+      {
+        age:18,
+        campus:"Montréal"
+      },
+      {
+      age:18,
+      campus:"Toronto"
+      },
+      {
+        age:19,
+        campus:"Vancouver"
+      }
+    ],
+    displayShow: true,
+  },
+  {
+    inputLabel: "Guardian's Phone Number",
+    objInputName: "guardian_contact_phone__",
+    inputName: "additional_caregiver_phone_number",
+    inputType: "phone",
+    category: "Additional",
+    countryDependence: "Canada",
+    required: true,
+    schoolParentDependence: "ILSC",
+    value: "",
+    ageMax: [
+      {
+        age:18,
+        campus:"Montréal"
+      },
+      {
+      age:18,
+      campus:"Toronto"
+      },
+      {
+        age:19,
+        campus:"Vancouver"
+      }
+    ],
+    obj: [
+      {
+        optionLabel: "No",
+        optionValue: "No",
+        optionType: "strict",
+      },
+      {
+        optionLabel: "Yes",
+        optionValue: "Yes",
+        optionType: "strict",
+      },
+    ],
+    displayShow: true,
+  },
+  {
+    inputLabel: "Guardian's Email Address",
+    objInputName: "guardian_contact_email",
+    inputName: "additional_caregiver_email_address",
+    inputType: "email",
+    category: "Additional",
+    countryDependence: "Canada",
+    schoolParentDependence: "ILSC",
+    required: true,
+    value: "",
+    ageMax: [
+      {
+        age:18,
+        campus:"Montréal"
+      },
+      {
+      age:18,
+      campus:"Toronto"
+      },
+      {
+        age:19,
+        campus:"Vancouver"
+      }
+    ],
+    obj: [
+      {
+        optionLabel: "No",
+        optionValue: "No",
+        optionType: "strict",
+      },
+      {
+        optionLabel: "Yes",
+        optionValue: "Yes",
+        optionType: "strict",
+      },
+    ],
+    displayShow: true,
+  },
+  {
     inputLabel:
       "Is there any health-related information you would like to share with us?",
     inputName: "additional_health_condition_option",
@@ -3547,7 +3808,7 @@ const additionalInfoArray = [
     displayShow: false,
   },
   {
-    inputLabel: "Do you need a custodian letter or a minor consent form?",
+    inputLabel: "Do you need a custodial letter or a minor consent form?",
     inputName: "additional_minor_consent_form_option",
     objInputName: "custodian_letter",
     inputType: "radio-option",
@@ -3556,7 +3817,20 @@ const additionalInfoArray = [
     countryDependence: "Canada",
     schoolParentDependence: "ILSC",
     value: "",
-    ageMax: "18",
+    ageMax: [
+      {
+        age:18,
+        campus:"Montréal"
+      },
+      {
+      age:18,
+      campus:"Toronto"
+      },
+      {
+        age:19,
+        campus:"Vancouver"
+      }
+    ],
     obj: [
       {
         optionLabel: "No",
@@ -4164,6 +4438,140 @@ const jrWaiverCAArray = [
 
 const programAdditionalInfoArray = [
   {
+    inputLabel: "Are you a Government Sponsored Student?",
+    inputName: "additional_government_sponsored_student",
+    objInputName: "government_sponsored_student",
+    inputAssign: "primary",
+    schoolParentDependence: "Language School",
+    countryDependence: "Ireland",
+    inputType: "dropdown",
+    category: "Additional-Program",
+    categoryTitle: "Student Status",
+    displayShow: true,
+    obj:[
+      {
+        label: "Yes",
+        value: "Yes",
+      },
+      {
+        label: "No",
+        value: "No",
+      }
+    ]
+  },
+  {
+    inputLabel: "Are you applying for a Renewal?",
+    inputName: "additional_are_you_applying_for_a_renewal_option",
+    objInputName: "are_you_applying_for_a_renewal",
+    inputType: "dropdown",
+    programDependence: "Study and Work",
+    required: true,
+    schoolParentDependence: "Language School",
+    countryDependence: "Ireland",
+    displayShow: true,
+    inputAssign: "primary",
+    categoryTitle: "Student Status",
+    category:'Additional-Program',
+    value: "",
+    obj: [
+        {
+          label: "Yes",
+          value: "Yes",
+          dependent: [
+            {
+              inputLabel: "Are you currently studying with us? ",
+              inputName: "additional_are_you_currently_ilsc_greystone_college_student_option",
+              objInputName: "are_you_currently_ilsc_greystone_college_student_",
+              inputType: "dropdown",
+              required: true,
+              displayShow: false,
+              obj:[
+                {
+                  label: "Yes",
+                  value: "Yes",
+                  dependent: [
+                    {
+                      inputLabel: "Inform your current ILSC student ID number:",
+                      inputName: "additional_ilsc_greystone_college_student_id",
+                      objInputName: "ilsc_greystone_college_student_id",
+                      inputType: "text",
+                      required: true,
+                      displayShow: false
+                    }
+                  ]
+                },
+                {
+                  label: "No",
+                  value: "No",
+                  dependent:[
+                    {
+                      inputLabel: "I’m transferring from another provider - please indicate the provider:",
+                      inputName: "additional_another_transferring_provider",
+                      objInputName: "another_transferring_provider",
+                      inputType: "text",
+                      required: true,
+                      displayShow: false
+                    }
+                  ]
+                }
+              ], 
+            },
+            {
+              inputLabel: "Please upload a copy of your IRP (jpeg,png,pdf; max. size: 1mb):",
+              inputName: "additional_irp_copy_file",
+              objInputName: "irp_copy",
+              inputType: "file",
+              required: false,
+              displayShow: true,
+              value: ""
+            },
+          ]
+        },
+        {
+          label: "No",
+          value: "No"
+        }
+    ]
+  },
+  {
+    inputLabel: "Please select your approximate level of English:",
+    inputName: "additional_approximate_english_level",
+    objInputName: "approximate_english_level",
+    inputAssign: "primary",
+    schoolParentDependence: "Language School",
+    countryDependence: "Ireland",
+    categoryTitle: "English Proficiency",
+    category: "Additional-Program",
+    displayShow: true,
+    inputType: "dropdown",
+    obj:[
+      {
+        label: "Beginner",
+        value: "Beginner",
+      },
+      {
+        label: "Elementary",
+        value: "Elementary",
+      },
+      {
+        label: "Pre-Intermediate",
+        value: "Pre-Intermediate",
+      },
+      {
+        label: "Intermediate",
+        value: "Intermediate",
+      },
+      {
+        label: "Upper-Intermediate",
+        value: "Upper-Intermediate",
+      },
+      {
+        label: "Advanced",
+        value: "Advanced",
+      }
+    ]
+  },
+  {
     inputLabel: "Do you intend to meet the program admission criteria based on educational qualifications?",
     inputName: "additional_program_admission_criteria_option",
     objInputName: "program_admission_criteria_option",
@@ -4644,7 +5052,7 @@ const programAdditionalInfoArray = [
     inputType: "text-area",
     rows: "5",
     required: false,
-    schoolParentDependence: "Greystone Institute",
+    schoolParentDependence: "Greystone Institute,Language School",
     displayShow: true,
     inputAssign: "primary",
     category:'Additional-Program',

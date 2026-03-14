@@ -544,7 +544,7 @@ const printMarketLowestPriceProgramList = function () {
       price = currencyFormatter(priceConversion);
       groupId = retrievedJson[i].group_id;
 
-      if (priceFormat.indexOf("Package") === -1) {
+      if (priceFormat.indexOf("Package") === -1 && priceFormat.indexOf("Tuition") === -1) {
         priceFormat = priceFormat + " from";
       }
       if (isEdit === "true") {
@@ -622,7 +622,7 @@ const printStandardLowestPriceProgramList = function (listArray) {
         }
       }
 
-      if (priceFormat.indexOf("Package") === -1) {
+      if (priceFormat.indexOf("Package") === -1 && priceFormat.indexOf("Tuition") === -1) {
         priceFormat = priceFormat + " from";
       }
       radioHtml =
@@ -1290,7 +1290,7 @@ const setProgramPriceDuration = function (listArray) {
     }
 
     if (durationNum >= minVal && durationNum <= maxVal) {
-      if (listArray[i].priceFormat.indexOf("Package") !== -1) {
+      if (listArray[i].priceFormat.indexOf("Package") !== -1 || listArray[i].priceFormat.indexOf("Tuition") !== -1) {
         durationNum = 1;
       }
       xPrice = parseFloat(listArray[i].price) * durationNum;
@@ -1447,7 +1447,7 @@ const updateStartDateSelection = function (editNum) {
       "data-price-format"
     );
 
-  if (priceFormat.indexOf("Package") === -1) {
+  if (priceFormat.indexOf("Package") === -1 && priceFormat.indexOf("Tuition") === -1) {
     programScheduleName = scheduleName + "-" + itemName;
   } else {
     programScheduleName =
@@ -1977,6 +1977,7 @@ const printQuotesHTML = function () {
     countryOriginCurrencyParam
   );
   $("button.btn-origin-currency").text(countryOriginCurrencyParam);
+
   let quoteObj = JSON.parse(localStorage.getItem("quote-obj")),
     quoteHTML,
     programSchoolName = quoteObj.program_school_name;

@@ -2263,6 +2263,7 @@ const printQuotesHTML = function () {
   let originCurrency = $("input[name=country_origin_currency_selection]").val();
   $("button.btn-origin-currency").attr("data-origin-currency", countryOriginCurrencyParam);
   $("button.btn-origin-currency").text(countryOriginCurrencyParam);
+
   let quoteObj = JSON.parse(localStorage.getItem("quote-obj")),
     quoteHTML;
   //temp exception note variables

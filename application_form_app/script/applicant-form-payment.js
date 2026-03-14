@@ -68,12 +68,12 @@ const checkAUPaymentEligibility = function () {
   }
 };
 
-const getSchoolPayment = function (selected) {
+const getSchoolPayment = function (selectedSchool,selectedCampus) {
   let currencyValue =
       $("input[name=program_country_currency]").val() != ""
         ? $("input[name=program_country_currency]").val()
         : currencyVal,
-    queryParam = "&currency__in=" + currencyValue + "&schools__in=" + selected + "&limit=1",
+    queryParam = "&item__eq=deposit&currency__in=" + currencyValue + "&schools__in=" + selectedSchool + "&campus__in="+ selectedCampus +"&limit=1",
     tableId = paymentTable;
   api_url = apiUrl + tableId + "/rows?portalId=" + portalId + queryParam;
   api_url = encodeURI(api_url);
@@ -243,36 +243,21 @@ const pSecureId = function () {
 };
 
 const callPaymentStripe = function () {
-  let currencyValue =
+  let selectedParentSchool = $("input[name=program_school]:checked").attr("data-school"),
+      currencyValue =
       $("input[name=program_country_currency]").val() != ""
         ? $("input[name=program_country_currency]").val()
         : currencyVal,
-    depositAmtValue =
+      depositAmtValue =
       $("input[name=calculated-deposit-amt]").val() != ""
         ? $("input[name=calculated-deposit-amt]").val()
         : depositAmt,
-    paymentAmount = round(parseFloat(depositAmtValue), 2).toFixed(2) * 100,
-    pId = $("input[name=payId]").val(),
-    email = $("input[name=student_email]").val(),
-    depositAcct =
-      currencyValue == "CAD"
-        ? "cad-checkout"
-        : currencyValue == "AUD"
-        ? "aus-checkout"
-        : currencyValue == "USD"
-        ? "usd-checkout"
-        : "cad-checkout";
-
-  payTargetUrl =
-    payUrl +
-    depositAcct +
-    "?email=" +
-    email +
-    "&amount=" +
-    paymentAmount +
-    "&type=Deposit&code=" +
-    pId;
-
+      paymentAmount = round(parseFloat(depositAmtValue), 2).toFixed(2) * 100,
+      pId = $("input[name=payId]").val(),
+      email = $("input[name=student_email]").val(),
+      depositAcct =
+        currencyValue == "CAD" ? "cad-checkout" : currencyValue == "USD" ? "usd-checkout" : currencyValue == "AUD" ? selectedParentSchool == 'Greystone Institute' ? "gi-aus-checkout" : "aus-checkout" : "cad-checkout",
+        payTargetUrl = payUrl +  depositAcct +  "?email=" + email + "&amount=" + paymentAmount + "&type=Deposit&code=" + pId;
   location.href = payTargetUrl;
 
   return true;
@@ -348,20 +333,21 @@ const printApplicationSummary = function () {
     accLabelHtml = "",
     hsLabelHtml = "",
     addLabelHtml = "",
-    fileLabelHtml = "";
+    fileLabelHtml = "",
+    flattenStudentInfoArray = flattenFields(studentInfoArray);
 
   addDigitalConfirmation();
 
   for (let stf = 0; stf < studentFormArray.length; stf++) {
-    for (let sti = 0; sti < studentInfoArray.length; sti++) {
-      if (!studentInfoArray[sti].hiddenEnable) {
+    for (let sti = 0; sti < flattenStudentInfoArray.length; sti++) {
+      if (!flattenStudentInfoArray[sti].hiddenEnable) {
         if (
-          studentInfoArray[sti].schoolParentDependence.includes(parentSchool)
+          flattenStudentInfoArray[sti].schoolParentDependence.includes(parentSchool)
         ) {
-          if (studentFormArray[stf].name == studentInfoArray[sti].inputName) {
+          if (studentFormArray[stf].name == flattenStudentInfoArray[sti].inputName) {
             studentLabelArray.push({
               name: studentFormArray[stf].name,
-              label: studentInfoArray[sti].inputLabel,
+              label: flattenStudentInfoArray[sti].inputLabel,
               value: studentFormArray[stf].value,
             });
           }
@@ -802,6 +788,8 @@ const printApplicationSummary = function () {
     }
   }
 
+  console.log(programAdditionalInfoTempArray);
+
   if (programAdditionalInfoTempArray.length > 0) {
 
     $(".study-info-program-additional-info-summary-container.summary-container").empty();
@@ -817,7 +805,7 @@ const printApplicationSummary = function () {
           "</span></td></tr>";
     }
     
-    $(".study-info-program-additional-info-summary-container.summary-container").append(
+    $(".study-info-program-additional-summary-container.summary-container").append(
       headerLabel + "<table class='application-summary-tbl'>" + addProgramAdditionalInfoLabelHtml + "</table>"
     );
   }
@@ -924,6 +912,7 @@ const printPersonForm = function (
     countrySelected = $(
       ".study-information-form.dropdown-container button.country-select"
     ).attr("data-selected"),
+    campusSelected = $("input[name=program_campus]:checked").val(),
     schoolProgramSelected = $(
       ".study-information-form input[name=program_school]:checked"
     ).val(),
@@ -979,8 +968,16 @@ const printPersonForm = function (
       }
     }
     if (result[stForm].ageMax) {
-      if (result[stForm].ageMax < age) {
-        printInput.push(false);
+      isArray = Array.isArray(result[stForm].ageMax);
+      if(isArray){
+        const campus = result[stForm].ageMax.find(item => item.campus === campusSelected);
+        if (campus && campus.age && campus.age <= age){
+          printInput.push(false);
+        }
+      }else{
+        if (result[stForm].ageMax <= age){
+          printInput.push(false);
+        }
       }
     }
 
@@ -1105,6 +1102,91 @@ const printPersonForm = function (
                   disabledVal +
                   ">";
                 break;
+              case "dropdown-list" :
+                printDropdown = false;
+                dropDependentArr = [];
+                depHtml = "";
+                hasDep = false;
+                if (result[stForm].obj) {
+                  printDropdown = true;
+                  for (let i = 0; i < result[stForm].obj.length; i++) {
+                    let optionList = result[stForm].obj[i];
+                    optionDependent = optionList.dependent ? true : false;
+                    dependentTarget = optionDependent ? optionList.dependent[0].dependentTargetId : "";
+                    if(optionDependent){
+                      for (let da = 0; da < optionList.dependent.length; da++) {
+                        dropDependentArr.push({ 
+                          'type': optionList.dependent[da].inputType, 
+                          'name': optionList.dependent[da].inputName,
+                          'label': optionList.dependent[da].inputLabel,
+                          'placeholder': optionList.dependent[da].placeholder ? optionList.dependent[da].placeholder : "",
+                          'parentOption': optionList.value,
+                          'dependentTarget': dependentTarget,
+                          'obj': optionList.dependent[da].obj ? optionList.dependent[da].obj : null,
+                          'required': optionList.dependent[da].required ? true : false
+                        });
+                      }
+                    }
+                    optionHtml +=
+                      "<option value='" +
+                      optionList.value +
+                      "' data-dependent='" +
+                      optionDependent +
+                      "' data-dependent-target='" +
+                      dependentTarget +
+                      "'>" +
+                      optionList.label +
+                      "</option>";
+                  }
+                }
+                if (printDropdown) {
+                 
+                  if(dropDependentArr.length > 0){
+                    hasDep = true;
+                    for(let dd = 0; dd < dropDependentArr.length; dd++){
+                      if(dropDependentArr[dd].type == 'text'){
+                        depHtml += "<div class='dependent-input study-hide mt-3'><label for='" + dropDependentArr[dd].name + "'>" + dropDependentArr[dd].label + (dropDependentArr[dd].required ? "<sup>*</sup>" : "") + "</label><input type='text' id='" + dropDependentArr[dd].name + "' class='form-control' name='" + dropDependentArr[dd].name + dInt + "' data-category='" + categoryName + "' data-parent-option='" + dropDependentArr[dd].parentOption + "' placeholder='" + dropDependentArr[dd].placeholder + "' data-target='" + dropDependentArr[dd].dependentTarget + "' required='" + dropDependentArr[dd].required + "'></div>";
+                      }else if(dropDependentArr[dd].type == 'dropdown'){
+                          optionDepHtml = "<option disabled selected value=''>Choose " + dropDependentArr[dd].label + "</option> ";
+                          for(let oi = 0; oi < dropDependentArr[dd].obj.length; oi++){
+                            
+                            optionDepHtml +=
+                              "<option value='" +
+                              dropDependentArr[dd].obj[oi].value +
+                              "'>"+
+                              dropDependentArr[dd].obj[oi].label +
+                              "</option>";
+                          }
+                          depHtml += "<div class='dependent-input study-hide mt-3'><label for='" + dropDependentArr[dd].name + "'>" + dropDependentArr[dd].label + (dropDependentArr[dd].required ? "<sup>*</sup>" : "") + "</label><select class='form-control' id='" + dropDependentArr[dd].name + "' name='" + dropDependentArr[dd].name + dInt + "' data-category='" + categoryName + "' data-parent-option='" + dropDependentArr[dd].parentOption + "' data-target='" + dropDependentArr[dd].dependentTarget + "' required='" + dropDependentArr[dd].required + "' disabled>" + optionDepHtml + '></select></div>';
+                      }
+                    }
+                  }
+                  inputForm =
+                    "<select class='form-control' id='" +
+                    labelId +
+                    dInt +
+                    "' name='" +
+                    inputName +
+                    dInt +
+                    "' " +
+                    requiredValue +
+                    " data-has-dependent='" +
+                    hasDep +
+                    "' " +
+                    "data-category='" +
+                    categoryName +
+                    "' " +
+                    disabledVal +
+                    "><option disabled selected value=''>Choose " +
+                    (result[stForm].omitLabel ? "" : result[stForm].inputLabel) +
+                    "</option>" +
+                    optionHtml +
+                    "</select>"+
+                    "<div class='dependent-input-group mt-3 ms-5 ml-5'>" +
+                    depHtml
+                     + "</div>";
+                }
+                break;
               case "dropdown":
                 printDropdown = false;
                 if (result[stForm].obj) {
@@ -1156,7 +1238,7 @@ const printPersonForm = function (
                     "' " +
                     disabledVal +
                     "><option disabled selected value=''>Choose " +
-                    result[stForm].inputLabel +
+                    (result[stForm].omitLabel ? "" : result[stForm].inputLabel) +
                     "</option>" +
                     optionHtml +
                     "</select>";
@@ -1783,22 +1865,22 @@ const dependentTemplate = function(arr,dependentClass,categoryName) {
       switch (arr.inputType) {
         case "text":
           noteHtml = arr.note ? "<p><sup>*</sup>" + arr.note + "</p>" : "";
-          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "<sup>*</sup></label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
             arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' required disabled>"+noteHtml+"</div>";
           break;
         case "text-area":
-          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + (arr.required ? "<sup>*</sup>" : "") + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
             arr.inputName + "-" + dependentClass + "' name='" +
             arr.inputName +
             "' rows='" + arr.rows + "' " + (arr.required ? "required" : "") + " placeholder='" + (arr.placeholder ? arr.placeholder : "") + "' disabled></textarea></div>";
           break;
         case "phone":
-          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "<sup>*</sup></label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
           arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' placeholder='example: +1 123 123 12345' required disabled></div>";
               
           break;
         case "email":
-          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "</label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "<sup>*</sup></label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
           arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' required disabled></div>";
           
         break;
@@ -1898,8 +1980,9 @@ const printAdditionalInputForm = function(arr,categoryName){
       optionHtml = "",
       titleHtml = "",
       inputItem = "",
-      printInput = [],
-      schoolProgramSelected = $(".study-information-form input[name=program_school]:checked").val(),
+      schoolProgramSelected = $(".study-information-form input[name=program_school]:checked").attr('data-school'),
+      countrySelected = $("input[name=program_country]").val(),
+      programSelected = $("select[name*=program_name_] option:selected").val(),
       formArray = arr.filter(item => item.category == categoryName);
       groupedArray = Object.groupBy(formArray, item => item.categoryTitle);
     
@@ -1910,118 +1993,134 @@ const printAdditionalInputForm = function(arr,categoryName){
         // The key of the object is the Title
         const items = groupedArray[categoryTitle];
 
-        titleHtml = "<h3>" + categoryTitle + "</h3>";
-        categorySubTitleHtml = "";
-        inputTitleHtml = "";
-        inputSubTitleHtml = "";
-        
-        // Loop through the array of items for the current category
-        items.forEach((item, index) => {
-          let optionList = "";
-              dropArray = item.obj,
-              dependentList = "",
-              dependentAttr = "",
-              multipleAttribute = "",
-              noteHtml = item.note ? "<p><sup>*</sup>" + item.note + "</p>" : "",
-              hasDependent = false,
-              categorySubTitleHtml += item.categorySubtitle ? "<p>" + item.categorySubtitle + "</p>" : "";
-              inputTitleHtml = item.title ? "<h5>" + item.title + "</h5>" : "";
-              inputSubTitleHtml = item.subTitle ? "<p>" + item.subTitle + "</p>" : "";
 
-            if (item.schoolDependence) {
-              schoolDependenceList = item.schoolDependence.split(",");
-              schoolDependenceArr = [];
+        if(items.length > 0){
 
-              for (i = 0; i < schoolDependenceList.length; i++) {
-                if (schoolProgramSelected.includes(schoolDependenceList[i])) {
-                  schoolDependenceArr.push(true);
+          titleHtml = categoryTitle ? "<h3>" + categoryTitle + "</h3>" : "";
+          categorySubTitleHtml = "";
+          inputTitleHtml = "";
+          inputSubTitleHtml = "";
+          
+          // Loop through the array of items for the current category
+          items.forEach((item, index) => {
+            printInput = [];
+            optionList = "",
+            dropArray = item.obj,
+            dependentList = "",
+            dependentAttr = "",
+            multipleAttribute = "",
+            noteHtml = item.note ? "<p><sup>*</sup>" + item.note + "</p>" : "",
+            hasDependent = false,
+            categorySubTitleHtml += item.categorySubtitle ? "<p>" + item.categorySubtitle + "</p>" : "";
+            inputTitleHtml = item.title ? "<h5>" + item.title + "</h5>" : "";
+            inputSubTitleHtml = item.subTitle ? "<p>" + item.subTitle + "</p>" : "";
+
+              if (item.schoolParentDependence) {
+                schoolDependenceList = item.schoolParentDependence.split(",");
+                schoolDependenceArr = [];
+
+                for (i = 0; i < schoolDependenceList.length; i++) {
+                  if (schoolProgramSelected.includes(schoolDependenceList[i])) {
+                    schoolDependenceArr.push(true);
+                  }
+                }
+
+                if (!schoolDependenceArr.includes(true)) {
+                  printInput.push(false);
                 }
               }
-
-              if (!schoolDependenceArr.includes(true)) {
-                printInput.push(false);
+              if (item.countryDependence) {
+                if (!item.countryDependence.includes(countrySelected)) {
+                  printInput.push(false);
+                }
               }
-            }
-            if (!printInput.includes(false)) {
-              switch (item.inputType) {
-                case "text":
-                  inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
-                    item.inputName + "' name='" + item.inputName + "' value='' data-parent='true' required></div>";
-                break;
-                case "phone":
-                  inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
-                  item.inputName + "' name='" + item.inputName + "' value='' placeholder='example: +1 123 123 12345' required></div>";
+              if (item.programDependence) {
+                if (!item.programDependence.includes(programSelected)) {
+                  printInput.push(false);
+                }
+              }
+              if (!printInput.includes(false)) {
+                switch (item.inputType) {
+                  case "text":
+                    inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
+                      item.inputName + "' name='" + item.inputName + "' value='' data-parent='true' required></div>";
+                  break;
+                  case "phone":
+                    inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
+                    item.inputName + "' name='" + item.inputName + "' value='' placeholder='example: +1 123 123 12345' required></div>";
+
+                    break;
+                  case "email":
+                    inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
+                    item.inputName + "' name='" + item.inputName + "' value='' required></div>";
 
                   break;
-                case "email":
-                  inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
-                  item.inputName + "' name='" + item.inputName + "' value='' required></div>";
-
-                break;
-                case "dropdown":
-                  dependentArray = [];
-                  noteHtml = "";
-                  for (let i = 0; i < dropArray.length; i++) {
-                    hasDependent = dropArray[i].dependent ? true : false;
-                    if (hasDependent) {
-                      dependentArray.push(true);
-                      dependentList += printInputDependentForm(dropArray[i].dependent, item.inputName + "-" + dropArray[i].value, categoryName);
+                  case "dropdown":
+                    dependentArray = [];
+                    noteHtml = "";
+                    for (let i = 0; i < dropArray.length; i++) {
+                      hasDependent = dropArray[i].dependent ? true : false;
+                      if (hasDependent) {
+                        dependentArray.push(true);
+                        dependentList += printInputDependentForm(dropArray[i].dependent, item.inputName + "-" + dropArray[i].value, categoryName);
+                      }
+                      optionList +=
+                          "<option value='" +
+                          dropArray[i].value +
+                          "'>" +
+                          dropArray[i].label +
+                          "</option>";
                     }
-                    optionList +=
-                        "<option value='" +
-                        dropArray[i].value +
-                        "'>" +
-                        dropArray[i].label +
-                        "</option>";
-                  }
-                  noteHtml = item.note ? "<p><sup>*</sup>" + item.note + "</p>" : "";
-                  dependentAttr = dependentArray.includes(true) ? "data-dependent='true'" : "";
-                  inputItem +=
-                    "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
-                    item.inputName + "' name='" +
-                    item.inputName +
-                    "' " +
-                    " data-parent='true' " + dependentAttr + " required><option disabled selected value=''>Choose option</option>" +
-                    optionList +
-                    "</select>"+noteHtml+"</div>" + dependentList;
-                break;
-                case "file":
-                    changeEvent = "onChange=\"checkSize('fileInput-" + item.inputName + "')\"";
-                    multipleAttribute = item.multiple ? "multiple hidden" : "";
-                    fileClassName = item.multiple ? "multiple-file-input" : "single-file-input";
-                    inputFileHtml = "<input type='file' class='form-control additional-file-input " + fileClassName + "' data-category='" +   categoryName + "' id='fileInput-" +
-                    item.inputName + "' name='" +
-                    item.inputName +
-                    "' data-bind='" +
-                      item.objInputName +
-                      "' accept='jpeg,jpg,pdf,png' " +
-                     multipleAttribute + " " + changeEvent + "><input type='hidden' name='" + item.inputName + "' value='' readonly" + multipleAttribute + " data-parent='true'>";
-                    labelHtml = "<label for='fileInput-" + item.inputName + "'>" + item.inputLabel + "</label>";
-                  if(item.multiple){
+                    noteHtml = item.note ? "<p><sup>*</sup>" + item.note + "</p>" : "";
+                    dependentAttr = dependentArray.includes(true) ? "data-dependent='true'" : "";
                     inputItem +=
-                      "<div class='form-group'>" + inputTitleHtml + inputSubTitleHtml + labelHtml + "<div class='" + categoryName.replace(/ /g, "-").toLowerCase() + "-info-drop-zone drop-zone' id='dropZone-"+item.inputName+"'><p>Drop files here or click to browse<br><span class='footnote'>(jpeg,png,pdf; max number of files: 5; max. size: 1mb)</span></p>" + inputFileHtml + "<ul class='file-list'></ul></div></div>";
-                  }else{
-                     inputItem += "<div class='form-group'>" + inputTitleHtml + inputSubTitleHtml + labelHtml + inputFileHtml + "</div>";
-                  }
+                      "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
+                      item.inputName + "' name='" +
+                      item.inputName +
+                      "' " +
+                      " data-parent='true' " + dependentAttr + " required><option disabled selected value=''>Choose option</option>" +
+                      optionList +
+                      "</select>"+noteHtml+"</div>" + dependentList;
                   break;
-                case "text-area":
-                  inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
-                    item.inputName + "' name='" +
-                    item.inputName +
-                    "' rows='" + item.rows + "' " + (item.required ? "required" : "") + "></textarea></div>";
-                default:
-                  inputItem += "";
-                break;
+                  case "file":
+                      changeEvent = "onChange=\"checkSize('fileInput-" + item.inputName + "')\"";
+                      multipleAttribute = item.multiple ? "multiple hidden" : "";
+                      fileClassName = item.multiple ? "multiple-file-input" : "single-file-input";
+                      inputFileHtml = "<input type='file' class='form-control additional-file-input " + fileClassName + "' data-category='" +   categoryName + "' id='fileInput-" +
+                      item.inputName + "' name='" +
+                      item.inputName +
+                      "' data-bind='" +
+                        item.objInputName +
+                        "' accept='jpeg,jpg,pdf,png' " +
+                      multipleAttribute + " " + changeEvent + "><input type='hidden' name='" + item.inputName + "' value='' readonly" + multipleAttribute + " data-parent='true'>";
+                      labelHtml = "<label for='fileInput-" + item.inputName + "'>" + item.inputLabel + "</label>";
+                    if(item.multiple){
+                      inputItem +=
+                        "<div class='form-group'>" + inputTitleHtml + inputSubTitleHtml + labelHtml + "<div class='" + categoryName.replace(/ /g, "-").toLowerCase() + "-info-drop-zone drop-zone' id='dropZone-"+item.inputName+"'><p>Drop files here or click to browse<br><span class='footnote'>(jpeg,png,pdf; max number of files: 5; max. size: 1mb)</span></p>" + inputFileHtml + "<ul class='file-list'></ul></div></div>";
+                    }else{
+                      inputItem += "<div class='form-group'>" + inputTitleHtml + inputSubTitleHtml + labelHtml + inputFileHtml + "</div>";
+                    }
+                    break;
+                  case "text-area":
+                    inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
+                      item.inputName + "' name='" +
+                      item.inputName +
+                      "' rows='" + item.rows + "' " + (item.required ? "required" : "") + "></textarea></div>";
+                  default:
+                    inputItem += "";
+                  break;
+                }
               }
-            }
-          });
-        optionHtml += "<div class='form-group'>" + inputItem + "</div>";
+            });
+          optionHtml += inputItem != "" ? "<div class='form-group'>" + inputItem + "</div>" : "";
+      }
+
+      categoryHtml += optionHtml != "" ? "<div class='study-box-container'>" + titleHtml + categorySubTitleHtml + optionHtml + "</div>" : "";
+      optionHtml = "";
+      titleHtml = "";
+      inputItem = "";
+      printInput = [];
     }
-    categoryHtml += "<div class='study-box-container'>" + titleHtml + categorySubTitleHtml + optionHtml + "</div>";
-    optionHtml = "";
-    titleHtml = "";
-    inputItem = "";
-    printInput = [];
   }
   
   return categoryHtml;
@@ -2920,7 +3019,8 @@ const printProgramOption = function (
   minAge,
   maxAge,
   inputName,
-  programType
+  programType,
+  selectedSubProgram
 ) {
   let comboVal = returnComboVal(inputName),
     comboName = returnComboName(inputName),
@@ -2951,16 +3051,18 @@ const printProgramOption = function (
     success: function (data) {
       let dataObject = data.objects;
 
+      groupCodeId = selectedSchool == 'ELS' ? 34 : 13;
+
       for (let i = 0; i < dataObject.length; i++) {
         scheduleName = dataObject[i].values[3].name;
         programOptionArray.push({
           program_id: dataObject[i].id,
           schedule_name: dataObject[i].values[3].name,
-          item_name: dataObject[i].values[4],
+          item_name: selectedSchool == 'ELS' ? dataObject[i].values[35].name : dataObject[i].values[4],
           schedule_id: scheduleName.replace(/\s/g, ""),
-          group_id: dataObject[i].values[13][0].id,
+          group_id: dataObject[i].values[groupCodeId][0].id,
           campus_country: dataObject[i].values[26].name,
-          notes: dataObject[i].values[42] ? dataObject[i].values[42] : false,
+          notes: dataObject[i].values[42] ? dataObject[i].values[42] : false
         });
       }
 
@@ -2986,74 +3088,91 @@ const printProgramOption = function (
               item_name: values[i][x].item_name,
               schedule_id: values[i][x].schedule_id,
               schedule_name: values[i][x].schedule_name,
-              notes: values[i][x].notes,
+              notes: values[i][x].notes
             });
           }
         }
       }
-      singleOptionChek = programGroupedArray.length == 1 ? "checked" : "";
-      notes = "";
-      if (programGroupedArray.length > 0) {
-        for (let i = 0; i < programGroupedArray.length; i++) {
-          notes += programGroupedArray[i].notes ? "<p style='margin-top:10px'><sup>*</sup>" + programGroupedArray[i].notes + "</p>" : '';
-          optionProgramHtml +=
-            '<div class="form-check"><input class="form-check-input ' +
-            element +
-            '" value="' +
-            programGroupedArray[i].schedule_name +
-            "-" +
-            programGroupedArray[i].item_name +
-            '" type="radio" name="program_option_' +
-            element +
-            comboName +
-            '"  data-parent-id="' +
-            programGroupedArray[i].group_id +
-            '" id="' +
-            programGroupedArray[i].program_id +
-            '" ' +
-            singleOptionChek +
-            ' required><label class="form-check-label" for="' +
-            programGroupedArray[i].program_id +
-            '">' +
-            programGroupedArray[i].schedule_name +
-            "-" +
-            programGroupedArray[i].item_name +
-            "</label></div>";
+      
+        singleOptionChek = programGroupedArray.length == 1 ? "checked" : "";
+        notes = "";
+        if (programGroupedArray.length > 0) {
+          if(selectedSubProgram){
+            for (let i = 0; i < programGroupedArray.length; i++) {
+              notes += programGroupedArray[i].notes ? "<p style='margin-top:10px'><sup>*</sup>" + programGroupedArray[i].notes + "</p>" : '';
+              optionProgramHtml +=
+                '<div class="form-check"><input class="form-check-input ' +
+                element +
+                '" value="' +
+                programGroupedArray[i].schedule_name +
+                "-" +
+                programGroupedArray[i].item_name +
+                '" type="radio" name="program_option_' +
+                element +
+                comboName +
+                '"  data-parent-id="' +
+                programGroupedArray[i].group_id +
+                '" id="' +
+                programGroupedArray[i].program_id +
+                '" ' +
+                singleOptionChek +
+                ' required><label class="form-check-label" for="' +
+                programGroupedArray[i].program_id +
+                '">' +
+                programGroupedArray[i].schedule_name +
+                "-" +
+                programGroupedArray[i].item_name +
+                "</label></div>";
+            }
+            optionLink =
+              selectedSchool == "ILSC HELLO Online" ||
+              selectedSchool == "ILSC ALLO Online"
+                ? '<div class="disclaimer"><a href="language-schools/programs/online/timezone-schedule" target="_blank">View our online schedules in the time zone that suits you.</a></div>'
+                : "";
+            $(
+              "#study-program-" +
+                comboVal +
+                ".study-program-selection .input-container.program-option-input." +
+                element +
+                " .program-schedule-input"
+            ).html(labelHtml + optionProgramHtml + optionLink + notes);
+            $(
+              "#study-program-" +
+                comboVal +
+                ".study-program-selection.study-box-container .input-container.program-option-input." +
+                element
+            )
+              .removeClass("study-hide")
+              .addClass("study-show");
+          }else{
+            resetProgramFormField(
+              element,
+              "." +
+                element +
+                ".program-option-input,." +
+                element +
+                ".schedule-input,." +
+                element +
+                ".date-input",
+              false,
+              comboName
+            );
+          }
+        } else {
+          resetProgramFormField(
+            element,
+            "." +
+              element +
+              ".program-option-input,." +
+              element +
+              ".schedule-input,." +
+              element +
+              ".date-input",
+            false,
+            comboName
+          );
         }
-        optionLink =
-          selectedSchool == "ILSC HELLO Online" ||
-          selectedSchool == "ILSC ALLO Online"
-            ? '<div class="disclaimer"><a href="language-schools/programs/online/timezone-schedule" target="_blank">View our online schedules in the time zone that suits you.</a></div>'
-            : "";
-        $(
-          "#study-program-" +
-            comboVal +
-            ".study-program-selection .input-container.program-option-input." +
-            element +
-            " .program-schedule-input"
-        ).html(labelHtml + optionProgramHtml + optionLink + notes);
-        $(
-          "#study-program-" +
-            comboVal +
-            ".study-program-selection.study-box-container .input-container.program-option-input." +
-            element
-        )
-          .removeClass("study-hide")
-          .addClass("study-show");
-      } else {
-        resetProgramFormField(
-          element,
-          "." +
-            element +
-            ".program-option-input,." +
-            element +
-            ".schedule-input,." +
-            element +
-            ".date-input",
-          false,
-          comboName
-        );
-      }
+      
       if (programGroupedArray.length == 1) {
         printStartDates(
           selectedProgram,
@@ -3875,7 +3994,8 @@ const printProgramDrop = function (
       (addOnQuery = "&add_on_program=0"),
       (programType = "Program"),
       (group_by = "program_name"),
-      (campusType = "study_campus_type");
+      (campusType = "study_campus_type"),
+      (subProgramEnable = "enable_sub_programs");
   } else if (selectedParentSchool == "Greystone Institute") {
     tableId = programTableGI;
     campusProp = "new_campus";
@@ -3997,6 +4117,7 @@ const printProgramDrop = function (
               is_accommodation_enable: dataObject[i].values[accommObjNum],
               laSalleEligible: laSalleEligibleArr.toString(),
               program_area: pgrmAreaArr.toString(),
+              sub_program:true
             });
           }
           let groupProgram = groupBy(programArray, "program_name"),
@@ -4023,6 +4144,7 @@ const printProgramDrop = function (
                   season: "",
                   program_type: values[i][x].program_type,
                   program_area: values[i][x].program_area,
+                  sub_program: values[i][x].sub_program,
                 });
               }
             }
@@ -4056,6 +4178,8 @@ const printProgramDrop = function (
                   ? dataObject[i].values[campusType][0].name
                   : ""
                 : "";
+              subProgramEnableVal = selectedParentSchool == "ELS" ? dataObject[i].values[subProgramEnable] !== undefined ? dataObject[i].values[subProgramEnable] == 1 ? true : false : false : true;
+
             pgrmLocationArr = [];
 
             if (dataObject[i].values["country"]) {
@@ -4097,6 +4221,7 @@ const printProgramDrop = function (
               program_type: programType,
               campus_type: campusTypeArr.toString(),
               program_location: pgrmLocationArr.toString(),
+              sub_program: subProgramEnableVal
             });
           }
 
@@ -4114,6 +4239,7 @@ const printProgramDrop = function (
               season: "",
               program_type: "",
               campus_type: "",
+              sub_program: ""
             });
           }
 
@@ -4178,6 +4304,8 @@ const printProgramDrop = function (
             printDropDownArray[i].is_accommodation_enable +
             "' data-location='" +
             programLocation +
+            "' data-enable-sub-program='" +
+             printDropDownArray[i].sub_program +
             "' data-campus-type='" +
             printDropDownArray[i].campus_type +
             "'>" +
@@ -4186,6 +4314,12 @@ const printProgramDrop = function (
             "</option>";
         }
         //$('.' + element + ' .study-program-dropdown').remove();
+        $('.pgrm-msg','.study-program-dropdown').remove();
+        if(selectedParentSchool == 'Greystone College' && selectedCountry == 'Canada' ){
+          msgTxt = 'IMPORTANT: Registrations for Greystone College Canada programs of 26 weeks or more are currently paused.  Please contact a Sales representative for more details.';
+          msgHtml = '<p class="p-3 mt-0 w-100 btn-orange rounded pgrm-msg">'+msgTxt+'</p>';
+          $("#study-program-" + comboVal + " ." + element + " .study-program-dropdown select").before(msgHtml);
+        }
         $(
           "#study-program-" +
             comboVal +
@@ -4494,7 +4628,9 @@ const printAdditionalInfo = function () {
         inputHtml +
         additionalNotesHtml;
     } else if (countrySelected == "Ireland") {
-      additionalHtml = govSponsoredHtml + englishLevelHtml + additionalNotesHtml;
+      //additionalHtml = govSponsoredHtml + englishLevelHtml + additionalNotesHtml;
+      additionalHtml = printAdditionalInputForm(programAdditionalInfoArray,'Additional-Program');
+      printHubspotFileForm(programUploadFormId, "#program-hs-file-form");
     } else if (countrySelected == "USA") {
       if (selectedSchoolName != "ELS Youth") {
         additionalHtml =
@@ -4639,7 +4775,7 @@ const uploadFile = function (dataStep) {
       });
       
       $("#" + targetId + " input[name=email]").val(emailVar);
-      //$("form#hsForm_" + hsFormId).submit();
+      // $("form#hsForm_" + hsFormId).submit();
     }
   }
 };
@@ -4664,7 +4800,7 @@ const submitForm = function (dataStep) {
       formNameAgent = "form-agent";
       formNameAdvisor = "form-advisor";
       formStatus = "form-status";
-      arr = studentInfoArray;
+      arr = flattenFields(studentInfoArray);
       break;
 
     case "study-program-select":
@@ -4688,7 +4824,7 @@ const submitForm = function (dataStep) {
 
     case "additional-select":
       guid = additionalGuid;
-      arr = schoolVal ==  "Greystone Institute" ? flattenFields(additionalAdditionalV2Array) :  additionalInfoArray;
+      arr = schoolVal ==  "Greystone Institute" ? flattenFields(additionalAdditionalV2Array) :  flattenFields(additionalInfoArray);
       arrFamily = familyMemberInfoArray;
       formName = "additional-form";
       uploadFile("additional-select");
@@ -5177,29 +5313,23 @@ const submitForm = function (dataStep) {
       },
     };
 
-    console.log("formArray:", formArray);
-
     if (!formSubmit) {
-      /*$.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: JSON.stringify(formArray),
-                    contentType: "application/json",
-                    dataType: 'json',
-                    success: function(data) {
-                        if(data){
-                            actionFormSubmitSuccess(formName, dataStep, true);
-                        }else{
-                        
-                        }
-                    },
-                    error: function() {
-                        
-                    }
-                });
-                */
+      /*---- Comment out ---*/
+      
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: JSON.stringify(formArray),
+        contentType: "application/json",
+        dataType: "json",
+        success: function () {
+          $("form#" + formName).attr("data-submit", true);
+        },
+      });
+      
+      /*--- end Comment out ---*/
 
-      $("form#" + formName).attr("data-submit", true);
+      // $("form#" + formName).attr("data-submit", true);
 
     }
   }
@@ -5447,7 +5577,6 @@ $(document).on("click", ".school-select-radio .box-color", function () {
   $(".school-select-radio .box-color").removeClass("selected");
   $(this).addClass("selected");
   resetSchoolProgram();
-  getSchoolPayment(selected);
   printCampus(selected);
 });
 $(document).on(
@@ -5474,7 +5603,10 @@ $(document).on(
   }
 );
 $(document).on("click", ".campus-select-radio .box-color", function () {
-  getScheduleBreak($(this).attr("data-value"));
+  selectedCampus = $(this).attr("data-value"),
+  selectedSchool = $('.box-color.selected','.school-select-radio').attr('data-value');
+  getSchoolPayment(selectedSchool,selectedCampus);
+  getScheduleBreak(selectedCampus);
 });
 $(document).on("change", "select[name=student_nationality]", function () {
   resetAdditionalFiles();
@@ -5509,6 +5641,7 @@ const programAction = function (tEl, element, pair) {
     selected = $("option:selected", tEl).attr("data-id"),
     selectedMinAge = $("option:selected", tEl).attr("data-min-age"),
     selectedMaxAge = $("option:selected", tEl).attr("data-max-age"),
+    selectedSubProgram = $("option:selected", tEl).attr("data-enable-sub-program") ? $("option:selected", tEl).attr("data-enable-sub-program") == "true" ? true : false : false,
     selectedParentSchool = $("input[name=program_school]:checked").attr(
       "data-school"
     ),
@@ -5531,8 +5664,7 @@ const programAction = function (tEl, element, pair) {
     durationSelectedVal = parseInt(
       durationSelected.replace("week", "").replace("s", "")
     );
-
-  //$('.additional-notes-container .additional-notes-input').empty();
+  $('.additional-notes-container .additional-notes-input').empty().parent().addClass("study-hide").removeClass("study-show");
   //resetProgramFormField(element, '.' + element + '.program-option-input,.' + element + '.schedule-input,.' + element + '.date-input,.' + element + '.program-option-duration-input', '.' + element + '.week-input',inputName);
 
   if (selectedParentSchool == "Greystone College" || selectedParentSchool == "Greystone Institute" || pair) {
@@ -5550,25 +5682,40 @@ const programAction = function (tEl, element, pair) {
       printScheduleOption(programSelected, element, inputName, programType);
     }
   } else {
-    if (selectedParentSchool == "Language School") {
-      printProgramOption(
-        selected,
-        element,
-        selectedMinAge,
-        selectedMaxAge,
-        inputName,
-        programType
-      );
-    } else {
-      printStartDates(
-        selected,
-        element,
-        selectedMinAge,
-        selectedMaxAge,
-        inputName,
-        programType
-      );
-    }
+    
+      if(selectedSubProgram){
+        printProgramOption(
+          selected,
+          element,
+          selectedMinAge,
+          selectedMaxAge,
+          inputName,
+          programType,
+          selectedSubProgram
+        );
+      }else{
+        resetProgramFormField(
+          element,
+          "." +
+            element +
+            ".program-option-input,." +
+            element +
+            ".schedule-input,." +
+            element +
+            ".date-input",
+          false,
+          comboName
+        );
+        printStartDates(
+          selected,
+          element,
+          selectedMinAge,
+          selectedMaxAge,
+          inputName,
+          programType
+        );
+      }
+    
   }
   if (countrySelected == "USA") {
     if (selectedSchoolName != "ELS Youth") {
@@ -6149,7 +6296,7 @@ const printUasInstitutionDrop = function () {
     }
 
     $("#accordionInstitute").html(
-      '<label for="college-institute">Please select the school you are attending from the list below (if the school is not on the list, you can enter the school name below): <sup>*</sup></label><div class="form-group"><select id="college-institute" class="form-control" name="college-accepted-name" required><option value="none" disabled selected>Select Institution</option>' +
+      '<label for="college-institute">Please select the school you are attending from the list below (if the school is not on the list, you can enter the school name below): <sup>*</sup></label><div class="form-group"><select id="college-institute" class="form-control" name="college-accepted-name" required disabled><option value="none" disabled selected>Select Institution</option>' +
         optionItemsHtml +
         "</select></div>"
     );
@@ -6732,6 +6879,21 @@ $(document).on("change", "input[name=online_applicant_status]", function () {
       .removeClass("study-show")
       .addClass("study-hide");
     $("select[name=" + inputName + "]").prop("disabled", true);
+  }
+});
+
+$(document).on("change","select[data-has-dependent=true]",function(){
+  selectedOption = $(this).find('option:selected');
+  dependent = selectedOption.attr('data-dependent');
+  dependentGroupEl = $(this).siblings('.dependent-input-group');
+  
+  if(dependent == 'true'){
+    dependentTarget = selectedOption.attr('data-dependent-target');
+    dependentGroupEl.find("[data-target="+dependentTarget+"]").parent('.dependent-input').removeClass('study-hide');
+    dependentGroupEl.find("[data-target="+dependentTarget+"]").attr('disabled',false);
+  }else{
+    dependentGroupEl.find('.dependent-input').addClass('study-hide');
+    dependentGroupEl.find('input,select').attr('disabled',true);
   }
 });
 

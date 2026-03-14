@@ -7,6 +7,12 @@
 .blog-container.blog-gs .body-container-wrapper a {
   color: #81b1cc;
 }
+.blog-container.blog-gs .body-container-wrapper a.blog-link {
+  color: #81b1cc !important;
+}
+.blog-container.blog-gs .body-container-wrapper .section.bg-blue-canvas a {
+  color: #fff;
+}
 .blog-container.blog-gs .body-container-wrapper .section.bg-blue-canvas .feature-box-container .post-description-container {
   background-color: #fff;
 }

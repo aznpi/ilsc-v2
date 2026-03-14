@@ -286,9 +286,15 @@ const printFilesForm = function(formArray,enabled,categoryName,className){
         schoolSelected = $('input[name=program_school]:checked').attr('data-school'),
         schoolProgramSelected = $('input[name=program_school]:checked').val(),
         schoolCountrySelected = $('input[name=program_country').val(),
+        campusSelected = $("input[name=program_campus]:checked").val(),
         nationalitySelected = $('select[name=student_nationality] option:selected').val()
         studentVisaSelected = $('input[name=student_visa_option]:checked').val();
         isAlternateSchoolChecked = $('input[name=is_alternate_apply][value=1]').is(':checked');
+        startDate = new Date($("select[name=program_startdate_primary-input] option:checked").val()),
+        dateBirth = new Date($("input[name=student_dob]").val()),
+        dateBirthTime = dateBirth.getTime(),
+        age = calculate_age(dateBirthTime, startDate.getTime()),
+
     schoolSelected = isAlternateSchoolChecked ? 'Greystone College' : schoolSelected;     
 
         for (let stForm in result) {
@@ -371,12 +377,20 @@ const printFilesForm = function(formArray,enabled,categoryName,className){
                 if(result[stForm].helperHtml){
                     helperHtml = result[stForm].helperHtml;
                 }
-                if(result[stForm].ageMax){
-                    if(result[stForm].ageMax < age){
-                        printInput = false;
+                if (result[stForm].ageMax) {
+                    isArray = Array.isArray(result[stForm].ageMax);
+                    if(isArray){
+                        const campus = result[stForm].ageMax.find(item => item.campus === campusSelected);
+                        if (campus && campus.age && campus.age < age){
+                            printInput.push(false);
+                        }
+                    }else{
+                        if (result[stForm].ageMax < age){
+                            printInput.push(false);
+                        }
                     }
                 }
-
+                
                 if(printInput){
                     if(!enabled){
                         if(result[stForm].category == categoryName){

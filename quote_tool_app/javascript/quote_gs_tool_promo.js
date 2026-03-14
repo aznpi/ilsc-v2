@@ -16,7 +16,7 @@ const updateLocalJson = function (dataStep, editNum) {
     updateStartDateSelection(editNum);
     redirectAccomodationStep();
   } else if (dataStep == "accommodation-option-select") {
-    redirectAccommodationNoAge();
+    redirectAccomodationOptionStep();
   } else if (dataStep == "accommodation-age-option-select") {
     printAccomodationForm();
   } else if (dataStep == "accommodation-select") {
@@ -1718,6 +1718,7 @@ const printQuotesHTML = function () {
     countryOriginCurrencyParam
   );
   $("button.btn-origin-currency").text(countryOriginCurrencyParam);
+
   let quoteObj = JSON.parse(localStorage.getItem("quote-obj")),
     quoteHTML,
     programSchoolName = quoteObj.program_school_name;

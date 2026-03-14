@@ -591,8 +591,7 @@ const validatePromoAuto = function (promoArray) {
 
         minWeeksString = promoArray[s].rules.minWeeks;
         durationVal = parseInt(quoteObj.quote_array[x].program.duration);
-        minWeeksVal =
-          minWeeksString.length > 2 ? minWeeksString.slice(0, 2).trim() : false;
+        minWeeksVal = minWeeksString.length > 2 ? minWeeksString.slice(0, 2).trim() : false;
 
         if (minWeeksString) {
           if (minWeeksString.includes("=")) {
@@ -822,7 +821,7 @@ const getPromo = function (promoTypeVal, couponCode, quoteNum) {
             },
           });
         }
-
+        console.log(promoArray);
         if (promoTypeVal == "Automatic") {
           validatePromoAuto(promoArray);
         } else if (promoTypeVal == "Coupon") {

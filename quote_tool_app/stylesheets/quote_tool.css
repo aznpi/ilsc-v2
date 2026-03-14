@@ -353,13 +353,13 @@ h5.center {
   padding-left: 10px;
   font-weight: 600;
 }
+.step-container .radio-container .option-select.program-option input[type=radio] + *::before {
+  display: none;
+}
 .step-container .radio-container .option-select.program-option {
   margin-bottom: 0;
   flex: 1;
   padding: 0;
-}
-.step-container .radio-container .option-select.program-option input[type=radio] + *::before {
-  display: none;
 }
 .step-container .radio-container .option-select.program-option:first-child {
   margin-right: 10px;
@@ -674,15 +674,15 @@ h5.center {
 #quote-price-container #quote-summary-selection-container .col, #enroll-form-quote #quote-summary-selection-container .col {
   margin: 0 !important;
 }
-#quote-price-container #quote-selection-container, #quote-price-container #quote-enroll-container, #quote-price-container #quote-summary-selection-container, #enroll-form-quote #quote-selection-container, #enroll-form-quote #quote-enroll-container, #enroll-form-quote #quote-summary-selection-container {
-  margin-top: 30px;
-}
 #quote-price-container #quote-selection-container .col, #quote-price-container #quote-enroll-container .col, #quote-price-container #quote-summary-selection-container .col, #enroll-form-quote #quote-selection-container .col, #enroll-form-quote #quote-enroll-container .col, #enroll-form-quote #quote-summary-selection-container .col {
   background: rgba(243, 243, 243, 0.9);
   border-radius: 5px 5px 0 0;
   overflow: hidden;
   padding: 0;
   margin: 0 10px;
+}
+#quote-price-container #quote-selection-container, #quote-price-container #quote-enroll-container, #quote-price-container #quote-summary-selection-container, #enroll-form-quote #quote-selection-container, #enroll-form-quote #quote-enroll-container, #enroll-form-quote #quote-summary-selection-container {
+  margin-top: 30px;
 }
 #quote-price-container #quote-selection-container .quote-title, #quote-price-container #quote-enroll-container .quote-title, #quote-price-container #quote-summary-selection-container .quote-title, #enroll-form-quote #quote-selection-container .quote-title, #enroll-form-quote #quote-enroll-container .quote-title, #enroll-form-quote #quote-summary-selection-container .quote-title {
   text-align: center;
@@ -1066,16 +1066,16 @@ h5.center {
   color: #CCC !important;
 }
 
+.ui-widget-header .ui-state-default {
+  text-align: center;
+  color: #ff8b35;
+  border: 0 !important;
+}
 .ui-widget-header {
   color: #ff8b35 !important;
   font-weight: 400 !important;
   font-size: 18px !important;
   background: #FFF !important;
-  border: 0 !important;
-}
-.ui-widget-header .ui-state-default {
-  text-align: center;
-  color: #ff8b35;
   border: 0 !important;
 }
 .ui-widget-header .ui-state-hover {
@@ -1289,11 +1289,11 @@ html .ui-button.ui-state-disabled:active {
   .accommodation-price-selection-container .airport-select-container .option-container {
     display: block;
   }
-  .accommodation-price-selection-container.step-container .airport-select-container.radio-container .program-option:not(:last-child) {
-    margin-bottom: 10px;
-  }
   .accommodation-price-selection-container.step-container .airport-select-container.radio-container .program-option:not(:last-child):not(:first-child) {
     margin: 0 0 10px;
+  }
+  .accommodation-price-selection-container.step-container .airport-select-container.radio-container .program-option:not(:last-child) {
+    margin-bottom: 10px;
   }
   .accommodation-price-selection-container.step-container .airport-select-container.radio-container .program-option:first-child {
     margin-right: 0;
@@ -1314,11 +1314,11 @@ html .ui-button.ui-state-disabled:active {
     display: block;
     overflow: hidden;
   }
-  .step-container .radio-container .program-option {
-    overflow: hidden;
-  }
   .step-container .radio-container .program-option label {
     display: block;
+    overflow: hidden;
+  }
+  .step-container .radio-container .program-option {
     overflow: hidden;
   }
   .step-container .radio-container .program-option input[type=radio] + *::before {
