@@ -1,6 +1,6 @@
 const printAccomTypeOption = function(){
     let className = 'accommodation-type-option-container',
-        campusSelected = $('input[name=program_campus]:checked').val(),
+        campusSelected = $('input[name=program_campus]:checked').attr('id'),
         schoolSelected = $('input[name=program_school]:checked').attr('data-school'),
         tableId = accommodationTable,
         queryParam = '&school__in='+schoolSelected+'&campus__in='+campusSelected+'&enabled__eq=1';
@@ -31,7 +31,7 @@ const printAccomTypeOption = function(){
                 
                 
             }else{
-                $('#'+className).html('<label>No accommodation is available at this time at'+campusSelected+'<sup>*</sup></label>');
+                $('#'+className).html('<label>No accommodation is available at this time at '+campusSelected+'<sup>*</sup></label>');
             }
         });
 
@@ -40,7 +40,7 @@ const printAccomTypeOption = function(){
 };
 
 const updateDateAccommodationAvailability = function(){
-    let campusSelected = $('input[name=program_campus]:checked').val(),
+    let campusSelected = $('input[name=program_campus]:checked').attr('id'),
         accommodationTypeSelected = $('input[name=accommodation_type]:checked').val(),
         durationWeek = $('select[name=accommodation_duration] option:selected').val().replace('week','').replace('weeks',''),
         tableId = accommodationTable,

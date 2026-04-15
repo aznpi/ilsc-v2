@@ -2211,9 +2211,7 @@ const printQuotesHTML = function () {
             "</span>"
           : "";
 
-        optionSchedule =
-          quoteObj.quote_array[i].program.option_program === "Study and Work" &&
-          quoteObj.quote_array[i].program.option_schedule !== ""
+        optionSchedule = quoteObj.quote_array[i].program.option_schedule !== ""
             ? " - " + quoteObj.quote_array[i].program.option_schedule
             : "";
 

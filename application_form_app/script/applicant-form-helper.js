@@ -5045,6 +5045,266 @@ const programAdditionalInfoArray = [
     categoryTitle: "Supporting Documentation",
     value: ""
   },
+  //
+  {
+    inputLabel: "Have you or your student taken the Pre-Arrival Language Placement test?",
+    inputName: "additional_prola_taken",
+    objInputName: "prola_taken",
+    inputType: "dropdown",
+    required: true,
+    schoolParentDependence: "Language School,Greystone College",
+    countryDependence: "Australia",
+    displayShow: true,
+    category:'Additional-Program',
+    categoryTitle: "English Proficiency",
+    value: "",
+    obj:[
+      {
+        label: "Yes",
+        value: "Yes",
+        dependent: [
+          {
+            inputLabel: "If Yes, please provide ILSC General/Academic English Placement Test number(if applicable)",
+            inputName: "additional_prola_number",
+            objInputName: "prola_number",
+            inputType: "text",
+            required: false,
+            displayShow: false,
+          }
+        ]
+      },
+      {
+        label: "No",
+        value: "No",
+      }
+    ]
+  },
+  {
+    inputLabel: "USI number:",
+    inputName: "additional_usi_number",
+    objInputName: "usi_number",
+    schoolParentDependence: "Greystone College",
+    countryDependence: "Australia",
+    inputType: "text",
+    required: false,
+    displayShow: false,
+    category:'Additional-Program',
+    categoryTitle: "Student History Information",
+  },
+  {
+    inputLabel:"Have you ever been refused a visa for any country including Australia?",
+    inputName: "additional_visa_refusal",
+    objInputName: "australia_visa_refusal_history",
+    schoolParentDependence: "Language School,Greystone College",
+    countryDependence: "Australia",
+    category: "Additional",
+    displayShow: false,
+    required: true,
+    inputType: "dropdown",
+    category:'Additional-Program',
+    categoryTitle: "Visa Information",
+    obj: [
+      {
+        label: "Yes",
+        value: "Yes",
+        dependent: [
+          {
+            inputLabel:
+              "Upload Visa Refusal Letter (jpeg,png,pdf; max. size: 1mb)",
+            inputName: "additional_refusal_visa_letter_file",
+            objInputName: "refusal_visa_letter",
+            inputType: "file",
+            displayShow: false,
+            required: true,
+          }
+        ]
+      },
+      {
+        label: "No",
+        value: "No"
+      }
+    ]
+  },
+  {
+    inputLabel: "Are you applying for your visa outside or inside Australia?",
+    inputName: "additional_visa_apply",
+    objInputName: "are_you_applying_for_your_visa_outside_or_inside_australia",
+    inputType: "dropdown",
+    required: true,
+    displayShow: false,
+    category:'Additional-Program',
+    categoryTitle: "Visa Information",
+    schoolParentDependence: "Language School,Greystone College",
+    countryDependence: "Australia",
+    obj: [
+            {
+              label: "Inside",
+              value: "Inside",
+              dependent: [
+                {
+                  inputLabel: "What kind of visa you are currently holding?",
+                  inputName: "additional_australia_visa",
+                  objInputName: "australia_visa",
+                  inputType: "dropdown",
+                  obj: [
+                    {
+                      label: "Visitor Visa",
+                      value: "Visitor Visa"
+                    },
+                    {
+                      label: "Student Visa 500",
+                      value: "Student Visa 500",
+                      dependent:[
+                        {
+                          inputLabel: "Does this application involve an onshore transfer under the current legislation prohibiting agent commission payments?",
+                          inputName: "additional_onshore_transfer",
+                          objInputName: "does_this_application_involve_an_onshore_transfer_under_current_legislation",
+                          inputType: "dropdown",
+                          required: true,
+                          display: false,
+                          obj: [
+                            {
+                              label: "Yes",
+                              value: "Yes"
+                            },
+                            {
+                              label: "No",
+                              value: "No"
+                            }
+                          ]
+
+                        },
+                        {
+                          inputLabel: "Upload a copy of your Confirmation of Enrolment (CoE) (jpeg,png,pdf; max. size: 1mb)",
+                          inputName: "additional_coe_file_upload",
+                          objInputName: "coe",
+                          inputType: "file",
+                          required: true,
+                          displayShow: false
+                        }
+                      ]
+                    },
+                    {
+                      label: "Student Visa Dependant",
+                      value: "Student Visa Dependant"
+                    },
+                    {
+                      label: "Working Holiday",
+                      value: "Working Holiday"
+                    },
+                    {
+                      label: "Temporary Work Activity Visa (408 - COVID)",
+                      value: "Temporary Work Activity Visa (408 - COVID)"
+                    },
+                    {
+                      label: "Other type of Visa",
+                      value: "Other type of Visa"
+                    }
+                  ],
+                  required: true,
+                  displayShow: false,
+                },
+                {
+                  inputLabel: "Upload a copy of your current visa letter",
+                  inputName: "additional_australia_visa_letter_file_upload",
+                  objInputName: "australia_current_visa_letter",
+                  inputType: "file",
+                  required: true,
+                  displayShow: false
+                },
+                {
+                  inputLabel: "Are you currently studying at ILSC or Greystone College?",
+                  inputName: "additional_australia_current_study",
+                  objInputName: "are_you_currently_ilsc_greystone_college_student_",
+                  inputType: "dropdown",
+                  required: true,
+                  displayShow: false,
+                  obj: [
+                          {
+                            label: "Yes",
+                            value: "Yes",
+                            dependent: [
+                              {
+                              inputLabel:
+                                "Please provide us your current studying campus and student ID number",
+                              inputName: "additional_australia_student_id",
+                              objInputName: "ilsc_greystone_college_student_id",
+                              inputType: "text",
+                              required: true,
+                              displayShow: false,
+                            }
+                            ]
+                          },              
+                          {
+                            label: "No",
+                            value: "No"
+                          }         
+                        ]
+                },
+                {
+                  inputLabel: "Upload copies of all the visa(s) you previously held since arriving in Australia",
+                  inputName: "additional_visa_history_file_multiple",
+                  objInputName: "visa_history_file",
+                  inputType: "file",
+                  displayShow: false,
+                  required: true,
+                  multiple: true,
+                },
+                {
+                  inputLabel: "Are you going to study with another education provider in Australia after you finish your course at ILSC/Greystone College?",
+                  inputName: "additional_study_other",
+                  objInputName: "study_another_provider",
+                  inputType: "dropdown",
+                  required: true,
+                  obj: [
+                    {
+                      label: "Yes",
+                      value: "Yes",
+                      dependent: [
+                        {
+                          inputLabel: "Please provide the name of the education provider and course you will be studying after you finish your course at ILSC/Greystone College:",
+                          inputName: "australia_study_other_provider",
+                          objInputName: "australia_educational_provider_name",
+                          inputType: "text",
+                          required: true,
+                          displayShow: false,
+
+                        },
+                        {
+                          inputLabel: "Upload LoA(Letter of Acceptance) from the education provider (jpeg,png,pdf; max. size: 1mb)",
+                          inputName: "additional_australia_loa_file_upload",
+                          objInputName: "loa",
+                          inputType: "file",
+                          required: false,
+                          displayShow: false,
+                        },
+                        {
+                          inputLabel: "Upload CoE(Certificate of Enrollment) from the education provider (jpeg,png,pdf; max. size: 1mb)",
+                          inputName: "additional_australia_coe_file_upload",
+                          objInputName: "coe",
+                          inputType: "file",
+                          required: false,
+                          displayShow: false,
+                        }
+
+                      ]
+                    },
+                    {
+                      label: "No",
+                      value: "No"
+                    }
+                  ]
+                }
+              ]
+            },              
+            {
+              label: "Outside",
+              value: "Outside"
+            }
+      ]
+  },
+
+  //
   {
     inputLabel: "Additional notes regarding your program of studies or your ability to progress or complete the course:",
     inputName: "additional_study_additional_information_and_notes",
@@ -5052,11 +5312,11 @@ const programAdditionalInfoArray = [
     inputType: "text-area",
     rows: "5",
     required: false,
-    schoolParentDependence: "Greystone Institute,Language School",
+    schoolParentDependence: "Greystone Institute,Language School,Greystone College",
     displayShow: true,
     inputAssign: "primary",
     category:'Additional-Program',
-    categoryTitle: "Supporting Documentation",
+    categoryTitle: "Additional Notes",
     value: ""
   }
 ]
@@ -5156,7 +5416,36 @@ const additionalAdditionalV2Array = [
                     },
                     {
                       label: "Student Visa 500",
-                      value: "Student Visa 500"
+                      value: "Student Visa 500",
+                      dependent:[
+                        {
+                          inputLabel: "Does this application involve an onshore transfer under the current legislation prohibiting agent commission payments?",
+                          inputName: "additional_onshore_transfer",
+                          objInputName: "does_this_application_involve_an_onshore_transfer_under_current_legislation",
+                          inputType: "dropdown",
+                          required: true,
+                          display: false,
+                          obj: [
+                            {
+                              label: "Yes",
+                              value: "Yes"
+                            },
+                            {
+                              label: "No",
+                              value: "No"
+                            }
+                          ]
+
+                        },
+                        {
+                          inputLabel: "Upload a copy of your Confirmation of Enrolment (CoE) (jpeg,png,pdf; max. size: 1mb)",
+                          inputName: "additional_coe_file_upload",
+                          objInputName: "coe",
+                          inputType: "file",
+                          required: true,
+                          displayShow: false
+                        }
+                      ]
                     },
                     {
                       label: "Student Visa Dependant",

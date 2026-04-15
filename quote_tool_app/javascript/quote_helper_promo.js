@@ -42,10 +42,10 @@
     let fromCurrency = $('input[name=destination_currency_selection').val(),
         toCurrency = $('input[name=country_origin_currency_selection]').val(),
         quoteNumber = $('input[name=quote_number]').val(),
-        exHost = 'api.frankfurter.app';
+        exHost = 'api.frankfurter.dev/v1';
     
     if( fromCurrency != toCurrency){
-      let fetchedData = fetch("https://"+exHost+"/latest?from="+fromCurrency+"&to="+toCurrency)
+      fetch("https://"+exHost+"/latest?base="+fromCurrency+"&symbols="+toCurrency)
         .then(resp => resp.json())
         .then((data) => {
           let conversionNum = data.rates[toCurrency];

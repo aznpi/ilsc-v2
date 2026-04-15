@@ -788,8 +788,6 @@ const printApplicationSummary = function () {
     }
   }
 
-  console.log(programAdditionalInfoTempArray);
-
   if (programAdditionalInfoTempArray.length > 0) {
 
     $(".study-info-program-additional-info-summary-container.summary-container").empty();
@@ -1854,34 +1852,37 @@ const printStudentForm = function () {
 };
 
 const dependentTemplate = function(arr,dependentClass,categoryName) {
+
   let optionHtml = "",
       inputItem = "",
       depList = "",
       optList = "",
       dropArray = arr.obj,
       inputTitleLabelHtml = "",
-      depAttr = "";
+      depAttr = "",
+      dependentStr = dependentClass.replace(/\s/g, ''),
+      requiredValue = arr.required ? "required" : "";
 
       switch (arr.inputType) {
         case "text":
           noteHtml = arr.note ? "<p><sup>*</sup>" + arr.note + "</p>" : "";
-          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "<sup>*</sup></label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
-            arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' required disabled>"+noteHtml+"</div>";
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentStr + "'>" + arr.inputLabel + "<sup>*</sup></label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
+            arr.inputName + "-" + dependentStr + "' name='" + arr.inputName + "' value='' " + requiredValue + " disabled>"+noteHtml+"</div>";
           break;
         case "text-area":
-          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + (arr.required ? "<sup>*</sup>" : "") + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
-            arr.inputName + "-" + dependentClass + "' name='" +
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentStr + "'>" + arr.inputLabel + (arr.required ? "<sup>*</sup>" : "") + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
+            arr.inputName + "-" + dependentStr + "' name='" +
             arr.inputName +
-            "' rows='" + arr.rows + "' " + (arr.required ? "required" : "") + " placeholder='" + (arr.placeholder ? arr.placeholder : "") + "' disabled></textarea></div>";
+            "' rows='" + arr.rows + "' " + requiredValue + " placeholder='" + (arr.placeholder ? arr.placeholder : "") + "' disabled></textarea></div>";
           break;
         case "phone":
-          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "<sup>*</sup></label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
-          arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' placeholder='example: +1 123 123 12345' required disabled></div>";
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentStr + "'>" + arr.inputLabel + "<sup>*</sup></label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
+          arr.inputName + "-" + dependentStr + "' name='" + arr.inputName + "' value='' placeholder='example: +1 123 123 12345' " + requiredValue + " disabled></div>";
               
           break;
         case "email":
-          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentClass + "'>" + arr.inputLabel + "<sup>*</sup></label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
-          arr.inputName + "-" + dependentClass + "' name='" + arr.inputName + "' value='' required disabled></div>";
+          inputItem += "<div class='form-group'><label for='" + arr.inputName + "-" + dependentStr + "'>" + arr.inputLabel + "<sup>*</sup></label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
+          arr.inputName + "-" + dependentStr + "' name='" + arr.inputName + "' value='' " + requiredValue + " disabled></div>";
           
         break;
         case "file":
@@ -1889,13 +1890,13 @@ const dependentTemplate = function(arr,dependentClass,categoryName) {
           subTitleHtml = arr.labelSubtitle ? arr.labelSubtitle : "";
           inputTitleLabelHtml = arr.titleLabel ? arr.titleLabel + "<br>" : "";
           noteHtml = arr.note ? "<p><sup>*</sup>" + arr.note + "</p>" : "";
-          changeEvent = "onChange=\"checkSize('fileInput-" + arr.inputName + "-" + dependentClass + "')\"";
+          changeEvent = "onChange=\"checkSize('fileInput-" + arr.inputName + "-" + dependentStr + "')\"";
           multipleAttribute = arr.multiple ? "multiple hidden" : "";
           fileClassName = arr.multiple ? "multiple-file-input" : "single-file-input";
-          labelHtml= "<label for='fileInput-" + arr.inputName + "-" + dependentClass + "'>" + inputTitleLabelHtml + arr.inputLabel + subTitleHtml + "</label>";
+          labelHtml= "<label for='fileInput-" + arr.inputName + "-" + dependentStr + "'>" + inputTitleLabelHtml + arr.inputLabel + subTitleHtml + "</label>";
           inputFileHtml="<input type='file' class='form-control additional-file-input " + fileClassName + "' data-category='" + categoryName + "' id='fileInput-" +
               arr.inputName +
-              "-" + dependentClass + "' name='" +
+              "-" + dependentStr + "' name='" +
               arr.inputName +
               "' data-bind='" +
                 arr.objInputName +
@@ -1903,56 +1904,69 @@ const dependentTemplate = function(arr,dependentClass,categoryName) {
               multipleAttribute +
               " " +
               changeEvent +
-              " required disabled><input type='hidden' name='" + arr.inputName + "' value='' readonly disabled>";
+              " " + requiredValue + " disabled><input type='hidden' name='" + arr.inputName + "' value='' readonly disabled>";
           if(arr.multiple){
             inputItem +=
-              "<div class='form-group'>" + preNoteHtml + labelHtml + "<div class='" + categoryName.replace(/ /g, "-").toLowerCase() + "-info-drop-zone drop-zone' id='dropZone-"+arr.inputName+"-"+dependentClass+"'><p>Drop files here or click to browse<br><span class='footnote'>(jpeg,png,pdf; max number of files: 5; max. size: 1mb)</span></p>" + inputFileHtml + "<ul class='file-list'></ul></div>"+ noteHtml +"</div>";
+              "<div class='form-group'>" + preNoteHtml + labelHtml + "<div class='" + categoryName.replace(/ /g, "-").toLowerCase() + "-info-drop-zone drop-zone' id='dropZone-"+arr.inputName+"-"+dependentStr+"'><p>Drop files here or click to browse<br><span class='footnote'>(jpeg,png,pdf; max number of files: 5; max. size: 1mb)</span></p>" + inputFileHtml + "<ul class='file-list'></ul></div>"+ noteHtml +"</div>";
           }else{
             inputItem +=
               "<div class='form-group'>" + preNoteHtml + labelHtml + inputFileHtml + noteHtml + "</div>";
           }
             break;
         case "dropdown":
-          subTitleHtml = "";
-          preNoteHtml = "";
-          noteHtml = "";
-          for (let i = 0; i < dropArray.length; i++) {
-            noteEnabled = dropArray[i].note ? "data-note='" + dropArray[i].note + "'" : "";
-            optList +=
-                "<option value='" +
-                dropArray[i].value +
-                "' " + noteEnabled + ">" +
-                dropArray[i].label +
-                "</option>";
-            hasDep = dropArray[i].dependent ? true : false;
-            depAttr = hasDep ? "data-dependent='true'" : "";         
-            if (hasDep) {
-              if(dropArray[i].dependent.length > 0){
-                dependentVal = '';
+            subTitleHtml = "";
+            preNoteHtml = "";
+            noteHtml = "";
+            
+            // 1. Initialize a flag for the whole dropdown
+            let dropdownHasAnyDep = false; 
+
+            for (let i = 0; i < dropArray.length; i++) {
+              let noteEnabled = dropArray[i].note ? "data-note='" + dropArray[i].note + "'" : "";
+              optList +=
+                  "<option value='" +
+                  dropArray[i].value +
+                  "' " + noteEnabled + ">" +
+                  dropArray[i].label +
+                  "</option>";
+
+              // 2. Check this specific item
+              let itemHasDep = !!(dropArray[i].dependent && dropArray[i].dependent.length > 0);
+              
+              if (itemHasDep) {
+                dropdownHasAnyDep = true; // 3. Mark that the parent select needs the data-dependent attribute
+                
+                let dependentVal = dropArray[i].value.replace(/\s/g, ''); // Using \s as you requested
                 for(let x = 0; x < dropArray[i].dependent.length; x++) {
-                  dependentVal = dropArray[i].value.replace(/[^a-zA-Z0-9\s]/g, '');
-                  depList += dependentTemplate(dropArray[i].dependent[x], dependentClass + "-" + dependentVal, categoryName);
+                  depList += dependentTemplate(dropArray[i].dependent[x], dependentStr + "-" + dependentVal, categoryName);
                 }
-              }
-            }  
-          }
-          subTitleHtml = arr.labelSubtitle ? arr.labelSubtitle : "";
-          preNoteHtml = arr.preNote ? "<p><sup>*</sup>" + arr.preNote + "</p>" : "";
-          noteHtml = arr.note ? "<p><sup>*</sup>" + arr.note + "</p>" : "";
-          inputItem +=
-            "<div class='form-group'>"+preNoteHtml+"<label for='" + arr.inputName + "'>" + arr.inputLabel + subTitleHtml + "</label><select class='form-control' data-category='" + categoryName + "' id='" +
-            arr.inputName + "' name='" +
-            arr.inputName + "' " +
-            " data-parent='true' data-target='" + dependentClass + "' " + depAttr + " required><option disabled selected value=''>Choose option</option>" +
-            optList +
-            "</select>" + noteHtml + "</div>";
+              }  
+            }
+
+            // 4. Create the attribute string once based on the aggregate result
+            let finalDepAttr = dropdownHasAnyDep ? "data-parent='true' data-dependent='true' data-target='" + dependentStr + "'" : "";
+
+            subTitleHtml = arr.labelSubtitle ? arr.labelSubtitle : "";
+            preNoteHtml = arr.preNote ? "<p><sup>*</sup>" + arr.preNote + "</p>" : "";
+            noteHtml = arr.note ? "<p><sup>*</sup>" + arr.note + "</p>" : "";
+            
+            inputItem +=
+              "<div class='form-group'>" + preNoteHtml + 
+              "<label for='" + arr.inputName + "'>" + arr.inputLabel + subTitleHtml + "</label>" +
+              "<select class='form-control' data-category='" + categoryName + "' id='" + arr.inputName + "' name='" + arr.inputName + "' " + 
+              finalDepAttr + " " + requiredValue + ">" + // 5. Apply the single computed attribute string
+              "<option disabled selected value=''>Choose option</option>" +
+              optList +
+              "</select>" + noteHtml + "</div>";
         break;
+          
       }
-  optionHtml = '<div class="dependent-target study-hide" data-target="' + dependentClass + '" style="padding-left:50px;">' + inputItem + '</div>'+ depList;
+  optionHtml = '<div class="dependent-target study-hide" data-target="' + dependentStr + '" style="padding-left:50px;">' + inputItem + '</div>'+ depList;
   return optionHtml;
 }
 
 const printInputDependentForm = function(arr,dependentClass,categoryName){
+  
   let optionHtml = "",
       inputItem = "",
       hasDependent = false,
@@ -2010,6 +2024,7 @@ const printAdditionalInputForm = function(arr,categoryName){
             dependentAttr = "",
             multipleAttribute = "",
             noteHtml = item.note ? "<p><sup>*</sup>" + item.note + "</p>" : "",
+            requiredValue = item.required ? "required" : "",
             hasDependent = false,
             categorySubTitleHtml += item.categorySubtitle ? "<p>" + item.categorySubtitle + "</p>" : "";
             inputTitleHtml = item.title ? "<h5>" + item.title + "</h5>" : "";
@@ -2043,16 +2058,16 @@ const printAdditionalInputForm = function(arr,categoryName){
                 switch (item.inputType) {
                   case "text":
                     inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='text' data-category='" + categoryName + "' class='form-control' id='" +
-                      item.inputName + "' name='" + item.inputName + "' value='' data-parent='true' required></div>";
+                      item.inputName + "' name='" + item.inputName + "' value='' data-parent='true' " + requiredValue + "></div>";
                   break;
                   case "phone":
                     inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='tel' data-category='" + categoryName + "' class='form-control' id='" +
-                    item.inputName + "' name='" + item.inputName + "' value='' placeholder='example: +1 123 123 12345' required></div>";
+                    item.inputName + "' name='" + item.inputName + "' value='' placeholder='example: +1 123 123 12345' " + requiredValue + "></div>";
 
                     break;
                   case "email":
                     inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><input type='email' data-category='" + categoryName + "' class='form-control' id='" +
-                    item.inputName + "' name='" + item.inputName + "' value='' required></div>";
+                    item.inputName + "' name='" + item.inputName + "' value='' " + requiredValue + "></div>";
 
                   break;
                   case "dropdown":
@@ -2078,7 +2093,7 @@ const printAdditionalInputForm = function(arr,categoryName){
                       item.inputName + "' name='" +
                       item.inputName +
                       "' " +
-                      " data-parent='true' " + dependentAttr + " required><option disabled selected value=''>Choose option</option>" +
+                      " data-parent='true' " + dependentAttr + " " + requiredValue + "><option disabled selected value=''>Choose option</option>" +
                       optionList +
                       "</select>"+noteHtml+"</div>" + dependentList;
                   break;
@@ -2092,7 +2107,7 @@ const printAdditionalInputForm = function(arr,categoryName){
                       "' data-bind='" +
                         item.objInputName +
                         "' accept='jpeg,jpg,pdf,png' " +
-                      multipleAttribute + " " + changeEvent + "><input type='hidden' name='" + item.inputName + "' value='' readonly" + multipleAttribute + " data-parent='true'>";
+                      multipleAttribute + " " + changeEvent + "><input type='hidden' name='" + item.inputName + "' value='' readonly" + multipleAttribute + " data-parent='true' " + requiredValue + ">";
                       labelHtml = "<label for='fileInput-" + item.inputName + "'>" + item.inputLabel + "</label>";
                     if(item.multiple){
                       inputItem +=
@@ -2105,7 +2120,7 @@ const printAdditionalInputForm = function(arr,categoryName){
                     inputItem += "<div class='form-group'>"+inputTitleHtml+inputSubTitleHtml+"<label for='" + item.inputName + "'>" + item.inputLabel + "</label><textarea class='form-control' data-category='" + categoryName + "' id='" +
                       item.inputName + "' name='" +
                       item.inputName +
-                      "' rows='" + item.rows + "' " + (item.required ? "required" : "") + "></textarea></div>";
+                      "' rows='" + item.rows + "' " + requiredValue + "></textarea></div>";
                   default:
                     inputItem += "";
                   break;
@@ -4578,10 +4593,7 @@ const printAdditionalInfo = function () {
     printHubspotFileForm(programUploadFormId, "#program-hs-file-form");
   } else {
     if (countrySelected == "Australia") {
-      inputHtml =
-          selectedParentSchool == "Greystone College"
-        ? prolaHtml + usiHtml
-        : programCategorySelected != "Junior Camps" && programCategorySelected != "Family Camps" ? prolaHtml : "";
+      inputHtml = printAdditionalInputForm(programAdditionalInfoArray,'Additional-Program'); 
       shirtHtml =
         programCategorySelected == "Junior Camps" ||
         programCategorySelected == "Family Camps"
@@ -4589,11 +4601,9 @@ const printAdditionalInfo = function () {
           : "";
       additionalHtml =
         shirtHtml +
-        inputHtml +
-        visaRadioHtml +
-        visaFileHtml +
-        australiaVisaHtml +
-        additionalNotesHtml;
+        inputHtml;
+      printHubspotFileForm(programUploadFormId, "#program-hs-file-form");
+
     } else if (countrySelected == "Canada") {
       jrFamilyHtml =
         programCategorySelected == "Family Camps" ||
@@ -4775,7 +4785,8 @@ const uploadFile = function (dataStep) {
       });
       
       $("#" + targetId + " input[name=email]").val(emailVar);
-      // $("form#hsForm_" + hsFormId).submit();
+      //$("form#hsForm_" + hsFormId).submit();
+      
     }
   }
 };
@@ -5316,20 +5327,20 @@ const submitForm = function (dataStep) {
     if (!formSubmit) {
       /*---- Comment out ---*/
       
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: JSON.stringify(formArray),
-        contentType: "application/json",
-        dataType: "json",
-        success: function () {
-          $("form#" + formName).attr("data-submit", true);
-        },
-      });
+      // $.ajax({
+      //   type: "POST",
+      //   url: url,
+      //   data: JSON.stringify(formArray),
+      //   contentType: "application/json",
+      //   dataType: "json",
+      //   success: function () {
+      //     $("form#" + formName).attr("data-submit", true);
+      //   },
+      // });
       
       /*--- end Comment out ---*/
 
-      // $("form#" + formName).attr("data-submit", true);
+      $("form#" + formName).attr("data-submit", true);
 
     }
   }
@@ -6372,7 +6383,7 @@ $(document).on(
   "change",
   'div:not(.dependent-target) select[data-dependent="true"]',
   function () {
-    let selectedVal = $(this).val(),
+    let selectedVal = $(this).val().replace(/\s/g, ''),
       inputName = $(this).attr("name");
 
     parentClass = ".dependent-target[data-target=" + inputName + "-" + selectedVal + "]";
@@ -6407,7 +6418,7 @@ $(document).on(
   "change",
   'div.dependent-target select[data-parent="true"]',
   function () {
-    let selectedVal = $(this).val(),
+    let selectedVal = $(this).val().replace(/\s/g, ''),
       dependentClass = $(this).attr("data-target");
     selectedVal = selectedVal.replace(/[^a-zA-Z0-9\s]/g, '');
 
